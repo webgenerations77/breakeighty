@@ -7,242 +7,227 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gd: #1a3a2a; --gm: #2d5a3d; --gl: #4a8c5c; --gp: #e8f3eb;
-  --gold: #c9a84c; --goldl: #f0d98a; --goldp: #fdf8ed;
-  --white: #fff; --td: #1a2a1f; --tm: #3d5a46; --tl: #6b8a74;
-  --border: rgba(26,58,42,0.15); --shadow: 0 2px 16px rgba(26,58,42,0.08);
-  --tr: 0.22s cubic-bezier(0.4,0,0.2,1);
-}
+:root{--gd:#1a3a2a;--gm:#2d5a3d;--gl:#4a8c5c;--gp:#e8f3eb;--gold:#c9a84c;--goldl:#f0d98a;--goldp:#fdf8ed;--white:#fff;--td:#1a2a1f;--tm:#3d5a46;--tl:#6b8a74;--border:rgba(26,58,42,.15);--shadow:0 2px 16px rgba(26,58,42,.08);--tr:.22s cubic-bezier(.4,0,.2,1)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--gd);color:var(--td);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(74,140,92,.12) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(201,168,76,.06) 0%,transparent 50%);pointer-events:none;z-index:0}
-
-/* HEADER */
 .hdr{background:linear-gradient(135deg,var(--gd) 0%,var(--gm) 100%);border-bottom:1px solid rgba(255,255,255,.08);position:relative}
 .hdr::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:4px;background:var(--gold)}
-.hdr-in{max-width:940px;margin:0 auto;padding:20px 20px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.hdr-left{display:flex;align-items:center;gap:14px}
-.flag-svg{width:46px;height:46px;flex-shrink:0}
-.brand h1{font-family:'DM Serif Display',serif;font-size:26px;color:#fff;line-height:1;letter-spacing:-.5px}
-.brand p{font-size:12px;color:var(--goldl);font-weight:300;margin-top:3px;letter-spacing:.5px}
-.hdr-right{display:flex;gap:12px;align-items:stretch}
-.hdr-badge{background:rgba(201,168,76,.13);border:1px solid rgba(201,168,76,.35);border-radius:12px;padding:10px 16px;text-align:center;min-width:90px}
-.hdr-badge .lbl{font-size:10px;color:var(--goldl);letter-spacing:1px;text-transform:uppercase;font-weight:500}
-.hdr-badge .val{font-family:'DM Serif Display',serif;font-size:28px;color:var(--gold);line-height:1;margin-top:2px}
-.hdr-badge .sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:1px}
-.goal-badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 16px;text-align:center}
-.goal-badge .lbl{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;font-weight:500}
-.goal-nums{display:flex;align-items:center;gap:8px;margin-top:2px;justify-content:center}
-.goal-from{font-family:'DM Serif Display',serif;font-size:20px;color:rgba(255,255,255,.35);text-decoration:line-through;text-decoration-color:rgba(201,168,76,.4)}
-.goal-arrow{color:var(--gold);font-size:14px}
-.goal-to{font-family:'DM Serif Display',serif;font-size:28px;color:var(--gold)}
-
-/* HOME CLUB STRIP */
-.club-strip{background:rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.15);padding:7px 20px;text-align:center;font-size:12px;color:var(--goldl);letter-spacing:.5px}
+.hdr-in{max-width:960px;margin:0 auto;padding:18px 18px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hdr-left{display:flex;align-items:center;gap:12px}
+.flag-svg{width:44px;height:44px;flex-shrink:0}
+.brand h1{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;line-height:1;letter-spacing:-.5px}
+.brand p{font-size:11px;color:var(--goldl);font-weight:300;margin-top:2px;letter-spacing:.4px}
+.hdr-right{display:flex;gap:10px;align-items:stretch}
+.hdr-badge{background:rgba(201,168,76,.13);border:1px solid rgba(201,168,76,.35);border-radius:12px;padding:8px 14px;text-align:center;min-width:82px}
+.hdr-badge .lbl{font-size:9px;color:var(--goldl);letter-spacing:1px;text-transform:uppercase;font-weight:500}
+.hdr-badge .val{font-family:'DM Serif Display',serif;font-size:26px;color:var(--gold);line-height:1;margin-top:1px}
+.hdr-badge .sub{font-size:9px;color:rgba(255,255,255,.35);margin-top:1px}
+.goal-badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:8px 14px;text-align:center}
+.goal-badge .lbl{font-size:9px;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;font-weight:500}
+.gnums{display:flex;align-items:center;gap:7px;margin-top:1px;justify-content:center}
+.gfrom{font-family:'DM Serif Display',serif;font-size:18px;color:rgba(255,255,255,.3);text-decoration:line-through;text-decoration-color:rgba(201,168,76,.4)}
+.garrow{color:var(--gold);font-size:13px}
+.gto{font-family:'DM Serif Display',serif;font-size:26px;color:var(--gold)}
+.club-strip{background:rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.14);padding:6px 18px;text-align:center;font-size:11px;color:var(--goldl);letter-spacing:.4px}
 .club-strip span{color:var(--gold);font-weight:600}
-
-/* NAV */
 .nav{background:var(--gd);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-in{max-width:940px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none}
+.nav-in{max-width:960px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none}
 .nav-in::-webkit-scrollbar{display:none}
-.nb{background:none;border:none;padding:13px 18px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:var(--tr);letter-spacing:.3px}
-.nb:hover{color:rgba(255,255,255,.75)}
+.nb{background:none;border:none;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:rgba(255,255,255,.42);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:var(--tr);letter-spacing:.3px}
+.nb:hover{color:rgba(255,255,255,.72)}
 .nb.active{color:var(--gold);border-bottom-color:var(--gold)}
-
-/* MAIN */
-.main{max-width:940px;margin:0 auto;padding:24px 18px 60px;position:relative;z-index:1}
+.main{max-width:960px;margin:0 auto;padding:22px 16px 60px;position:relative;z-index:1}
 .sec{display:none}.sec.active{display:block}
-
-/* CARDS */
-.card{background:#fff;border-radius:16px;padding:22px;box-shadow:var(--shadow);margin-bottom:14px}
-.ch{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.ci{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:13px}
+.ch{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ci{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .ci-g{background:var(--gp)}.ci-gold{background:var(--goldp)}
-.ct{font-family:'DM Serif Display',serif;font-size:17px;color:var(--td)}
-.cs{font-size:11px;color:var(--tl);margin-top:2px}
-
-/* STROKE BREAKDOWN */
-.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}
-.si{background:var(--gp);border-radius:12px;padding:14px;cursor:pointer;border:2px solid transparent;transition:var(--tr)}
+.ct{font-family:'DM Serif Display',serif;font-size:16px;color:var(--td)}
+.cs{font-size:10px;color:var(--tl);margin-top:2px}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;margin-bottom:16px}
+.si{background:var(--gp);border-radius:11px;padding:13px;cursor:pointer;border:2px solid transparent;transition:var(--tr)}
 .si:hover{border-color:var(--gl);transform:translateY(-1px)}
 .si.sel{border-color:var(--gm);background:#d0e8d8}
-.sa{font-size:10px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.8px}
-.sn{font-family:'DM Serif Display',serif;font-size:30px;color:var(--td);line-height:1;margin:4px 0}
-.st{font-size:12px;color:var(--gl);font-weight:500}
-.sb{margin-top:8px;height:4px;background:rgba(26,58,42,.12);border-radius:2px;overflow:hidden}
+.sa{font-size:9px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.8px}
+.sn{font-family:'DM Serif Display',serif;font-size:28px;color:var(--td);line-height:1;margin:3px 0}
+.st{font-size:11px;color:var(--gl);font-weight:500}
+.sb{margin-top:7px;height:3px;background:rgba(26,58,42,.12);border-radius:2px;overflow:hidden}
 .sbf{height:100%;background:var(--gm);border-radius:2px}
-
-/* TIPS */
 .tl-list{list-style:none}
-.ti{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start}
+.ti{padding:11px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
 .ti:last-child{border-bottom:none}
-.tn{width:22px;height:22px;border-radius:50%;background:var(--gm);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.tn{width:20px;height:20px;border-radius:50%;background:var(--gm);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
 .tt{font-size:13px;line-height:1.6;color:var(--tm)}
 .tt strong{color:var(--td);font-weight:600}
-
-/* SCORE LOG */
-.sform{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.fg label{display:block;font-size:11px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
-.fg input,.fg select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--td);background:#fff;outline:none;transition:var(--tr)}
+/* SCORE FORM */
+.sform{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.fg label{display:block;font-size:10px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.fg input,.fg select{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--td);background:#fff;outline:none;transition:var(--tr)}
 .fg input:focus,.fg select:focus{border-color:var(--gl);box-shadow:0 0 0 3px rgba(74,140,92,.1)}
 .ff{grid-column:1/-1}
-.btn{background:var(--gm);color:#fff;border:none;padding:11px 22px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);width:100%;letter-spacing:.3px}
+.btn{background:var(--gm);color:#fff;border:none;padding:10px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:var(--tr);width:100%;letter-spacing:.3px}
 .btn:hover{background:var(--gd);transform:translateY(-1px)}
-
 /* ROUND ROWS */
-.rrow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);gap:10px}
+.rrow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:8px}
 .rrow:last-child{border-bottom:none}
-.rdate{font-size:12px;color:var(--tl)}
+.rdate{font-size:11px;color:var(--tl)}
 .rcourse{font-size:13px;font-weight:500;color:var(--td)}
-.rsw{display:flex;align-items:center;gap:7px}
+.rsw{display:flex;align-items:center;gap:6px}
 .rscore{font-family:'DM Serif Display',serif;font-size:22px;color:var(--td)}
-.rvp{font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px}
+.rvp{font-size:10px;font-weight:600;padding:2px 6px;border-radius:20px}
 .over{background:#fee2e2;color:#991b1b}.close{background:#fef3c7;color:#92400e}.great{background:#d1fae5;color:#065f46}
-.rdel{background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:4px;transition:color .2s}
+.rdel{background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:3px;transition:color .2s}
 .rdel:hover{color:#e24b4b}
-.empty{text-align:center;padding:28px 12px;color:var(--tl)}
-.empty .big{font-size:36px;margin-bottom:6px}
+.empty{text-align:center;padding:26px 12px;color:var(--tl)}
+.empty .big{font-size:34px;margin-bottom:5px}
 .empty p{font-size:13px}
-
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
-.sbox{background:var(--gp);border-radius:10px;padding:12px 10px;text-align:center}
-.sv{font-family:'DM Serif Display',serif;font-size:24px;color:var(--td);line-height:1}
-.sl{font-size:10px;color:var(--tl);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
-
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:4px}
+.sbox{background:var(--gp);border-radius:9px;padding:11px 9px;text-align:center}
+.sv{font-family:'DM Serif Display',serif;font-size:22px;color:var(--td);line-height:1}
+.sl{font-size:9px;color:var(--tl);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
 /* DRILLS */
 .dg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .dc{border:1.5px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:var(--tr);position:relative}
 .dc:hover{border-color:var(--gl);background:var(--gp)}
 .dc.done{background:var(--gp);border-color:var(--gl)}
-.dchk{position:absolute;top:11px;right:11px;width:19px;height:19px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;transition:var(--tr)}
+.dchk{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;transition:var(--tr)}
 .dc.done .dchk{background:var(--gm);border-color:var(--gm);color:#fff}
-.de{font-size:22px;margin-bottom:6px;display:block}
-.dn{font-size:13px;font-weight:600;color:var(--td);margin-bottom:3px}
+.de{font-size:21px;margin-bottom:5px;display:block}
+.dn{font-size:13px;font-weight:600;color:var(--td);margin-bottom:3px;padding-right:22px}
 .dd{font-size:11px;color:var(--tl);line-height:1.5}
-.dt{display:inline-block;margin-top:7px;font-size:10px;font-weight:600;color:var(--gm);background:var(--gp);padding:2px 7px;border-radius:20px}
-
-/* AI COACH */
-.ai-wrap{background:linear-gradient(135deg,var(--gp) 0%,#f0f9e8 100%);border:1.5px solid rgba(74,140,92,.2);border-radius:16px;padding:22px;margin-bottom:14px}
-.ai-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gm);margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.ai-qg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}
-.ai-qb{background:#fff;border:1.5px solid rgba(74,140,92,.22);border-radius:9px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--tm);cursor:pointer;text-align:left;line-height:1.4;transition:var(--tr)}
+.dt{display:inline-block;margin-top:6px;font-size:10px;font-weight:600;color:var(--gm);background:var(--gp);padding:2px 7px;border-radius:20px}
+.yt-link{display:inline-flex;align-items:center;gap:4px;margin-top:7px;font-size:10px;font-weight:600;color:#cc0000;background:#fff0f0;padding:3px 8px;border-radius:20px;text-decoration:none;border:1px solid rgba(204,0,0,.2);transition:var(--tr)}
+.yt-link:hover{background:#ffe0e0}
+.yt-icon{font-size:12px}
+/* AI */
+.ai-wrap{background:linear-gradient(135deg,var(--gp) 0%,#f0f9e8 100%);border:1.5px solid rgba(74,140,92,.2);border-radius:16px;padding:20px;margin-bottom:13px}
+.ai-lbl{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gm);margin-bottom:11px;display:flex;align-items:center;gap:5px}
+.ai-qg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.ai-qb{background:#fff;border:1.5px solid rgba(74,140,92,.2);border-radius:8px;padding:8px 11px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--tm);cursor:pointer;text-align:left;line-height:1.4;transition:var(--tr)}
 .ai-qb:hover{border-color:var(--gl);color:var(--td);background:var(--gp)}
-.ai-ir{display:flex;gap:7px}
-.ai-inp{flex:1;padding:10px 12px;border:1.5px solid rgba(74,140,92,.22);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--td);background:#fff;outline:none;transition:var(--tr)}
+.ai-ir{display:flex;gap:6px}
+.ai-inp{flex:1;padding:9px 11px;border:1.5px solid rgba(74,140,92,.2);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--td);background:#fff;outline:none;transition:var(--tr)}
 .ai-inp:focus{border-color:var(--gl);box-shadow:0 0 0 3px rgba(74,140,92,.1)}
-.ai-send{background:var(--gm);color:#fff;border:none;border-radius:9px;padding:0 16px;font-size:17px;cursor:pointer;transition:var(--tr);flex-shrink:0}
+.ai-send{background:var(--gm);color:#fff;border:none;border-radius:8px;padding:0 14px;font-size:16px;cursor:pointer;transition:var(--tr);flex-shrink:0}
 .ai-send:hover{background:var(--gd)}
-.ai-resp{margin-top:14px;background:#fff;border-radius:12px;padding:16px;border:1px solid var(--border);display:none}
+.ai-resp{margin-top:13px;background:#fff;border-radius:11px;padding:15px;border:1px solid var(--border);display:none}
 .ai-resp.vis{display:block}
-.ai-rlbl{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.ai-rlbl{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:4px}
 .ai-rtxt{font-size:13px;line-height:1.7;color:var(--tm);white-space:pre-wrap}
 .dots span{animation:blink 1.2s infinite;display:inline-block}
 .dots span:nth-child(2){animation-delay:.2s}
 .dots span:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
-
 /* COACH BOARD */
-.coach-board{background:linear-gradient(135deg,#f8fdf9,var(--gp));border:2px solid rgba(74,140,92,.25);border-radius:16px;padding:22px;margin-bottom:14px}
-.coach-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.coach-avatar{width:52px;height:52px;border-radius:50%;background:var(--gm);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:3px solid var(--gold)}
-.coach-name{font-family:'DM Serif Display',serif;font-size:18px;color:var(--td)}
-.coach-role{font-size:11px;color:var(--tl);margin-top:2px}
-.coach-note{background:#fff;border-radius:12px;padding:16px;border:1px solid var(--border);margin-bottom:12px}
-.coach-note-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gm);margin-bottom:8px}
+.coach-board{background:linear-gradient(135deg,#f8fdf9,var(--gp));border:2px solid rgba(74,140,92,.22);border-radius:16px;padding:20px;margin-bottom:13px}
+.coach-header{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.coach-avatar{width:50px;height:50px;border-radius:50%;background:var(--gm);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:3px solid var(--gold)}
+.coach-name{font-family:'DM Serif Display',serif;font-size:17px;color:var(--td)}
+.coach-role{font-size:10px;color:var(--tl);margin-top:2px}
+.coach-note{background:#fff;border-radius:11px;padding:14px;border:1px solid var(--border);margin-bottom:10px}
+.coach-note-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gm);margin-bottom:7px}
 .coach-note-txt{font-size:13px;line-height:1.7;color:var(--tm);white-space:pre-wrap}
-.coach-note-meta{font-size:11px;color:var(--tl);margin-top:8px;display:flex;align-items:center;gap:4px}
+.coach-note-meta{font-size:10px;color:var(--tl);margin-top:7px;display:flex;align-items:center;gap:4px}
 .hw-list{list-style:none}
-.hw-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.hw-item{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);align-items:flex-start}
 .hw-item:last-child{border-bottom:none}
-.hw-cb{width:18px;height:18px;border-radius:4px;border:2px solid var(--gl);background:#fff;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:var(--tr)}
-.hw-cb.checked{background:var(--gm);border-color:var(--gm);color:#fff}
+.hw-cb{width:17px;height:17px;border-radius:4px;border:2px solid var(--gl);background:#fff;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;transition:var(--tr)}
+.hw-cb.checked{background:var(--gm);border-color:var(--gm);color:#fff;font-size:10px}
 .hw-text{font-size:13px;color:var(--tm);line-height:1.5}
 .hw-text.done-txt{text-decoration:line-through;color:var(--tl)}
-.add-note-area{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
-.add-note-lbl{font-size:11px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px}
-.add-note-row{display:flex;gap:8px;margin-bottom:8px}
-.note-inp{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--td);outline:none;transition:var(--tr)}
+.add-note-area{margin-top:13px;border-top:1px solid var(--border);padding-top:13px}
+.add-note-lbl{font-size:10px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.add-note-row{display:flex;gap:7px;margin-bottom:7px}
+.note-inp{flex:1;padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--td);outline:none;transition:var(--tr)}
 .note-inp:focus{border-color:var(--gl);box-shadow:0 0 0 3px rgba(74,140,92,.1)}
-.note-ta{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--td);outline:none;resize:vertical;min-height:80px;transition:var(--tr)}
+.note-ta{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--td);outline:none;resize:vertical;min-height:72px;transition:var(--tr)}
 .note-ta:focus{border-color:var(--gl);box-shadow:0 0 0 3px rgba(74,140,92,.1)}
-.btn-sm{background:var(--gm);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:var(--tr)}
+.btn-sm{background:var(--gm);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:var(--tr)}
 .btn-sm:hover{background:var(--gd)}
-
-/* COURSE SCORECARD */
-.sc-tbl{width:100%;border-collapse:collapse;font-size:12px}
-.sc-tbl th{background:var(--gm);color:#fff;padding:7px 5px;text-align:center;font-size:10px;font-weight:600;letter-spacing:.5px}
-.sc-tbl th:first-child{text-align:left;padding-left:10px;width:60px}
-.sc-tbl td{padding:6px 5px;text-align:center;border-bottom:1px solid var(--border)}
-.sc-tbl td:first-child{text-align:left;padding-left:10px;font-weight:500;color:var(--td)}
+/* SCORECARD */
+.sc-tbl{width:100%;border-collapse:collapse;font-size:11px}
+.sc-tbl th{background:var(--gm);color:#fff;padding:6px 4px;text-align:center;font-size:9px;font-weight:600;letter-spacing:.4px}
+.sc-tbl th:first-child{text-align:left;padding-left:8px;width:32px}
+.sc-tbl td{padding:4px 3px;text-align:center;border-bottom:1px solid var(--border)}
+.sc-tbl td:first-child{text-align:left;padding-left:8px;font-weight:500;font-size:11px}
 .sc-tbl tr:hover td{background:var(--gp)}
-.sc-tbl tr.total-row td{background:var(--gp);font-weight:600;color:var(--td)}
-.sc-tbl tr.nine-row td{background:rgba(201,168,76,.08);font-weight:600;color:var(--gm)}
+.sc-tbl tr.nine-row td{background:rgba(201,168,76,.08);font-weight:600;color:var(--gm);font-size:11px}
+.sc-tbl tr.total-row td{background:var(--gp);font-weight:600;color:var(--td);font-size:11px}
 .par3{color:#185fa5}.par4{color:var(--td)}.par5{color:#639922}
-.score-inp{width:36px;padding:4px;border:1.5px solid var(--border);border-radius:6px;text-align:center;font-family:'DM Serif Display',serif;font-size:14px;color:var(--td);outline:none;transition:var(--tr)}
-.score-inp:focus{border-color:var(--gl);box-shadow:0 0 0 2px rgba(74,140,92,.15)}
-.score-inp.eagle{background:#fdf4d4;border-color:var(--gold);color:#7a5a00}
-.score-inp.birdie{background:#d1fae5;border-color:#059669;color:#065f46}
-.score-inp.par-cls{background:#fff}
-.score-inp.bogey{background:#fef3c7;border-color:#d97706;color:#92400e}
-.score-inp.double{background:#fee2e2;border-color:#dc2626;color:#991b1b}
-.score-inp.triple{background:#fce7f3;border-color:#db2777;color:#9d174d}
-.sc-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-.sc-meta .fg label{margin-bottom:4px}
-.round-save-row{display:flex;gap:8px;margin-top:14px}
-.btn-outline{background:transparent;color:var(--gm);border:1.5px solid var(--gm);padding:9px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:var(--tr)}
+.score-inp{width:30px;padding:3px 2px;border:1.5px solid var(--border);border-radius:5px;text-align:center;font-family:'DM Serif Display',serif;font-size:13px;color:var(--td);outline:none;transition:var(--tr)}
+.score-inp:focus{border-color:var(--gl);box-shadow:0 0 0 2px rgba(74,140,92,.12)}
+.putt-inp{width:26px;padding:3px 2px;border:1.5px solid rgba(26,58,42,.1);border-radius:5px;text-align:center;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--tm);outline:none;background:#f9fbfa;transition:var(--tr)}
+.putt-inp:focus{border-color:var(--gl);background:#fff;box-shadow:0 0 0 2px rgba(74,140,92,.1)}
+.eagle{background:#fdf4d4;border-color:var(--gold);color:#7a5a00}
+.birdie{background:#d1fae5;border-color:#059669;color:#065f46}
+.par-cls{background:#fff}
+.bogey{background:#fef3c7;border-color:#d97706;color:#92400e}
+.double{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+.triple{background:#fce7f3;border-color:#db2777;color:#9d174d}
+.sc-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.round-save-row{display:flex;gap:7px;margin-top:12px}
+.btn-outline{background:transparent;color:var(--gm);border:1.5px solid var(--gm);padding:8px 16px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:var(--tr)}
 .btn-outline:hover{background:var(--gp)}
-.score-total-disp{font-family:'DM Serif Display',serif;font-size:28px;color:var(--td);text-align:center;padding:10px}
-.score-total-lbl{font-size:11px;color:var(--tl);text-align:center;margin-top:-6px;margin-bottom:10px}
-
-/* HOLE TIPS */
-.ht{font-size:11px;color:var(--tl);font-style:italic;padding:2px 0 6px 10px}
-
+.sc-totals{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.sc-tot-box{background:var(--gp);border-radius:9px;padding:10px;text-align:center}
+.sc-tot-val{font-family:'DM Serif Display',serif;font-size:26px;color:var(--td);line-height:1}
+.sc-tot-lbl{font-size:9px;color:var(--tl);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
 /* PROGRESS */
-.mt{position:relative;padding:18px 0}
-.ml{position:absolute;left:20px;top:0;bottom:0;width:2px;background:var(--border)}
-.mlf{position:absolute;left:20px;top:0;width:2px;background:var(--gm);transition:height .8s cubic-bezier(.4,0,.2,1)}
-.ms{display:flex;align-items:flex-start;gap:16px;padding:0 0 22px}
+.mt{position:relative;padding:16px 0}
+.ml{position:absolute;left:19px;top:0;bottom:0;width:2px;background:var(--border)}
+.mlf{position:absolute;left:19px;top:0;width:2px;background:var(--gm);transition:height .8s cubic-bezier(.4,0,.2,1)}
+.ms{display:flex;align-items:flex-start;gap:14px;padding:0 0 20px}
 .ms:last-child{padding-bottom:0}
-.md{width:40px;height:40px;border-radius:50%;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:13px;color:var(--tl);flex-shrink:0;z-index:1;transition:var(--tr)}
+.md{width:38px;height:38px;border-radius:50%;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:12px;color:var(--tl);flex-shrink:0;z-index:1;transition:var(--tr)}
 .ms.reached .md{background:var(--gm);border-color:var(--gm);color:#fff}
-.ms.current .md{background:var(--gold);border-color:var(--gold);color:var(--td);font-size:11px;font-weight:700}
-.mi{padding-top:9px}
-.msc{font-size:14px;font-weight:600;color:var(--td)}
+.ms.current .md{background:var(--gold);border-color:var(--gold);color:var(--td);font-size:10px;font-weight:700}
+.mi{padding-top:8px}
+.msc{font-size:13px;font-weight:600;color:var(--td)}
 .ms.reached .msc{color:var(--gm)}
-.mdes{font-size:12px;color:var(--tl);margin-top:2px}
-.chart-w{position:relative;height:180px;margin:6px 0 14px}
+.mdes{font-size:11px;color:var(--tl);margin-top:2px}
+.chart-w{position:relative;height:170px;margin:5px 0 12px}
 #pgChart{width:100%;height:100%}
-
 /* MGMT */
-.msec{margin-bottom:18px}
-.mtitle{font-family:'DM Serif Display',serif;font-size:15px;color:var(--td);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.msec{margin-bottom:16px}
+.mtitle{font-family:'DM Serif Display',serif;font-size:14px;color:var(--td);margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid var(--border)}
 .ml-list{list-style:none}
-.mi2{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(26,58,42,.06);align-items:flex-start}
+.mi2{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid rgba(26,58,42,.06);align-items:flex-start}
 .mi2:last-child{border-bottom:none}
-.mdot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px}
+.mdot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px}
 .mdot.g{background:var(--gl)}
 .mtext{font-size:13px;line-height:1.6;color:var(--tm)}
 .mtext strong{color:var(--td)}
-
-/* TABS inside scorecard */
-.tab-row{display:flex;gap:0;margin-bottom:16px;border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
-.tab-btn{flex:1;padding:8px;border:none;background:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--tl);cursor:pointer;transition:var(--tr)}
-.tab-btn.atab{background:var(--gm);color:#fff}
-.sc-section{display:none}.sc-section.atab{display:block}
-
-/* FADE */
-.sec.active .card,.sec.active .ai-wrap,.sec.active .coach-board,.sec.active .dg{animation:fu .28s ease-out both}
+/* SYNC STATUS */
+.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--gp);border-radius:8px;margin-bottom:12px;font-size:11px;color:var(--tm)}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0}
+.sync-dot.ok{background:#22c55e}
+.sync-dot.err{background:#ef4444}
+.sync-dot.busy{background:var(--gold);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sync-btn{margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:10px;font-weight:600;color:var(--gm);cursor:pointer;transition:var(--tr)}
+.sync-btn:hover{background:#fff}
+/* LIVE HOLE UI */
+.qbtn{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--tm);cursor:pointer;transition:var(--tr)}
+.qbtn:hover,.qbtn.active-q{border-color:var(--gl);background:var(--gp)}
+.qbtn.active-q{background:var(--gm);border-color:var(--gm);color:#fff}
+.fw-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:var(--tr);color:var(--tm)}
+.fw-btn:hover{border-color:var(--gl);background:var(--gp)}
+.fw-btn.fw-yes-active{background:#d1fae5;border-color:#059669;color:#065f46}
+.fw-btn.fw-no-active{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+.hole-dot{width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,.18);flex-shrink:0;transition:var(--tr);cursor:pointer;border:1.5px solid transparent}
+.hole-dot.dot-done{background:rgba(255,255,255,.6)}
+.hole-dot.dot-current{background:var(--gold);border-color:#fff;transform:scale(1.3)}
+.hole-dot.dot-eagle{background:#f0d98a}
+.hole-dot.dot-birdie{background:#86efac}
+.hole-dot.dot-bogey{background:#fde68a}
+.hole-dot.dot-double{background:#fca5a5}
+.hole-dot.dot-triple{background:#f9a8d4}
+.sec.active .card,.sec.active .ai-wrap,.sec.active .coach-board,.sec.active .dg{animation:fu .26s ease-out both}
 .sec.active .card:nth-child(2){animation-delay:.05s}
-.sec.active .card:nth-child(3){animation-delay:.1s}
-@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-@media(max-width:580px){
-  .sform,.dg,.ai-qg{grid-template-columns:1fr}
-  .hdr-right{flex-wrap:wrap}
-  .sc-meta{grid-template-columns:1fr 1fr}
-}
+.sec.active .card:nth-child(3){animation-delay:.09s}
+@keyframes fu{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:580px){.sform,.dg,.ai-qg{grid-template-columns:1fr}.hdr-right{flex-wrap:wrap}.sc-meta{grid-template-columns:1fr 1fr}.sc-totals{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
@@ -250,41 +235,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div class="hdr">
   <div class="hdr-in">
     <div class="hdr-left">
-      <svg class="flag-svg" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="23" cy="23" r="23" fill="rgba(74,140,92,0.2)"/>
-        <line x1="15" y1="7" x2="15" y2="39" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
-        <path d="M15 9 L33 15 L15 21 Z" fill="#4a8c5c"/>
-        <circle cx="15" cy="39" r="3" fill="rgba(201,168,76,0.35)"/>
-      </svg>
-      <div class="brand">
-        <h1>Break 80</h1>
-        <p>Your personal golf improvement coach</p>
-      </div>
+      <svg class="flag-svg" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="22" fill="rgba(74,140,92,.2)"/><line x1="14" y1="7" x2="14" y2="37" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/><path d="M14 9 L32 14 L14 20 Z" fill="#4a8c5c"/><circle cx="14" cy="37" r="3" fill="rgba(201,168,76,.32)"/></svg>
+      <div class="brand"><h1>Break 80</h1><p>Your personal golf improvement coach</p></div>
     </div>
     <div class="hdr-right">
-      <div class="hdr-badge" id="bestBadge">
-        <div class="lbl">Best Round</div>
-        <div class="val" id="hdrBest">—</div>
-        <div class="sub">at Ocean Resorts</div>
-      </div>
-      <div class="hdr-badge" id="hcapBadge">
-        <div class="lbl">Handicap</div>
-        <div class="val" id="hdrHcap">~23</div>
-        <div class="sub">estimated</div>
-      </div>
-      <div class="goal-badge">
-        <div class="lbl">Goal</div>
-        <div class="goal-nums">
-          <span class="goal-from">95</span>
-          <span class="goal-arrow">→</span>
-          <span class="goal-to">80</span>
-        </div>
-      </div>
+      <div class="hdr-badge"><div class="lbl">Best Round</div><div class="val" id="hdrBest">—</div><div class="sub">Ocean Resorts</div></div>
+      <div class="hdr-badge"><div class="lbl">Handicap</div><div class="val" id="hdrHcap">~23</div><div class="sub">estimated</div></div>
+      <div class="goal-badge"><div class="lbl">Goal</div><div class="gnums"><span class="gfrom">95</span><span class="garrow">→</span><span class="gto">80</span></div></div>
     </div>
   </div>
 </div>
 
-<div class="club-strip">🏌️ Home Club: <span>Ocean Resorts Golf Club</span> — Berlin, MD &nbsp;|&nbsp; Par 72 &nbsp;|&nbsp; 6,596 yards &nbsp;|&nbsp; Rating 71.6 / Slope 131</div>
+<div class="club-strip">🏌️ Home Club: <span>Ocean Resorts Golf Club</span> — Berlin, MD &nbsp;|&nbsp; Par 72 &nbsp;|&nbsp; 6,596 yds &nbsp;|&nbsp; Rating 71.6 / Slope 131</div>
 
 <nav class="nav">
   <div class="nav-in">
@@ -304,93 +266,191 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <!-- OVERVIEW -->
 <div class="sec active" id="sec-overview">
   <div class="card">
-    <div class="ch"><div class="ci ci-g">⚠️</div><div><div class="ct">Your current focus: Head lift</div><div class="cs">Coach-identified swing issue — see Coach Board for homework</div></div></div>
+    <div class="ch"><div class="ci ci-g">⚠️</div><div><div class="ct">Current focus: Head lift</div><div class="cs">Coach-identified issue — see Coach Board for homework</div></div></div>
     <ul class="tl-list">
-      <li class="ti"><div class="tn">!</div><div class="tt"><strong>What head lifting costs you.</strong> When your head comes up early, your shoulders follow, the club loses its path, and you typically skull or fat the shot. At a 95-handicap level this alone can cost 4–6 strokes per round.</div></li>
-      <li class="ti"><div class="tn">1</div><div class="tt"><strong>Fix: "Logo to the ball" drill.</strong> Put a coin or tee behind the ball. Keep your eyes on that spot through impact — don't look up until you hear the ball land.</div></li>
-      <li class="ti"><div class="tn">2</div><div class="tt"><strong>Fix: Stay down, finish tall.</strong> Feel like your chest is pointing at the ground at impact. Your head will naturally come up after the ball is long gone — trust it.</div></li>
-      <li class="ti"><div class="tn">3</div><div class="tt"><strong>Fix: Listen for contact.</strong> On the range, close your eyes after setup and listen for the click of solid contact before looking up. This rewires the instinct to peek.</div></li>
+      <li class="ti"><div class="tn">!</div><div class="tt"><strong>What head lifting costs you.</strong> When your head comes up early, your shoulders follow, the club loses path, and you skull or fat the shot. At a 95-handicap level this costs 4–6 strokes per round.</div></li>
+      <li class="ti"><div class="tn">1</div><div class="tt"><strong>"Logo to the ball" drill.</strong> Put a coin behind the ball. Keep eyes on that spot through impact — don't look up until you hear the ball land.</div></li>
+      <li class="ti"><div class="tn">2</div><div class="tt"><strong>Stay down, finish tall.</strong> Feel like your chest points at the ground at impact. Your head naturally comes up after the ball is gone — trust it.</div></li>
+      <li class="ti"><div class="tn">3</div><div class="tt"><strong>Listen for contact.</strong> On the range, close your eyes after setup and listen for the click of solid contact before looking up. This rewires the "peek" instinct.</div></li>
     </ul>
   </div>
-
   <div class="card">
     <div class="ch"><div class="ci ci-g">⛳</div><div><div class="ct">Where your 15 strokes are hiding</div><div class="cs">Click any area for specific fixes</div></div></div>
     <div class="sg" id="strokeGrid">
-      <div class="si sel" data-area="putting" onclick="selArea(this)">
-        <div class="sa">Putting</div><div class="sn">~38</div><div class="st">Target: 32 putts</div>
-        <div class="sb"><div class="sbf" style="width:60%"></div></div>
-      </div>
-      <div class="si" data-area="shortgame" onclick="selArea(this)">
-        <div class="sa">Short Game</div><div class="sn">~5 chips</div><div class="st">Target: 2-shot saves</div>
-        <div class="sb"><div class="sbf" style="width:35%"></div></div>
-      </div>
-      <div class="si" data-area="iron" onclick="selArea(this)">
-        <div class="sa">Irons (GIR)</div><div class="sn">~2 GIR</div><div class="st">Target: 6 GIR</div>
-        <div class="sb"><div class="sbf" style="width:33%"></div></div>
-      </div>
-      <div class="si" data-area="driver" onclick="selArea(this)">
-        <div class="sa">Driver</div><div class="sn">~8 FW</div><div class="st">Target: 10 FW</div>
-        <div class="sb"><div class="sbf" style="width:55%"></div></div>
-      </div>
+      <div class="si sel" data-area="putting" onclick="selArea(this)"><div class="sa">Putting</div><div class="sn">~38</div><div class="st">Target: 32 putts</div><div class="sb"><div class="sbf" style="width:60%"></div></div></div>
+      <div class="si" data-area="shortgame" onclick="selArea(this)"><div class="sa">Short Game</div><div class="sn">~5 chips</div><div class="st">Target: 2-shot saves</div><div class="sb"><div class="sbf" style="width:35%"></div></div></div>
+      <div class="si" data-area="iron" onclick="selArea(this)"><div class="sa">Irons (GIR)</div><div class="sn">~2 GIR</div><div class="st">Target: 6 GIR</div><div class="sb"><div class="sbf" style="width:33%"></div></div></div>
+      <div class="si" data-area="driver" onclick="selArea(this)"><div class="sa">Driver</div><div class="sn">~8 FW</div><div class="st">Target: 10 FW</div><div class="sb"><div class="sbf" style="width:55%"></div></div></div>
     </div>
-    <div id="areaTips" class="tl-list" style="border-top:1px solid var(--border);padding-top:14px"></div>
+    <div id="areaTips" class="tl-list" style="border-top:1px solid var(--border);padding-top:13px"></div>
   </div>
-
   <div class="card">
     <div class="ch"><div class="ci ci-gold">💡</div><div><div class="ct">Fastest path to 80</div><div class="cs">Highest-ROI changes right now</div></div></div>
     <ul class="tl-list">
-      <li class="ti"><div class="tn">1</div><div class="tt"><strong>Stop 3-putting.</strong> Most 95-shooters 3-putt 6–8 times per round. Cutting that to 2 times saves 4–6 strokes — the single biggest ROI change you can make.</div></li>
-      <li class="ti"><div class="tn">2</div><div class="tt"><strong>Keep your head down through impact.</strong> With your current head-lifting issue, fixing this alone tightens contact dramatically across every club in the bag.</div></li>
+      <li class="ti"><div class="tn">1</div><div class="tt"><strong>Stop 3-putting.</strong> Most 95-shooters 3-putt 6–8× per round. Cutting to 2× saves 4–6 strokes — the single biggest ROI change you can make.</div></li>
+      <li class="ti"><div class="tn">2</div><div class="tt"><strong>Keep your head down through impact.</strong> Fixing the head-lift alone tightens contact dramatically across every club.</div></li>
       <li class="ti"><div class="tn">3</div><div class="tt"><strong>Get up-and-down from within 50 yards.</strong> Chip to a 6-foot circle instead of leaving 20 feet. 80-shooters save par from greenside 30–40% of the time.</div></li>
-      <li class="ti"><div class="tn">4</div><div class="tt"><strong>Play Ocean Resorts smart.</strong> Holes 4, 6, 9, and 18 have water in play. Take extra club, aim away from the hazard, and bogey is always a win on those holes.</div></li>
+      <li class="ti"><div class="tn">4</div><div class="tt"><strong>Play Ocean Resorts smart.</strong> Holes 4, 6, 9, 18 have water. Extra club, aim away from hazard — bogey is always a win on those holes.</div></li>
     </ul>
   </div>
 </div>
 
 <!-- SCORECARD -->
 <div class="sec" id="sec-scorecard">
-  <div class="card">
-    <div class="ch"><div class="ci ci-g">📋</div><div><div class="ct">Ocean Resorts Golf Club — Live Scorecard</div><div class="cs">Enter scores hole by hole • Berlin, MD • Par 72</div></div></div>
-    <div class="sc-meta">
-      <div class="fg"><label>Date</label><input type="date" id="scDate"></div>
-      <div class="fg"><label>Tees</label>
-        <select id="scTees" onchange="updateYardages()">
-          <option value="blue">Blue (6,596 yds)</option>
-          <option value="white" selected>White (~6,100 yds)</option>
-          <option value="gold">Gold (~5,600 yds)</option>
-          <option value="red">Red (4,800 yds)</option>
-        </select>
+
+  <!-- START SCREEN -->
+  <div id="sc-start">
+    <div class="card" style="text-align:center;padding:32px 24px">
+      <div style="font-size:52px;margin-bottom:12px">⛳</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--td);margin-bottom:4px">Ocean Resorts Golf Club</div>
+      <div style="font-size:12px;color:var(--tl);margin-bottom:24px">Berlin, MD &nbsp;·&nbsp; Par 72 &nbsp;·&nbsp; Rating 71.6 / Slope 131</div>
+      <div class="sform" style="max-width:400px;margin:0 auto 20px">
+        <div class="fg"><label>Date</label><input type="date" id="scDate"></div>
+        <div class="fg"><label>Tees</label>
+          <select id="scTees">
+            <option value="blue">Blue (6,596 yds)</option>
+            <option value="white" selected>White (~6,100 yds)</option>
+            <option value="gold">Gold (~5,600 yds)</option>
+            <option value="red">Red (4,800 yds)</option>
+          </select>
+        </div>
       </div>
-      <div class="fg"><label>Putts</label><input type="number" id="scPutts" placeholder="Total" min="18" max="60"></div>
-      <div class="fg"><label>Fairways (of 14)</label><input type="number" id="scFW" placeholder="e.g. 7" min="0" max="14"></div>
+      <button class="btn" style="max-width:280px;margin:0 auto;font-size:15px;padding:14px 28px;border-radius:12px" onclick="startRound()">
+        🏌️ Start Round
+      </button>
+      <div style="margin-top:16px;font-size:11px;color:var(--tl)" id="sc-resume-hint"></div>
     </div>
-
-    <div style="text-align:center;margin-bottom:6px">
-      <div class="score-total-disp" id="scTotal">0</div>
-      <div class="score-total-lbl">Current total &nbsp;|&nbsp; Par 72 &nbsp;|&nbsp; <span id="scVsPar" style="font-weight:600">E</span></div>
-    </div>
-
-    <div style="overflow-x:auto">
-    <table class="sc-tbl">
-      <thead>
-        <tr>
-          <th>Hole</th><th>Par</th><th>Yards</th><th>Hdcp</th><th>Score</th><th>+/-</th>
-        </tr>
-      </thead>
-      <tbody id="scBody"></tbody>
-    </table>
-    </div>
-
-    <div class="round-save-row">
-      <button class="btn-outline" onclick="clearScorecard()">Clear</button>
-      <button class="btn" style="flex:1" onclick="saveScorecard()">Save Round</button>
-    </div>
+    <!-- mini scorecard of any in-progress round -->
+    <div id="sc-summary-card" style="display:none"></div>
   </div>
 
-  <div class="card">
-    <div class="ch"><div class="ci ci-gold">🗺️</div><div><div class="ct">Hole-by-hole tips — Ocean Resorts</div><div class="cs">Course strategy from the pro's perspective</div></div></div>
-    <ul class="tl-list" id="holeTipsList"></ul>
-  </div>
+  <!-- LIVE HOLE VIEW -->
+  <div id="sc-live" style="display:none">
+
+    <!-- top bar: progress + running totals -->
+    <div style="background:var(--gm);border-radius:14px;padding:14px 16px;margin-bottom:13px;color:#fff">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.5px;text-transform:uppercase">Hole Progress</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6)" id="lv-hole-count">1 of 18</div>
+      </div>
+      <!-- hole dots -->
+      <div style="display:flex;gap:3px;margin-bottom:12px" id="lv-dots"></div>
+      <!-- running totals -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+        <div><div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff" id="lv-score-total">0</div><div style="font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.5px">Score</div></div>
+        <div><div style="font-family:'DM Serif Display',serif;font-size:24px" id="lv-vs-par" style="color:#fff">E</div><div style="font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.5px">vs Par</div></div>
+        <div><div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff" id="lv-putt-total">0</div><div style="font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.5px">Putts</div></div>
+      </div>
+    </div>
+
+    <!-- hole card -->
+    <div class="card" id="lv-hole-card">
+
+      <!-- hole header -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">
+        <div>
+          <div style="font-size:10px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.8px">Ocean Resorts GC</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--td);line-height:1;margin-top:2px">Hole <span id="lv-hole-num">1</span></div>
+          <div style="display:flex;gap:10px;margin-top:6px;align-items:center">
+            <span style="background:var(--gm);color:#fff;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600" id="lv-par-badge">Par 4</span>
+            <span style="color:var(--tl);font-size:12px" id="lv-yardage">370 yds</span>
+            <span style="color:var(--tl);font-size:12px" id="lv-hdcp-badge">Hcp 11</span>
+          </div>
+        </div>
+        <div style="text-align:center;background:var(--goldp);border:1px solid rgba(201,168,76,.3);border-radius:12px;padding:10px 14px;min-width:70px">
+          <div style="font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;font-weight:600">Hole</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--gold);line-height:1" id="lv-hole-score-disp">—</div>
+          <div style="font-size:9px;color:var(--tl);margin-top:1px" id="lv-hole-diff-disp"></div>
+        </div>
+      </div>
+
+      <!-- tips section -->
+      <div style="background:var(--gp);border-radius:11px;padding:14px;margin-bottom:16px">
+        <div style="font-size:9px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🎯 Coach Tips — This Hole</div>
+        <div id="lv-tip-fairway" style="display:flex;gap:10px;margin-bottom:10px;align-items:flex-start">
+          <span style="font-size:16px;flex-shrink:0">🌿</span>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:var(--gm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Tee / Fairway</div>
+            <div style="font-size:12px;color:var(--tm);line-height:1.5" id="lv-tip-fw-text"></div>
+          </div>
+        </div>
+        <div id="lv-tip-green" style="display:flex;gap:10px;align-items:flex-start">
+          <span style="font-size:16px;flex-shrink:0">🏴</span>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:var(--gm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Approach / Green</div>
+            <div style="font-size:12px;color:var(--tm);line-height:1.5" id="lv-tip-gr-text"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- score entry -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:11px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Strokes taken</div>
+        <div style="display:flex;align-items:center;gap:0;justify-content:center">
+          <button onclick="adjustScore(-1)" style="width:52px;height:52px;border-radius:50%;background:var(--gp);border:2px solid var(--border);font-size:22px;cursor:pointer;transition:var(--tr);flex-shrink:0" onmousedown="this.style.background='#c8e6d2'" onmouseup="this.style.background='var(--gp)'">−</button>
+          <div style="text-align:center;padding:0 20px">
+            <div style="font-family:'DM Serif Display',serif;font-size:56px;color:var(--td);line-height:1" id="lv-score-val">—</div>
+            <div style="font-size:12px;color:var(--tl);margin-top:2px" id="lv-score-label">tap to enter</div>
+          </div>
+          <button onclick="adjustScore(1)" style="width:52px;height:52px;border-radius:50%;background:var(--gp);border:2px solid var(--border);font-size:22px;cursor:pointer;transition:var(--tr);flex-shrink:0" onmousedown="this.style.background='#c8e6d2'" onmouseup="this.style.background='var(--gp)'">+</button>
+        </div>
+        <!-- quick-score row -->
+        <div style="display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap" id="lv-quick-scores"></div>
+      </div>
+
+      <!-- putts entry -->
+      <div style="border-top:1px solid var(--border);padding-top:14px;margin-bottom:16px">
+        <div style="font-size:11px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Putts on this green</div>
+        <div style="display:flex;align-items:center;gap:0;justify-content:center">
+          <button onclick="adjustPutt(-1)" style="width:44px;height:44px;border-radius:50%;background:var(--gp);border:2px solid var(--border);font-size:20px;cursor:pointer;transition:var(--tr)" onmousedown="this.style.background='#c8e6d2'" onmouseup="this.style.background='var(--gp)'">−</button>
+          <div style="text-align:center;padding:0 18px">
+            <div style="font-family:'DM Serif Display',serif;font-size:48px;color:var(--gm);line-height:1" id="lv-putt-val">—</div>
+            <div style="font-size:11px;color:var(--tl)" id="lv-putt-label">tap to enter</div>
+          </div>
+          <button onclick="adjustPutt(1)" style="width:44px;height:44px;border-radius:50%;background:var(--gp);border:2px solid var(--border);font-size:20px;cursor:pointer;transition:var(--tr)" onmousedown="this.style.background='#c8e6d2'" onmouseup="this.style.background='var(--gp)'">+</button>
+        </div>
+        <!-- putt quick -->
+        <div style="display:flex;gap:6px;justify-content:center;margin-top:10px">
+          <button onclick="setPuttQuick(1)" class="qbtn" id="qp1">1 putt</button>
+          <button onclick="setPuttQuick(2)" class="qbtn" id="qp2">2 putts</button>
+          <button onclick="setPuttQuick(3)" class="qbtn" id="qp3">3 putts</button>
+        </div>
+      </div>
+
+      <!-- fairway hit toggle (only par 4s/5s) -->
+      <div id="lv-fw-row" style="border-top:1px solid var(--border);padding-top:14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--td)">Fairway hit?</div>
+          <div style="font-size:10px;color:var(--tl)">Track your driving accuracy</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onclick="setFairway(true)" id="fw-yes" class="fw-btn">✓ Yes</button>
+          <button onclick="setFairway(false)" id="fw-no" class="fw-btn">✗ No</button>
+        </div>
+      </div>
+
+      <!-- navigation -->
+      <div style="display:flex;gap:10px;align-items:center">
+        <button onclick="goHole(-1)" id="lv-prev-btn" class="btn-outline" style="flex:0 0 48px;padding:11px 0;text-align:center">←</button>
+        <button onclick="goNextHole()" id="lv-next-btn" class="btn" style="flex:1;font-size:13px"></button>
+      </div>
+      <div style="text-align:center;margin-top:10px">
+        <button onclick="abandonRound()" style="background:none;border:none;font-size:11px;color:var(--tl);cursor:pointer;text-decoration:underline">Abandon round</button>
+      </div>
+    </div>
+
+    <!-- mini scorecard (collapsible) -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none" onclick="toggleMiniCard()">
+        <div class="ct" style="font-family:'DM Serif Display',serif;font-size:15px">Round scorecard</div>
+        <span id="mini-toggle-icon" style="color:var(--tl);font-size:18px">▾</span>
+      </div>
+      <div id="mini-sc-body" style="margin-top:12px;overflow-x:auto">
+        <table class="sc-tbl" id="miniTable"><thead><tr><th>H</th><th>Par</th><th>Score</th><th>Putts</th><th>+/-</th></tr></thead><tbody id="miniBody"></tbody></table>
+      </div>
+    </div>
+
+  </div><!-- end sc-live -->
 </div>
 
 <!-- MY ROUNDS -->
@@ -398,13 +458,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <div class="card">
     <div class="ch"><div class="ci ci-g">📊</div><div><div class="ct">My stats</div><div class="cs" id="statsLbl">Log rounds to see trends</div></div></div>
     <div class="stats-row">
-      <div class="sbox"><div class="sv" id="stBest">—</div><div class="sl">Best score</div></div>
+      <div class="sbox"><div class="sv" id="stBest">—</div><div class="sl">Best</div></div>
       <div class="sbox"><div class="sv" id="stAvg">—</div><div class="sl">Avg score</div></div>
       <div class="sbox"><div class="sv" id="stRounds">0</div><div class="sl">Rounds</div></div>
     </div>
   </div>
   <div class="card">
-    <div class="ch"><div class="ci ci-g">🕐</div><div><div class="ct">Round history</div><div class="cs">All rounds at Ocean Resorts & elsewhere</div></div></div>
+    <div class="ch"><div class="ci ci-g">🕐</div><div><div class="ct">Round history</div></div></div>
     <div id="roundsList"><div class="empty"><div class="big">⛳</div><p>No rounds yet. Use the Scorecard tab to log your first round!</p></div></div>
   </div>
 </div>
@@ -417,7 +477,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <button class="ai-qb" onclick="askAI(this.textContent)">How do I stop lifting my head?</button>
       <button class="ai-qb" onclick="askAI(this.textContent)">How to stop 3-putting</button>
       <button class="ai-qb" onclick="askAI(this.textContent)">Best drill for staying down through impact</button>
-      <button class="ai-qb" onclick="askAI(this.textContent)">Chip from tight lies at Ocean Resorts</button>
+      <button class="ai-qb" onclick="askAI(this.textContent)">Chipping from tight lies at Ocean Resorts</button>
       <button class="ai-qb" onclick="askAI(this.textContent)">Pre-shot routine to prevent head lifting</button>
       <button class="ai-qb" onclick="askAI(this.textContent)">Mental game tips for bogey golfers</button>
     </div>
@@ -425,10 +485,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <input class="ai-inp" id="aiInp" type="text" placeholder="Ask your coach anything..." onkeydown="if(event.key==='Enter')askAI(document.getElementById('aiInp').value)">
       <button class="ai-send" onclick="askAI(document.getElementById('aiInp').value)">→</button>
     </div>
-    <div class="ai-resp" id="aiResp">
-      <div class="ai-rlbl">🏆 Coach says</div>
-      <div class="ai-rtxt" id="aiRtxt"></div>
-    </div>
+    <div class="ai-resp" id="aiResp"><div class="ai-rlbl">🏆 Coach says</div><div class="ai-rtxt" id="aiRtxt"></div></div>
   </div>
 </div>
 
@@ -437,18 +494,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <div class="coach-board">
     <div class="coach-header">
       <div class="coach-avatar">🏌️</div>
-      <div>
-        <div class="coach-name">Coach Board</div>
-        <div class="coach-role">Messages, updates & homework from your coach</div>
-      </div>
+      <div><div class="coach-name">Coach Board</div><div class="coach-role">Messages, updates & homework from your coach</div></div>
     </div>
-
     <div id="coachNotes"></div>
-
     <div class="add-note-area">
       <div class="add-note-lbl">Add coach note or homework</div>
       <div class="add-note-row">
-        <select class="note-inp" id="noteType" style="max-width:160px">
+        <select class="note-inp" id="noteType" style="max-width:150px">
           <option value="note">📝 Coach Note</option>
           <option value="homework">📋 Homework</option>
           <option value="update">🔄 Update</option>
@@ -456,35 +508,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </select>
         <input class="note-inp" id="noteTitle" placeholder="Title (e.g. Head position fix)">
       </div>
-      <textarea class="note-ta" id="noteBody" placeholder="Write the coach's note or homework description here..."></textarea>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <input class="note-inp" id="noteDate" type="date" style="max-width:160px">
+      <textarea class="note-ta" id="noteBody" placeholder="Write the coach note or homework here..."></textarea>
+      <div style="display:flex;gap:7px;margin-top:7px">
+        <input class="note-inp" id="noteDate" type="date" style="max-width:150px">
         <button class="btn-sm" style="flex:1" onclick="addCoachNote()">Add to Board</button>
       </div>
     </div>
   </div>
-
   <div class="card">
     <div class="ch"><div class="ci ci-g">✅</div><div><div class="ct">Homework checklist</div><div class="cs">Check off as you complete each assignment</div></div></div>
-    <ul class="hw-list" id="hwList">
-      <li class="hw-item">
-        <div class="hw-cb" onclick="toggleHW(this)">✓</div>
-        <div class="hw-text">Do the "logo to ball" drill — 20 reps every range session until contact is consistent</div>
-      </li>
-      <li class="hw-item">
-        <div class="hw-cb" onclick="toggleHW(this)">✓</div>
-        <div class="hw-text">Eyes-closed contact drill — hit 10 balls listening for the click before looking up</div>
-      </li>
-      <li class="hw-item">
-        <div class="hw-cb" onclick="toggleHW(this)">✓</div>
-        <div class="hw-text">Film your swing from face-on angle and review head position at impact</div>
-      </li>
-      <li class="hw-item">
-        <div class="hw-cb" onclick="toggleHW(this)">✓</div>
-        <div class="hw-text">Lag putting practice — 15 min from 30–50 feet before every round</div>
-      </li>
-    </ul>
-    <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px;display:flex;gap:8px">
+    <ul class="hw-list" id="hwList"></ul>
+    <div style="margin-top:11px;border-top:1px solid var(--border);padding-top:11px;display:flex;gap:7px">
       <input class="note-inp" id="newHW" placeholder="Add new homework item...">
       <button class="btn-sm" onclick="addHW()">Add</button>
     </div>
@@ -494,16 +528,81 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <!-- DRILLS -->
 <div class="sec" id="sec-drills">
   <div class="card">
-    <div class="ch"><div class="ci ci-gold">🏋️</div><div><div class="ct">Practice drills</div><div class="cs">Check off as you complete each drill today</div></div></div>
+    <div class="ch"><div class="ci ci-gold">🏋️</div><div><div class="ct">Practice drills</div><div class="cs">Check off as you complete each drill — tap ▶ to watch the tutorial</div></div></div>
     <div class="dg" id="drillGrid">
-      <div class="dc" onclick="toggleDrill(this)"><div class="dchk">✓</div><span class="de">👁️</span><div class="dn">Logo to ball drill</div><div class="dd">Place a coin behind the ball. Keep eyes fixed on it through impact. Do 20 reps. Cures head-lifting.</div><span class="dt">⏱ 15 min</span></div>
-      <div class="dc" onclick="toggleDrill(this)"><div class="dchk">✓</div><span class="de">👂</span><div class="dn">Eyes-closed contact</div><div class="dd">Setup, close eyes, swing slowly. Listen for the click of contact before looking up. Rewires the "peek" instinct.</div><span class="dt">⏱ 10 min</span></div>
-      <div class="dc" onclick="toggleDrill(this)"><div class="dchk">✓</div><span class="de">🎯</span><div class="dn">Gate putting drill</div><div class="dd">Set 2 tees as a gate just wider than your putter face. Make 10 putts from 6 feet without touching the tees.</div><span class="dt">⏱ 15 min</span></div>
-      <div class="dc" onclick="toggleDrill(this)"><div class="dchk">✓</div><span class="de">📏</span><div class="dn">Lag putting circles</div><div class="dd">From 30, 40, and 50 feet aim to stop the ball inside a 3-foot circle. 5 balls from each distance.</div><span class="dt">⏱ 20 min</span></div>
-      <div class="dc" onclick="toggleDrill(this)"><div class="dchk">✓</div><span class="de">🏌️</span><div class="dn">9-ball chipping drill</div><div class="dd">Drop 9 balls around the green in different lies. Try to land each within 6 feet. Score yourself out of 9.</div><span class="dt">⏱ 25 min</span></div>
-      <div class="dc" onclick="toggleDrill(this)"><div class="dchk">✓</div><span class="de">💪</span><div class="dn">Alignment stick irons</div><div class="dd">Place a stick parallel to your target line. Practice 20 iron swings ensuring club path matches the stick.</div><span class="dt">⏱ 20 min</span></div>
-      <div class="dc" onclick="toggleDrill(this)"><div class="dchk">✓</div><span class="de">🎪</span><div class="dn">Towel under arms</div><div class="dd">Tuck a towel under both arms and hit 20 half-swings. Keeps arms connected, eliminates fat/thin contact.</div><span class="dt">⏱ 15 min</span></div>
-      <div class="dc" onclick="toggleDrill(this)"><div class="dchk">✓</div><span class="de">🎥</span><div class="dn">Film your swing</div><div class="dd">Record from face-on angle. Check that your head stays level from address through impact — it should not rise.</div><span class="dt">⏱ 10 min</span></div>
+
+      <div class="dc" onclick="toggleDrill(event,this)">
+        <div class="dchk">✓</div>
+        <span class="de">👁️</span>
+        <div class="dn">Logo to ball drill</div>
+        <div class="dd">Place a coin behind the ball. Keep eyes fixed on it through impact. Do 20 reps per session. Cures head-lifting.</div>
+        <span class="dt">⏱ 15 min</span><br>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=tPFENR8bjkw" target="_blank" onclick="event.stopPropagation()"><span class="yt-icon">▶</span> Watch: Stay Down Through Impact</a>
+      </div>
+
+      <div class="dc" onclick="toggleDrill(event,this)">
+        <div class="dchk">✓</div>
+        <span class="de">👂</span>
+        <div class="dn">Eyes-closed contact</div>
+        <div class="dd">Setup, close eyes, swing slowly. Listen for the click of contact before looking up. Rewires the "peek" instinct.</div>
+        <span class="dt">⏱ 10 min</span><br>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=tPFENR8bjkw" target="_blank" onclick="event.stopPropagation()"><span class="yt-icon">▶</span> Watch: Keep Head Down (Tiger focus)</a>
+      </div>
+
+      <div class="dc" onclick="toggleDrill(event,this)">
+        <div class="dchk">✓</div>
+        <span class="de">🎯</span>
+        <div class="dn">Gate putting drill</div>
+        <div class="dd">Set 2 tees as a gate just wider than your putter face. Make 10 putts from 6 feet without touching the tees.</div>
+        <span class="dt">⏱ 15 min</span><br>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=MY7O8zX597Q" target="_blank" onclick="event.stopPropagation()"><span class="yt-icon">▶</span> Watch: Titleist Gate Drill</a>
+      </div>
+
+      <div class="dc" onclick="toggleDrill(event,this)">
+        <div class="dchk">✓</div>
+        <span class="de">📏</span>
+        <div class="dn">Lag putting circles</div>
+        <div class="dd">From 30, 40, and 50 feet aim to stop the ball inside a 3-foot circle. 5 balls from each distance.</div>
+        <span class="dt">⏱ 20 min</span><br>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=QO2IoMYgcO8" target="_blank" onclick="event.stopPropagation()"><span class="yt-icon">▶</span> Watch: Phil Mickelson Lag Drill</a>
+      </div>
+
+      <div class="dc" onclick="toggleDrill(event,this)">
+        <div class="dchk">✓</div>
+        <span class="de">🏌️</span>
+        <div class="dn">9-ball chipping drill</div>
+        <div class="dd">Drop 9 balls around the green in different lies. Try to land each within 6 feet. Score yourself out of 9.</div>
+        <span class="dt">⏱ 25 min</span><br>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=AK4_3bwjFrI" target="_blank" onclick="event.stopPropagation()"><span class="yt-icon">▶</span> Watch: Padraig Harrington Chipping</a>
+      </div>
+
+      <div class="dc" onclick="toggleDrill(event,this)">
+        <div class="dchk">✓</div>
+        <span class="de">💪</span>
+        <div class="dn">Alignment stick irons</div>
+        <div class="dd">Place a stick parallel to your target line. Practice 20 iron swings ensuring club path matches the stick.</div>
+        <span class="dt">⏱ 20 min</span><br>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=sL4EdzjdVwo" target="_blank" onclick="event.stopPropagation()"><span class="yt-icon">▶</span> Watch: 5 Alignment Stick Drills</a>
+      </div>
+
+      <div class="dc" onclick="toggleDrill(event,this)">
+        <div class="dchk">✓</div>
+        <span class="de">🎪</span>
+        <div class="dn">Towel under arms</div>
+        <div class="dd">Tuck a towel under both arms and hit 20 half-swings. Keeps arms connected, eliminates fat/thin contact.</div>
+        <span class="dt">⏱ 15 min</span><br>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=_Fhax-ZJ9YM" target="_blank" onclick="event.stopPropagation()"><span class="yt-icon">▶</span> Watch: Pete Cowen Towel Drill</a>
+      </div>
+
+      <div class="dc" onclick="toggleDrill(event,this)">
+        <div class="dchk">✓</div>
+        <span class="de">🎥</span>
+        <div class="dn">Film your swing</div>
+        <div class="dd">Record face-on. Check that your head stays level from address through impact. Compare to Tiger's impact position.</div>
+        <span class="dt">⏱ 10 min</span><br>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=W_XgRLg2fqM" target="_blank" onclick="event.stopPropagation()"><span class="yt-icon">▶</span> Watch: Tiger Woods — My Putting</a>
+      </div>
+
     </div>
   </div>
 </div>
@@ -512,40 +611,37 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div class="sec" id="sec-strategy">
   <div class="card">
     <div class="ch"><div class="ci ci-g">🗺️</div><div><div class="ct">Ocean Resorts — hole-by-hole strategy</div><div class="cs">Course-specific tips for your home track</div></div></div>
-    <div class="msec">
-      <div class="mtitle">Danger holes — water in play</div>
+    <div class="msec"><div class="mtitle">Danger holes — water in play</div>
       <ul class="ml-list">
-        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Hole 4 (Par 4):</strong> No driver — 3-wood or long iron for approach over water to a shallow green surrounded by sand. Club up and aim center of green.</div></li>
-        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Hole 6 (Par 4):</strong> Play tee shot at the cluster of trees across the pond. Water pinches in front of the green — take extra club on approach.</div></li>
-        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Hole 9 (Par 5):</strong> Avoid hidden pond in front of green. Hit to proper tier of the severe two-tiered green. Bogey is a great score here.</div></li>
-        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Hole 18 (Par 4):</strong> Pond sneaks into the left fairway. Play tee shot right side, avoid OB left. Great finishing hole — don't blow up here.</div></li>
+        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Hole 4 (Par 4):</strong> No driver. 3-wood or long iron. Approach carries water to shallow green — extra club, aim center.</div></li>
+        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Hole 6 (Par 4):</strong> Aim tee shot at tree cluster across the pond. Water pinches green front — take extra club on approach.</div></li>
+        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Hole 9 (Par 5):</strong> Hidden pond front of green. Play correct tier of the severe two-tiered green. Bogey = win here.</div></li>
+        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Hole 18 (Par 4):</strong> Pond sneaks into left fairway. Play tee shot right side. Don't blow up on the closer.</div></li>
       </ul>
     </div>
-    <div class="msec">
-      <div class="mtitle">Scoring opportunities — your birdie holes</div>
+    <div class="msec"><div class="mtitle">Scoring opportunities — your birdie holes</div>
       <ul class="ml-list">
-        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Hole 1 (Par 4):</strong> Play left side to avoid fairway bunkers, short approach shot. Two putts = par. Excellent start.</div></li>
-        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Hole 16 (Par 4):</strong> Short dogleg right. Aim tee shot at left greenside bunker and get an easy pitch — great birdie chance.</div></li>
-        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Hole 17 (Par 5):</strong> Short par 5 out of the woods. Keep second shot left, avoid fairway bunker. Generous landing areas — go for it in two.</div></li>
-        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Hole 15 (Par 5):</strong> Reachable in two but not as long as it looks. Avoid the trees and you have a real eagle/birdie chance.</div></li>
+        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Hole 1 (Par 4):</strong> Play left to avoid bunkers. Short approach. Two putts = great opening par.</div></li>
+        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Hole 16 (Par 4):</strong> Short dogleg right. Aim tee shot at left greenside bunker — easy pitch, best birdie hole on the course.</div></li>
+        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Hole 17 (Par 5):</strong> Short par 5 — let it rip. Keep second shot left, generous landing areas. Real chance for eagle/birdie.</div></li>
+        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Hole 15 (Par 5):</strong> Reachable in two, not as long as it looks. Avoid trees. Eagle/birdie chance!</div></li>
       </ul>
     </div>
-    <div class="msec">
-      <div class="mtitle">General course management</div>
+    <div class="msec"><div class="mtitle">General management</div>
       <ul class="ml-list">
-        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Dogleg holes (10, 11, 13):</strong> Never cut the corner. Hit to the safe side of the fairway and play the course as designed.</div></li>
-        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Par 3s (3, 8, 12, 14):</strong> Hole 3 needs a long straight iron through trees. Hole 8 is long and undulating — aim center. Hole 14 has a tricky 3-level green.</div></li>
-        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Always aim fat part of green.</strong> Ocean Resorts has well-bunkered greens — the safe play to the center gives you a longer putt but avoids the big number.</div></li>
+        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Dogleg holes (10, 11, 13):</strong> Never cut the corner. Hit to the safe side and play as designed.</div></li>
+        <li class="mi2"><div class="mdot"></div><div class="mtext"><strong>Par 3s (3, 8, 12, 14):</strong> Hole 3 needs a straight long iron. Hole 8 undulates — aim center. Hole 14 has a tricky 3-level green.</div></li>
+        <li class="mi2"><div class="mdot g"></div><div class="mtext"><strong>Always aim fat part of green.</strong> Ocean Resorts greens are well-bunkered. Safe play to center avoids the big number.</div></li>
       </ul>
     </div>
   </div>
   <div class="card">
     <div class="ch"><div class="ci ci-gold">🧠</div><div><div class="ct">General course IQ</div></div></div>
     <ul class="tl-list">
-      <li class="ti"><div class="tn">T</div><div class="tt"><strong>Club down for fairways.</strong> A 3-wood in the fairway is 2x more valuable than a driver in the rough at your level.</div></li>
+      <li class="ti"><div class="tn">T</div><div class="tt"><strong>Club down for fairways.</strong> 3-wood in the fairway is 2× more valuable than driver in the rough at your level.</div></li>
       <li class="ti"><div class="tn">A</div><div class="tt"><strong>Take one more club than you think.</strong> Amateurs almost always come up short. The back of the green is still a green.</div></li>
-      <li class="ti"><div class="tn">G</div><div class="tt"><strong>Bogey is always available.</strong> From trouble, get back to the fairway first. Don't compound one mistake.</div></li>
-      <li class="ti"><div class="tn">B</div><div class="tt"><strong>Pick 2–3 birdie holes per round.</strong> At Ocean Resorts those are 1, 15, 16, 17. Play aggressively only there — survive everywhere else.</div></li>
+      <li class="ti"><div class="tn">G</div><div class="tt"><strong>Bogey is always available.</strong> From trouble, get back to fairway first. Don't compound the mistake.</div></li>
+      <li class="ti"><div class="tn">B</div><div class="tt"><strong>Pick 2–3 birdie holes per round.</strong> At Ocean Resorts: holes 1, 15, 16, 17. Play aggressively only there — survive everywhere else.</div></li>
     </ul>
   </div>
 </div>
@@ -553,21 +649,20 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <!-- PROGRESS -->
 <div class="sec" id="sec-progress">
   <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <div><div class="ct" style="font-family:'DM Serif Display',serif;font-size:19px">Journey to 80</div><div class="cs" style="margin-top:3px">Milestone roadmap</div></div>
-      <div style="text-align:right"><div style="font-size:10px;color:var(--tl);text-transform:uppercase;letter-spacing:.6px">Goal</div><div style="font-family:'DM Serif Display',serif;font-size:34px;color:var(--gold);line-height:1">80</div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div><div class="ct" style="font-family:'DM Serif Display',serif;font-size:18px">Journey to 80</div><div class="cs" style="margin-top:2px">Milestone roadmap</div></div>
+      <div style="text-align:right"><div style="font-size:9px;color:var(--tl);text-transform:uppercase;letter-spacing:.5px">Goal</div><div style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--gold);line-height:1">80</div></div>
     </div>
     <div class="mt" id="mTrack">
-      <div class="ml"></div>
-      <div class="mlf" id="mFill" style="height:0%"></div>
+      <div class="ml"></div><div class="mlf" id="mFill" style="height:0%"></div>
       <div class="ms" id="m95"><div class="md">95</div><div class="mi"><div class="msc">Starting: 95</div><div class="mdes">Managing course, fixing head lift, reducing 3-putts.</div></div></div>
-      <div class="ms" id="m90"><div class="md">90</div><div class="mi"><div class="msc">Sub-90: Bogey golfer</div><div class="mdes">Fewer blow-ups. Putts under 34. Short game improving.</div></div></div>
-      <div class="ms" id="m85"><div class="md">85</div><div class="mi"><div class="msc">Sub-85: Getting real</div><div class="mdes">4+ GIR per round. 2-putt most holes. Head staying down.</div></div></div>
+      <div class="ms" id="m90"><div class="md">90</div><div class="mi"><div class="msc">Sub-90: Bogey golfer</div><div class="mdes">Fewer blow-ups. Putts under 34. Short game clicking.</div></div></div>
+      <div class="ms" id="m85"><div class="md">85</div><div class="mi"><div class="msc">Sub-85: Getting real</div><div class="mdes">4+ GIR. 2-putt most holes. Head staying down.</div></div></div>
       <div class="ms" id="m80"><div class="md">80</div><div class="mi"><div class="msc">Break 80: The goal ⛳</div><div class="mdes">6 GIR, 32 putts, no blow-ups. Ocean Resorts conquered.</div></div></div>
     </div>
   </div>
   <div class="card">
-    <div class="ch"><div class="ci ci-gold">📊</div><div><div class="ct">Score trend</div><div class="cs">Log rounds to populate this chart</div></div></div>
+    <div class="ch"><div class="ci ci-gold">📊</div><div><div class="ct">Score trend</div><div class="cs">Updates as you log rounds</div></div></div>
     <div class="chart-w"><canvas id="pgChart"></canvas></div>
   </div>
 </div>
@@ -575,82 +670,144 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 </main>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+const JSONBIN_ID = '6a1dc936a5160c15fd97e3ad';
+const JSONBIN_KEY = '$2a$10$nVmjEwLhwXLRrL88.zZ1s.ZCCzZ4igJKpPymaesgglCrFHi8.pYNe';
+
+// ── COURSE DATA ───────────────────────────────────────────────────────────────
 const HOLES = [
-  {n:1, par:4, blue:397, white:370, gold:340, red:300, hdcp:11, tip:"Play left to avoid bunkers. Two putts = par here. Good opener."},
-  {n:2, par:4, blue:432, white:408, gold:375, red:330, hdcp:3, tip:"Slight dogleg right. Big green is forgiving. Club up for approach."},
-  {n:3, par:3, blue:209, white:185, gold:162, red:135, hdcp:13, tip:"Long narrow par 3 through trees. Straight long iron mandatory. Aim center."},
-  {n:4, par:4, blue:388, white:360, gold:330, red:290, hdcp:7, tip:"NO DRIVER. 3-wood or long iron. Approach carries water to shallow green. Extra club."},
-  {n:5, par:5, blue:558, white:520, gold:480, red:430, hdcp:1, tip:"Tee shot down right side. Three-shot hole for most. Don't get greedy in two."},
-  {n:6, par:4, blue:395, white:370, gold:340, red:300, hdcp:9, tip:"WATER: Aim at tree cluster across pond. Water pinches green front — extra club."},
-  {n:7, par:4, blue:378, white:352, gold:320, red:280, hdcp:15, tip:"Play tee over mound left. Back-left pin? Play center for 2 putts and par."},
-  {n:8, par:3, blue:218, white:192, gold:165, red:140, hdcp:5, tip:"Long accurate iron required. Undulating green — tricky putts. Aim center."},
-  {n:9, par:5, blue:536, white:500, gold:455, red:405, hdcp:17, tip:"WATER: Hidden pond front of green. Play correct tier of severe two-tiered green. Bogey = win."},
-  {n:10, par:4, blue:381, white:355, gold:325, red:285, hdcp:12, tip:"Carry the ditch with enough club to reach the dogleg corner. Premium tee shot."},
-  {n:11, par:4, blue:425, white:398, gold:365, red:320, hdcp:2, tip:"Sharp dogleg right — DO NOT cut corner. Hit far enough to have a shot at green."},
-  {n:12, par:3, blue:175, white:155, gold:135, red:110, hdcp:16, tip:"Mound divides green — play to proper side. Avoid being long. Club down."},
-  {n:13, par:4, blue:415, white:388, gold:356, red:310, hdcp:4, tip:"Tee must avoid going left. Check pin carefully. Correct distance on undulating green."},
-  {n:14, par:3, blue:155, white:138, gold:118, red:95, hdcp:18, tip:"Tricky 3-level green. Club selection is everything — avoid front/back bunkers."},
-  {n:15, par:5, blue:512, white:480, gold:440, red:390, hdcp:8, tip:"Reachable in two. Not as long as it looks. Avoid trees. Birdie/eagle chance!"},
-  {n:16, par:4, blue:348, white:325, gold:298, red:260, hdcp:14, tip:"Short dogleg right. Aim at left greenside bunker for easy pitch. Best birdie hole."},
-  {n:17, par:5, blue:510, white:475, gold:435, red:380, hdcp:10, tip:"Let it rip! Short par 5. Keep second shot left. Generous landing areas. Go for it."},
-  {n:18, par:4, blue:374, white:350, gold:320, red:280, hdcp:6, tip:"WATER: Pond left sneaks into fairway. Play tee shot right side. Solid finish."},
+  {n:1,par:4,blue:397,white:370,gold:340,red:300,hdcp:11,tip:"Play left to avoid bunkers. Short approach. Two putts = par. Good opener."},
+  {n:2,par:4,blue:432,white:408,gold:375,red:330,hdcp:3,tip:"Slight dogleg right. Big green is forgiving — club up on approach."},
+  {n:3,par:3,blue:209,white:185,gold:162,red:135,hdcp:13,tip:"Long narrow par 3 through trees. Straight long iron mandatory. Aim center."},
+  {n:4,par:4,blue:388,white:360,gold:330,red:290,hdcp:7,tip:"NO DRIVER. 3-wood or long iron. Approach carries water to shallow green — extra club."},
+  {n:5,par:5,blue:558,white:520,gold:480,red:430,hdcp:1,tip:"Tee shot down right side. Three-shot hole for most. Don't get greedy in two."},
+  {n:6,par:4,blue:395,white:370,gold:340,red:300,hdcp:9,tip:"WATER: Aim at tree cluster across pond. Water pinches green front — extra club."},
+  {n:7,par:4,blue:378,white:352,gold:320,red:280,hdcp:15,tip:"Play tee over mound left. Back-left pin? Play center for 2 putts and par."},
+  {n:8,par:3,blue:218,white:192,gold:165,red:140,hdcp:5,tip:"Long accurate iron required. Very undulating green — aim center always."},
+  {n:9,par:5,blue:536,white:500,gold:455,red:405,hdcp:17,tip:"WATER: Hidden pond front of green. Play correct tier of severe two-tiered green. Bogey = win."},
+  {n:10,par:4,blue:381,white:355,gold:325,red:285,hdcp:12,tip:"Carry the ditch with enough club to reach the dogleg corner. Premium tee shot."},
+  {n:11,par:4,blue:425,white:398,gold:365,red:320,hdcp:2,tip:"Sharp dogleg right — DO NOT cut corner. Hit far enough to have a shot at green."},
+  {n:12,par:3,blue:175,white:155,gold:135,red:110,hdcp:16,tip:"Mound divides green — play to proper side. Avoid being long."},
+  {n:13,par:4,blue:415,white:388,gold:356,red:310,hdcp:4,tip:"Tee must avoid going left. Check pin. Correct distance on undulating green."},
+  {n:14,par:3,blue:155,white:138,gold:118,red:95,hdcp:18,tip:"Tricky 3-level green. Club selection is everything — avoid front/back bunkers."},
+  {n:15,par:5,blue:512,white:480,gold:440,red:390,hdcp:8,tip:"Reachable in two. Not as long as it looks. Avoid trees. Birdie/eagle chance!"},
+  {n:16,par:4,blue:348,white:325,gold:298,red:260,hdcp:14,tip:"Short dogleg right. Aim at left greenside bunker for easy pitch. Best birdie hole."},
+  {n:17,par:5,blue:510,white:475,gold:435,red:380,hdcp:10,tip:"Let it rip! Short par 5. Keep second shot left. Generous landing areas."},
+  {n:18,par:4,blue:374,white:350,gold:320,red:280,hdcp:6,tip:"WATER: Pond left sneaks into fairway. Play tee shot right side. Solid finish."},
 ];
 
 const TIPS = {
   putting:[
     {t:'Dial in lag putting',d:'From 30+ feet, goal is inside <strong>3 feet of the hole</strong>. Spend 60% of practice time on putts over 20 feet.'},
-    {t:'Read break from behind the hole',d:'Walk to the low side of every putt. Gravity tells you more from downhill than behind the ball.'},
-    {t:'Never leave a birdie putt short',d:'"Never up, never in." Your misses should be 6–12 inches <strong>past</strong> the hole, not short.'},
+    {t:'Read break from behind the hole',d:'Walk to the low side of every putt. Gravity tells you more from downhill.'},
+    {t:'Never leave a birdie putt short',d:'"Never up, never in." Misses should be 6–12 inches <strong>past</strong> the hole, not short.'},
   ],
   shortgame:[
-    {t:'Use bump-and-run more',d:'A 7-iron chip from the fringe is far easier than a flop. Any time you have green between you and the hole, run it.'},
-    {t:'Land spot, not the hole',d:'Pick a <strong>landing spot</strong> 2–3 feet onto the green. Let the ball roll to the hole predictably.'},
-    {t:'Consistent chipping setup',d:'Ball back, weight forward (60%), hands ahead. Same setup every chip from within 40 yards.'},
+    {t:'Use bump-and-run more',d:'A 7-iron chip is far easier than a flop. Any time you have green between you and the hole, run it.'},
+    {t:'Land spot, not the hole',d:'Pick a <strong>landing spot</strong> 2–3 feet onto the green. Let the ball roll predictably.'},
+    {t:'Consistent chipping setup',d:'Ball back, weight forward 60%, hands ahead. Same setup every chip from within 40 yards.'},
   ],
   iron:[
-    {t:'Know your actual distances',d:'Go to a range with a rangefinder. Record your <strong>true carry</strong> per iron — average, not best. Most golfers overestimate by 10–15 yards.'},
-    {t:'Middle of every green',d:'Most greens are 30+ yards deep. Aiming at a tucked pin adds risk. Middle gives 15 yards of room both sides.'},
-    {t:'Ball first, turf second',d:'Hit the ball before the ground. Keep your head down through impact to achieve this consistently.'},
+    {t:'Know your actual distances',d:'Record your <strong>true carry</strong> per iron with a rangefinder — average, not best. Most golfers overestimate by 10–15 yards.'},
+    {t:'Middle of every green',d:'Aiming at a tucked pin adds risk. Middle gives 15 yards of room both sides.'},
+    {t:'Ball first, turf second',d:'Hit the ball before the ground. Keeping your head down is key to achieving this.'},
   ],
   driver:[
-    {t:'Club down when there\'s trouble',d:'3-wood in the fairway vs driver in the rough: the math favors safety every time at your level.'},
-    {t:'Tee height matters',d:'Half the ball should sit above the clubface at address. Higher tee = higher launch = less spin = more distance.'},
+    {t:'Club down when there\'s trouble',d:'3-wood in the fairway vs driver in the rough: math favors safety every time at your level.'},
+    {t:'Tee height matters',d:'Half the ball above the clubface at address. Higher tee = higher launch = less spin = more distance.'},
     {t:'Swing at 80% effort',d:'Your fastest swings are your wildest. 80% produces more distance AND accuracy for most amateurs.'},
   ],
 };
 
-// ── STATE ────────────────────────────────────────────────────────────────────
-let rounds = JSON.parse(localStorage.getItem('b80_rounds') || '[]');
-let coachNotes = JSON.parse(localStorage.getItem('b80_notes') || '[]');
-let hwItems = JSON.parse(localStorage.getItem('b80_hw') || 'null');
-if (!hwItems) {
-  hwItems = [
-    {text:'Do the "logo to ball" drill — 20 reps every range session until contact is consistent', done:false},
-    {text:'Eyes-closed contact drill — hit 10 balls listening for the click before looking up', done:false},
-    {text:'Film your swing from face-on angle and review head position at impact', done:false},
-    {text:'Lag putting practice — 15 min from 30–50 feet before every round', done:false},
-  ];
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let rounds = [];
+let coachNotes = [];
+let hwItems = [
+  {text:'Do the "logo to ball" drill — 20 reps every range session until contact is consistent',done:false},
+  {text:'Eyes-closed contact drill — hit 10 balls listening for the click before looking up',done:false},
+  {text:'Film your swing from face-on angle and review head position at impact',done:false},
+  {text:'Lag putting practice — 15 min from 30–50 feet before every round',done:false},
+];
+let scores = Array(18).fill(null); // kept for compatibility
+let putts  = Array(18).fill(null);
+let synced = false;
+
+// ── JSONBIN ───────────────────────────────────────────────────────────────────
+async function loadFromBin() {
+  setSyncStatus('busy','Loading from cloud...');
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`,{
+      headers:{'X-Master-Key': JSONBIN_KEY, 'X-Bin-Meta': 'false'}
+    });
+    if (!res.ok) throw new Error('Load failed');
+    const data = await res.json();
+    if (data.rounds) rounds = data.rounds;
+    if (data.coachNotes) coachNotes = data.coachNotes;
+    if (data.hwItems) hwItems = data.hwItems;
+    setSyncStatus('ok','Synced with cloud');
+    synced = true;
+    updateHeaderBest();
+    renderRounds();
+  } catch(e) {
+    setSyncStatus('err','Cloud sync failed — using local data');
+    loadLocal();
+  }
 }
 
-// ── NAV ──────────────────────────────────────────────────────────────────────
+async function saveToBin() {
+  setSyncStatus('busy','Saving to cloud...');
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key': JSONBIN_KEY},
+      body: JSON.stringify({rounds, coachNotes, hwItems})
+    });
+    if (!res.ok) throw new Error('Save failed');
+    setSyncStatus('ok','Saved to cloud ✓');
+    saveLocal();
+  } catch(e) {
+    setSyncStatus('err','Cloud save failed — saved locally');
+    saveLocal();
+  }
+}
+
+function saveLocal() {
+  localStorage.setItem('b80_rounds', JSON.stringify(rounds));
+  localStorage.setItem('b80_notes', JSON.stringify(coachNotes));
+  localStorage.setItem('b80_hw', JSON.stringify(hwItems));
+}
+
+function loadLocal() {
+  rounds = JSON.parse(localStorage.getItem('b80_rounds')||'[]');
+  coachNotes = JSON.parse(localStorage.getItem('b80_notes')||'[]');
+  const hw = localStorage.getItem('b80_hw');
+  if (hw) hwItems = JSON.parse(hw);
+  updateHeaderBest();
+  renderRounds();
+}
+
+function setSyncStatus(state, msg) {
+  document.querySelectorAll('.sync-dot').forEach(d => { d.className='sync-dot'; d.classList.add(state); });
+  document.querySelectorAll('.sync-msg').forEach(el => el.textContent = msg);
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
 document.querySelectorAll('.nb').forEach(b => {
   b.addEventListener('click', () => {
-    document.querySelectorAll('.nb').forEach(x => x.classList.remove('active'));
-    document.querySelectorAll('.sec').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.nb').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.sec').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
-    const id = 'sec-' + b.dataset.sec;
-    document.getElementById(id).classList.add('active');
-    if (b.dataset.sec === 'progress') updateProgress();
-    if (b.dataset.sec === 'rounds') renderRounds();
-    if (b.dataset.sec === 'mycoach') renderCoachBoard();
-    if (b.dataset.sec === 'scorecard') buildScorecard();
+    document.getElementById('sec-'+b.dataset.sec).classList.add('active');
+    if (b.dataset.sec==='progress') updateProgress();
+    if (b.dataset.sec==='rounds') renderRounds();
+    if (b.dataset.sec==='mycoach') renderCoachBoard();
+    if (b.dataset.sec==='scorecard') buildScorecard();
   });
 });
 
-// ── OVERVIEW ─────────────────────────────────────────────────────────────────
+// ── OVERVIEW ──────────────────────────────────────────────────────────────────
 function selArea(el) {
-  document.querySelectorAll('.si').forEach(x => x.classList.remove('sel'));
+  document.querySelectorAll('.si').forEach(x=>x.classList.remove('sel'));
   el.classList.add('sel');
   const t = TIPS[el.dataset.area];
   document.getElementById('areaTips').innerHTML = t.map((x,i) =>
@@ -659,233 +816,356 @@ function selArea(el) {
 }
 selArea(document.querySelector('.si.sel'));
 
-// ── SCORECARD ────────────────────────────────────────────────────────────────
-let scores = Array(18).fill(null);
+// ── SCORECARD — LIVE HOLE-BY-HOLE ────────────────────────────────────────────
+const HOLE_TIPS = [
+  {fw:"Play tee shot to the left side to avoid fairway bunkers on the right. A 3-wood keeps you safe and leaves a short iron in.",
+   gr:"Big, forgiving green — aim dead center. Two putts is par. A great chance to start the round on a positive note."},
+  {fw:"Slight dogleg right. Take enough club off the tee to reach the elbow. Avoid the rough on the right side.",
+   gr:"Large green is forgiving. Club up on approach — most amateurs come up short here. Aim center, ignore tucked pins."},
+  {fw:"Long narrow par 3 through trees. You need a straight long iron or hybrid. Take plenty of club — coming up short means trouble.",
+   gr:"Narrow green. If you're on, lag and two-putt for par. Don't chase it if you miss — chip to a safe spot and one-putt."},
+  {fw:"⚠️ NO DRIVER. Use 3-wood or long iron. Water on the right punishes wild tee shots. Place it safely in the left-center fairway.",
+   gr:"Shallow green with water front. Take at least one extra club. Aim center-back of green. Short is in the water — don't be short."},
+  {fw:"Tee shot down the right side to open up the hole. This is a three-shot hole — don't get greedy going for it in two.",
+   gr:"Take the safe route to the front of the green on your third shot. Bump-and-run beats a flop from 80 yards every time."},
+  {fw:"⚠️ WATER: Aim at the cluster of trees across the pond off the tee. Keep it left-center and avoid the right rough entirely.",
+   gr:"Water pinches the front of the green. Take one extra club minimum. Never go at a front pin — aim fat part of green always."},
+  {fw:"Play your tee shot over the mound on the left side. Avoid biting off too much — place it in the fairway for a clean angle in.",
+   gr:"If the pin is back-left, play to center. Two putts from the middle always beats a chip from the bunker."},
+  {fw:"Long par 3 requiring a long, accurate iron or hybrid. Don't try to hero it. A smooth 80% swing beats a wild full swing.",
+   gr:"Very undulating green — always aim center regardless of pin location. Three-putts are common here. Lag first, make second."},
+  {fw:"⚠️ WATER: Hidden pond guards the front of the green in three-shot range. Lay up short of it on your second shot. Don't gamble.",
+   gr:"Severe two-tiered green — MUST be on the correct tier. Wrong side means an almost impossible putt. Bogey is a great score here."},
+  {fw:"You need to carry the ditch with your tee shot to reach the dogleg corner. Don't under-club here — take enough stick.",
+   gr:"Green is accessible from the fairway. Take your full yardage club. Avoid the bunkers left — they're deep and penalizing."},
+  {fw:"⚠️ Sharp dogleg right — do NOT cut the corner. Hit it far enough down the left side to leave a clear angle to the green.",
+   gr:"Tough green to hold. Aim for the middle and accept a lag putt. Par is a great score on this hole."},
+  {fw:"Short par 3 — take a smooth iron, not a full swing. Accuracy matters more than distance. Club down one from your instinct.",
+   gr:"A mound divides the green front-to-back. Play to the correct side or two-putting becomes very difficult."},
+  {fw:"Avoid going left off the tee at all costs — trees and trouble lurk there. Play right-center and take your medicine.",
+   gr:"Undulating green — check pin position carefully before your approach. Correct distance is everything here. Lag from the right tier."},
+  {fw:"Short par 3. Club down from your instinct — most golfers fly this green. Smooth and accurate is the play.",
+   gr:"⚠️ Tricky 3-level green. Front and back bunkers penalize misses. Aim at the correct level of green and lag to two-putt par."},
+  {fw:"Reachable par 5. Even if you can't reach in two, a well-placed lay-up leaves a simple wedge. Avoid the trees on the right.",
+   gr:"Don't get greedy — a wedge from 80-100 yards beats a hero 3-wood. Green is accessible. Birdie or eagle chance here!"},
+  {fw:"Short dogleg right — aim your tee shot at the left greenside bunker as your target. This opens the green perfectly.",
+   gr:"Best birdie opportunity on the course. Short pitch from the left leaves a makeable putt. Commit fully to the target."},
+  {fw:"Let it rip! Short par 5 rewards aggression. Keep the second shot left of center to avoid the fairway bunker on the right.",
+   gr:"Generous landing areas around the green. Don't overthink it — get it on in regulation and two-putt for birdie."},
+  {fw:"⚠️ WATER: The pond sneaks into the left side of the fairway. Play tee shot to the right. OB is also left — double danger zone.",
+   gr:"Good approach angle from right fairway. Aim center of green. Don't blow up your round on the last hole — make par and walk in proud."},
+];
+
+let lvHole = 0;
+let lvScores = Array(18).fill(null);
+let lvPutts = Array(18).fill(null);
+let lvFairways = Array(18).fill(null);
+let lvRoundActive = false;
 
 function buildScorecard() {
   document.getElementById('scDate').valueAsDate = new Date();
-  renderScBody();
-  renderHoleTips();
+  checkResumeHint();
 }
 
-function renderScBody() {
+function checkResumeHint() {
+  const hasData = lvScores.some(s => s !== null);
+  const hint = document.getElementById('sc-resume-hint');
+  if (hasData) {
+    const done = lvScores.filter(s => s !== null).length;
+    hint.innerHTML = `<a href="#" onclick="resumeRound();return false;" style="color:var(--gl);font-weight:600">▶ Resume in-progress round (${done} of 18 holes done)</a>`;
+  } else { hint.textContent = ''; }
+}
+
+function startRound() {
+  lvScores = Array(18).fill(null);
+  lvPutts = Array(18).fill(null);
+  lvFairways = Array(18).fill(null);
+  lvHole = 0;
+  lvRoundActive = true;
+  showLiveView();
+}
+
+function resumeRound() {
+  for (let i = 17; i >= 0; i--) {
+    if (lvScores[i] !== null) { lvHole = Math.min(i + 1, 17); break; }
+  }
+  lvRoundActive = true;
+  showLiveView();
+}
+
+function showLiveView() {
+  document.getElementById('sc-start').style.display = 'none';
+  document.getElementById('sc-live').style.display = 'block';
+  renderLiveHole();
+}
+
+function renderLiveHole() {
+  const h = HOLES[lvHole];
   const tee = document.getElementById('scTees')?.value || 'white';
-  const tbody = document.getElementById('scBody');
-  let rows = '';
-  [0,9].forEach(start => {
-    for (let i = start; i < start+9; i++) {
-      const h = HOLES[i];
-      const s = scores[i];
-      const parDiff = s !== null ? s - h.par : null;
-      let cls = '';
-      if (parDiff !== null) {
-        if (parDiff <= -2) cls = 'eagle';
-        else if (parDiff === -1) cls = 'birdie';
-        else if (parDiff === 0) cls = 'par-cls';
-        else if (parDiff === 1) cls = 'bogey';
-        else if (parDiff === 2) cls = 'double';
-        else if (parDiff >= 3) cls = 'triple';
-      }
-      const parCls = h.par === 3 ? 'par3' : h.par === 5 ? 'par5' : 'par4';
-      const dispDiff = parDiff === null ? '' : parDiff === 0 ? 'E' : (parDiff > 0 ? '+' : '') + parDiff;
-      rows += `<tr>
-        <td>${h.n}</td>
-        <td class="${parCls}">${h.par}</td>
-        <td>${h[tee]}</td>
-        <td>${h.hdcp}</td>
-        <td><input class="score-inp ${cls}" type="number" min="1" max="12" value="${s || ''}" placeholder="-" oninput="setScore(${i}, this)"></td>
-        <td style="font-size:12px;font-weight:600;color:${parDiff > 0 ? '#dc2626' : parDiff < 0 ? '#059669' : 'var(--tl)'}">${dispDiff}</td>
-      </tr>`;
-    }
-    // nine-row
-    const nine = start === 0 ? 'Front 9' : 'Back 9';
-    const parSum = HOLES.slice(start, start+9).reduce((a,h) => a+h.par, 0);
-    const scoreSum = scores.slice(start, start+9).reduce((a,s) => a + (s||0), 0);
-    const scoreDisplay = scores.slice(start, start+9).some(s => s !== null) ? scoreSum : '—';
-    rows += `<tr class="nine-row"><td>${nine}</td><td>${parSum}</td><td></td><td></td><td><strong>${scoreDisplay}</strong></td><td></td></tr>`;
-  });
-  // totals
-  const totalPar = 72;
-  const totalScore = scores.reduce((a,s) => a+(s||0), 0);
-  const hasAny = scores.some(s => s !== null);
-  rows += `<tr class="total-row"><td>Total</td><td>72</td><td></td><td></td><td><strong>${hasAny ? totalScore : '—'}</strong></td><td></td></tr>`;
-  tbody.innerHTML = rows;
-  updateScTotal();
-}
 
-function setScore(idx, inp) {
-  const v = parseInt(inp.value);
-  scores[idx] = isNaN(v) ? null : v;
-  updateScTotal();
-  // restyle
-  const h = HOLES[idx];
-  const parDiff = v - h.par;
-  inp.className = 'score-inp';
-  if (!isNaN(v)) {
-    if (parDiff <= -2) inp.classList.add('eagle');
-    else if (parDiff === -1) inp.classList.add('birdie');
-    else if (parDiff === 0) inp.classList.add('par-cls');
-    else if (parDiff === 1) inp.classList.add('bogey');
-    else if (parDiff === 2) inp.classList.add('double');
-    else if (parDiff >= 3) inp.classList.add('triple');
+  document.getElementById('lv-hole-num').textContent = h.n;
+  document.getElementById('lv-par-badge').textContent = 'Par ' + h.par;
+  document.getElementById('lv-yardage').textContent = h[tee] + ' yds';
+  document.getElementById('lv-hdcp-badge').textContent = 'Hcp ' + h.hdcp;
+  document.getElementById('lv-hole-count').textContent = `${lvHole + 1} of 18`;
+
+  const tips = HOLE_TIPS[lvHole];
+  document.getElementById('lv-tip-fw-text').textContent = tips.fw;
+  document.getElementById('lv-tip-gr-text').textContent = tips.gr;
+
+  const s = lvScores[lvHole];
+  const scoreEl = document.getElementById('lv-score-val');
+  const labelEl = document.getElementById('lv-score-label');
+  if (s !== null) {
+    scoreEl.textContent = s;
+    const diff = s - h.par;
+    scoreEl.className = diff <= -2 ? 'score-eagle' : diff === -1 ? 'score-birdie' : diff === 0 ? 'score-par' : diff === 1 ? 'score-bogey' : diff === 2 ? 'score-double' : 'score-triple';
+    const diffLabels = {'-2':'Eagle! 🦅','-1':'Birdie! 🐦','0':'Par ✓','1':'Bogey','2':'Double','3':'Triple'};
+    const clamped = Math.max(-2, Math.min(3, diff));
+    labelEl.textContent = diffLabels[String(clamped)] || (diff > 0 ? '+'+diff : diff);
+  } else {
+    scoreEl.textContent = '—'; scoreEl.className = '';
+    labelEl.textContent = 'tap + to enter score';
   }
-  // update row diff cell
-  const rows = document.querySelectorAll('#scBody tr');
-  let hIdx = 0;
-  rows.forEach(row => {
-    if (row.classList.contains('nine-row') || row.classList.contains('total-row')) return;
-    if (hIdx === idx) {
-      const diff = row.querySelectorAll('td')[5];
-      if (diff) {
-        const pd = isNaN(v) ? null : v - h.par;
-        diff.textContent = pd === null ? '' : pd === 0 ? 'E' : (pd > 0 ? '+' : '') + pd;
-        diff.style.color = pd > 0 ? '#dc2626' : pd < 0 ? '#059669' : 'var(--tl)';
-      }
+
+  const dispEl = document.getElementById('lv-hole-score-disp');
+  const diffEl = document.getElementById('lv-hole-diff-disp');
+  if (s !== null) {
+    dispEl.textContent = s;
+    const d = s - h.par;
+    diffEl.textContent = d === 0 ? 'E' : (d > 0 ? '+' : '') + d;
+    diffEl.style.color = d < 0 ? '#059669' : d > 0 ? '#dc2626' : 'var(--tl)';
+  } else { dispEl.textContent = '—'; diffEl.textContent = ''; }
+
+  const p = lvPutts[lvHole];
+  document.getElementById('lv-putt-val').textContent = p !== null ? p : '—';
+  document.getElementById('lv-putt-label').textContent = p !== null ? (p === 1 ? 'one putt 🎯' : p === 2 ? 'two putts' : p >= 3 ? '3-putt 😬' : '') : 'tap + to enter putts';
+  ['qp1','qp2','qp3'].forEach((id,i) => document.getElementById(id).classList.toggle('active-q', p === i+1));
+
+  document.getElementById('lv-fw-row').style.display = h.par === 3 ? 'none' : 'flex';
+  document.getElementById('fw-yes').className = 'fw-btn' + (lvFairways[lvHole] === true ? ' fw-yes-active' : '');
+  document.getElementById('fw-no').className = 'fw-btn' + (lvFairways[lvHole] === false ? ' fw-no-active' : '');
+
+  const qsContainer = document.getElementById('lv-quick-scores');
+  const qLabels = ['Eagle','Birdie','Par','Bogey','Dbl','Trpl'];
+  const qVals = [h.par-2, h.par-1, h.par, h.par+1, h.par+2, h.par+3].filter(v => v > 0);
+  qsContainer.innerHTML = qVals.map((v,i) =>
+    `<button class="qbtn ${s===v?'active-q':''}" onclick="setScoreQuick(${v})">${qLabels[i]||'+'+i}<br><span style="font-size:9px;opacity:.7">(${v})</span></button>`
+  ).join('');
+
+  const dotsEl = document.getElementById('lv-dots');
+  dotsEl.innerHTML = HOLES.map((_,i) => {
+    let cls = 'hole-dot';
+    if (i === lvHole) cls += ' dot-current';
+    else if (lvScores[i] !== null) {
+      const d = lvScores[i] - HOLES[i].par;
+      cls += d<=-2?' dot-eagle':d===-1?' dot-birdie':d===1?' dot-bogey':d===2?' dot-double':d>=3?' dot-triple':' dot-done';
     }
-    hIdx++;
-  });
-  // update nine sums
-  updateNineSums();
-}
+    return `<div class="${cls}" onclick="jumpToHole(${i})" title="Hole ${i+1}"></div>`;
+  }).join('');
 
-function updateNineSums() {
-  const nineRows = document.querySelectorAll('#scBody tr.nine-row');
-  if (nineRows.length >= 2) {
-    const f9 = scores.slice(0,9).reduce((a,s) => a+(s||0), 0);
-    const b9 = scores.slice(9).reduce((a,s) => a+(s||0), 0);
-    const f9Has = scores.slice(0,9).some(s => s !== null);
-    const b9Has = scores.slice(9).some(s => s !== null);
-    nineRows[0].querySelectorAll('td')[4].innerHTML = `<strong>${f9Has ? f9 : '—'}</strong>`;
-    nineRows[1].querySelectorAll('td')[4].innerHTML = `<strong>${b9Has ? b9 : '—'}</strong>`;
-    const totalRows = document.querySelectorAll('#scBody tr.total-row');
-    const total = f9 + b9;
-    const has = f9Has || b9Has;
-    if (totalRows[0]) totalRows[0].querySelectorAll('td')[4].innerHTML = `<strong>${has ? total : '—'}</strong>`;
+  const prevBtn = document.getElementById('lv-prev-btn');
+  prevBtn.disabled = lvHole === 0;
+  prevBtn.style.opacity = lvHole === 0 ? '0.3' : '1';
+
+  const nextBtn = document.getElementById('lv-next-btn');
+  if (lvHole === 17) {
+    nextBtn.textContent = '💾 Finish & Save Round';
+    nextBtn.style.background = s !== null ? 'var(--gold)' : 'var(--gm)';
+    nextBtn.style.color = s !== null ? 'var(--td)' : '#fff';
+  } else {
+    nextBtn.textContent = s !== null ? `Next → Hole ${lvHole+2}` : `Skip → Hole ${lvHole+2}`;
+    nextBtn.style.background = 'var(--gm)'; nextBtn.style.color = '#fff';
   }
+
+  updateLiveTotals();
+  updateMiniCard();
 }
 
-function updateScTotal() {
-  const total = scores.reduce((a,s) => a+(s||0), 0);
-  const hasAny = scores.some(s => s !== null);
-  document.getElementById('scTotal').textContent = hasAny ? total : '0';
-  const diff = total - 72;
-  const vp = !hasAny ? 'E' : diff === 0 ? 'E' : (diff > 0 ? '+' : '') + diff;
-  const vpEl = document.getElementById('scVsPar');
-  vpEl.textContent = vp + ' vs par';
-  vpEl.style.color = diff > 0 ? '#dc2626' : diff < 0 ? '#059669' : 'var(--tl)';
+function updateLiveTotals() {
+  let completedPar = 0, completedScore = 0, completedPutts = 0;
+  lvScores.forEach((s,i) => { if (s !== null) { completedPar += HOLES[i].par; completedScore += s; } });
+  lvPutts.forEach(p => { if (p !== null) completedPutts += p; });
+  document.getElementById('lv-score-total').textContent = completedScore || 0;
+  document.getElementById('lv-putt-total').textContent = completedPutts || 0;
+  const diff = completedScore - completedPar;
+  const vpEl = document.getElementById('lv-vs-par');
+  vpEl.textContent = completedScore === 0 ? 'E' : diff === 0 ? 'E' : (diff > 0 ? '+' : '') + diff;
+  vpEl.style.color = diff < 0 ? '#86efac' : diff > 0 ? '#fca5a5' : '#fff';
 }
 
-function updateYardages() { renderScBody(); }
-
-function clearScorecard() {
-  scores = Array(18).fill(null);
-  renderScBody();
+function adjustScore(delta) {
+  const h = HOLES[lvHole];
+  const cur = lvScores[lvHole];
+  lvScores[lvHole] = cur === null ? (delta > 0 ? h.par + 1 : h.par) : Math.max(1, cur + delta);
+  renderLiveHole();
 }
 
-function saveScorecard() {
-  const total = scores.reduce((a,s) => a+(s||0), 0);
-  const filled = scores.filter(s => s !== null).length;
+function setScoreQuick(val) { lvScores[lvHole] = val; renderLiveHole(); }
+
+function adjustPutt(delta) {
+  const cur = lvPutts[lvHole];
+  lvPutts[lvHole] = Math.max(0, (cur === null ? 0 : cur) + delta);
+  renderLiveHole();
+}
+
+function setPuttQuick(val) {
+  lvPutts[lvHole] = lvPutts[lvHole] === val ? null : val;
+  renderLiveHole();
+}
+
+function setFairway(val) {
+  lvFairways[lvHole] = lvFairways[lvHole] === val ? null : val;
+  renderLiveHole();
+}
+
+function goNextHole() {
+  if (lvHole === 17) { finishRound(); return; }
+  lvHole = Math.min(17, lvHole + 1);
+  renderLiveHole();
+}
+
+function goHole(delta) {
+  lvHole = Math.max(0, Math.min(17, lvHole + delta));
+  renderLiveHole();
+}
+
+function jumpToHole(i) { lvHole = i; renderLiveHole(); }
+
+function toggleMiniCard() {
+  const body = document.getElementById('mini-sc-body');
+  const icon = document.getElementById('mini-toggle-icon');
+  const hidden = body.style.display === 'none';
+  body.style.display = hidden ? 'block' : 'none';
+  icon.textContent = hidden ? '▾' : '▸';
+}
+
+function updateMiniCard() {
+  document.getElementById('miniBody').innerHTML = HOLES.map((h,i) => {
+    const s = lvScores[i], p = lvPutts[i];
+    const d = s !== null ? s - h.par : null;
+    const isCur = i === lvHole;
+    const diffTxt = d === null ? '' : d === 0 ? 'E' : (d > 0 ? '+' : '') + d;
+    const diffColor = d > 0 ? '#dc2626' : d < 0 ? '#059669' : 'var(--tl)';
+    return `<tr style="${isCur?'background:rgba(201,168,76,.12)':''}">
+      <td style="font-weight:${isCur?700:400};color:${isCur?'var(--gm)':'var(--td)'}">${h.n}</td>
+      <td class="${h.par===3?'par3':h.par===5?'par5':'par4'}">${h.par}</td>
+      <td>${s !== null ? s : '—'}</td>
+      <td style="color:var(--tl)">${p !== null ? p : '—'}</td>
+      <td style="font-size:10px;font-weight:600;color:${diffColor}">${diffTxt}</td>
+    </tr>`;
+  }).join('');
+}
+
+function finishRound() {
+  const filled = lvScores.filter(s => s !== null).length;
   if (filled < 9) { alert('Please enter at least 9 hole scores before saving.'); return; }
-  const date = document.getElementById('scDate').value;
-  const putts = document.getElementById('scPutts').value;
-  const fw = document.getElementById('scFW').value;
+  const tScore = lvScores.reduce((a,s) => a + (s||0), 0);
+  const tPutts = lvPutts.reduce((a,p) => a + (p||0), 0);
+  const hasPutts = lvPutts.some(p => p !== null);
+  const fairwaysHit = lvFairways.filter(f => f === true).length;
+  const fairwaysPlayed = lvFairways.filter(f => f !== null).length;
   rounds.unshift({
-    id: Date.now(), date: date || new Date().toISOString().split('T')[0],
-    score: total, course: 'Ocean Resorts GC',
-    putts: putts || null, fairways: fw || null,
-    holeScores: [...scores],
+    id: Date.now(),
+    date: document.getElementById('scDate').value || new Date().toISOString().split('T')[0],
+    score: tScore,
+    course: 'Ocean Resorts GC',
+    putts: hasPutts ? tPutts : null,
+    fairways: fairwaysPlayed > 0 ? fairwaysHit : null,
+    holeScores: [...lvScores],
+    holePutts: [...lvPutts],
+    holeFairways: [...lvFairways],
   });
-  localStorage.setItem('b80_rounds', JSON.stringify(rounds));
+  saveToBin();
   updateHeaderBest();
   renderRounds();
-  alert('Round saved! ⛳ Score: ' + total);
-  clearScorecard();
+  const diff = tScore - 72;
+  lvScores = Array(18).fill(null);
+  lvPutts = Array(18).fill(null);
+  lvFairways = Array(18).fill(null);
+  lvRoundActive = false;
+  document.getElementById('sc-live').style.display = 'none';
+  document.getElementById('sc-start').style.display = 'block';
+  checkResumeHint();
+  alert(`Round saved! ⛳\nScore: ${tScore} (${diff > 0 ? '+' : ''}${diff} vs par)${hasPutts ? '\nPutts: ' + tPutts : ''}${fairwaysPlayed > 0 ? '\nFairways: ' + fairwaysHit + '/' + fairwaysPlayed : ''}`);
 }
 
-function renderHoleTips() {
-  const list = document.getElementById('holeTipsList');
-  list.innerHTML = HOLES.map(h =>
-    `<li class="ti"><div class="tn">${h.n}</div><div class="tt"><strong>Hole ${h.n} (Par ${h.par}):</strong> ${h.tip}</div></li>`
-  ).join('');
+function abandonRound() {
+  if (!confirm('Abandon this round? Your scores will be lost.')) return;
+  lvScores = Array(18).fill(null);
+  lvPutts = Array(18).fill(null);
+  lvFairways = Array(18).fill(null);
+  lvRoundActive = false;
+  document.getElementById('sc-live').style.display = 'none';
+  document.getElementById('sc-start').style.display = 'block';
+  checkResumeHint();
 }
 
-// ── ROUNDS ───────────────────────────────────────────────────────────────────
+// ── ROUNDS ────────────────────────────────────────────────────────────────────
 function renderRounds() {
   const list = document.getElementById('roundsList');
-  const scores = rounds.map(r => r.score);
   if (!rounds.length) {
-    list.innerHTML = '<div class="empty"><div class="big">⛳</div><p>No rounds yet. Use the Scorecard tab to log your first round!</p></div>';
-    document.getElementById('stBest').textContent = '—';
-    document.getElementById('stAvg').textContent = '—';
-    document.getElementById('stRounds').textContent = '0';
-    document.getElementById('statsLbl').textContent = 'Log rounds to see trends';
+    list.innerHTML='<div class="empty"><div class="big">⛳</div><p>No rounds yet. Use the Scorecard tab to log your first round!</p></div>';
+    document.getElementById('stBest').textContent='—';
+    document.getElementById('stAvg').textContent='—';
+    document.getElementById('stRounds').textContent='0';
+    document.getElementById('statsLbl').textContent='Log rounds to see trends';
     return;
   }
-  const best = Math.min(...scores);
-  const avg = Math.round(scores.reduce((a,b) => a+b,0) / scores.length);
-  document.getElementById('stBest').textContent = best;
-  document.getElementById('stAvg').textContent = avg;
-  document.getElementById('stRounds').textContent = rounds.length;
-  document.getElementById('statsLbl').textContent = `${rounds.length} round${rounds.length !== 1 ? 's' : ''} logged`;
+  const sc = rounds.map(r=>r.score);
+  const best = Math.min(...sc);
+  const avg = Math.round(sc.reduce((a,b)=>a+b,0)/sc.length);
+  document.getElementById('stBest').textContent=best;
+  document.getElementById('stAvg').textContent=avg;
+  document.getElementById('stRounds').textContent=rounds.length;
+  document.getElementById('statsLbl').textContent=`${rounds.length} round${rounds.length!==1?'s':''} logged`;
   list.innerHTML = rounds.map(r => {
     const vp = r.score - 72;
-    const cls = vp >= 20 ? 'over' : vp <= 12 ? 'great' : 'close';
-    const sign = vp > 0 ? '+' : '';
-    const extra = [r.putts ? `${r.putts} putts` : null, r.fairways ? `${r.fairways}/14 FW` : null].filter(Boolean).join(' · ');
+    const cls = vp>=20?'over':vp<=12?'great':'close';
+    const sign = vp>0?'+':'';
+    const extras = [r.putts?`${r.putts} putts`:null, r.fairways?`${r.fairways}/14 FW`:null].filter(Boolean).join(' · ');
     return `<div class="rrow">
-      <div>
-        <div class="rcourse">${r.course}</div>
-        <div class="rdate">${new Date(r.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}${extra ? ' &nbsp;·&nbsp; ' + extra : ''}</div>
-      </div>
-      <div class="rsw">
-        <span class="rscore">${r.score}</span>
-        <span class="rvp ${cls}">${sign}${vp}</span>
-        <button class="rdel" onclick="deleteRound(${r.id})">×</button>
-      </div>
+      <div><div class="rcourse">${r.course}</div>
+      <div class="rdate">${new Date(r.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}${extras?' &nbsp;·&nbsp; '+extras:''}</div></div>
+      <div class="rsw"><span class="rscore">${r.score}</span><span class="rvp ${cls}">${sign}${vp}</span><button class="rdel" onclick="deleteRound(${r.id})">×</button></div>
     </div>`;
   }).join('');
   updateHeaderBest();
 }
 
 function deleteRound(id) {
-  rounds = rounds.filter(r => r.id !== id);
-  localStorage.setItem('b80_rounds', JSON.stringify(rounds));
+  rounds = rounds.filter(r=>r.id!==id);
+  saveToBin();
   renderRounds();
   updateProgress();
 }
 
 function updateHeaderBest() {
-  if (!rounds.length) { document.getElementById('hdrBest').textContent = '—'; updateHcap(95); return; }
-  const best = Math.min(...rounds.map(r => r.score));
+  if (!rounds.length) { document.getElementById('hdrBest').textContent='—'; updateHcap(23); return; }
+  const best = Math.min(...rounds.map(r=>r.score));
   document.getElementById('hdrBest').textContent = best;
-  // estimate handicap from average of 5 best differentials (simplified)
-  const avg = rounds.map(r => r.score).reduce((a,b) => a+b,0) / rounds.length;
-  const hcap = Math.max(0, Math.round((avg - 72) * 0.96 * 10) / 10);
+  const avg = rounds.map(r=>r.score).reduce((a,b)=>a+b,0)/rounds.length;
+  const hcap = Math.max(0, Math.round((avg-72)*0.96*10)/10);
   updateHcap(hcap);
 }
 
 function updateHcap(h) {
-  const el = document.getElementById('hdrHcap');
-  el.textContent = h === 95 ? '~23' : h.toFixed(1);
+  document.getElementById('hdrHcap').textContent = typeof h==='number' && h!==23 ? h.toFixed(1) : '~'+Math.round(h);
 }
 
-// ── COACH BOARD ──────────────────────────────────────────────────────────────
+// ── COACH BOARD ───────────────────────────────────────────────────────────────
 function renderCoachBoard() {
   const container = document.getElementById('coachNotes');
   if (!coachNotes.length) {
-    container.innerHTML = '<div class="empty" style="padding:16px"><p>No coach notes yet. Add your first one below!</p></div>';
+    container.innerHTML='<div class="empty" style="padding:14px"><p>No coach notes yet. Add your first one below!</p></div>';
   } else {
     container.innerHTML = coachNotes.map((n,i) => `
       <div class="coach-note">
         <div class="coach-note-lbl">${n.icon} ${n.type.toUpperCase()} — ${n.title}</div>
         <div class="coach-note-txt">${n.body}</div>
-        <div class="coach-note-meta">
-          <span>📅 ${n.date}</span>
-          <span style="flex:1"></span>
-          <button style="background:none;border:none;color:#ccc;cursor:pointer;font-size:13px" onclick="deleteNote(${i})">× delete</button>
-        </div>
-      </div>
-    `).join('');
+        <div class="coach-note-meta">📅 ${n.date}<button style="margin-left:auto;background:none;border:none;color:#ccc;cursor:pointer;font-size:12px" onclick="deleteNote(${i})">× delete</button></div>
+      </div>`
+    ).join('');
   }
   renderHWList();
 }
@@ -895,34 +1175,33 @@ function addCoachNote() {
   const title = document.getElementById('noteTitle').value.trim();
   const body = document.getElementById('noteBody').value.trim();
   const date = document.getElementById('noteDate').value;
-  if (!title || !body) { alert('Please fill in title and note content.'); return; }
-  const icons = {note:'📝', homework:'📋', update:'🔄', tip:'💡'};
-  coachNotes.push({type, title, body, date: date || new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}), icon: icons[type]});
-  localStorage.setItem('b80_notes', JSON.stringify(coachNotes));
-  document.getElementById('noteTitle').value = '';
-  document.getElementById('noteBody').value = '';
+  if (!title||!body) { alert('Please fill in title and note content.'); return; }
+  const icons={note:'📝',homework:'📋',update:'🔄',tip:'💡'};
+  coachNotes.push({type,title,body,date:date||new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),icon:icons[type]});
+  saveToBin();
+  document.getElementById('noteTitle').value='';
+  document.getElementById('noteBody').value='';
   renderCoachBoard();
 }
 
 function deleteNote(i) {
   coachNotes.splice(i,1);
-  localStorage.setItem('b80_notes', JSON.stringify(coachNotes));
+  saveToBin();
   renderCoachBoard();
 }
 
 function renderHWList() {
-  const list = document.getElementById('hwList');
-  list.innerHTML = hwItems.map((item,i) => `
+  document.getElementById('hwList').innerHTML = hwItems.map((item,i) => `
     <li class="hw-item">
-      <div class="hw-cb ${item.done ? 'checked' : ''}" onclick="toggleHWItem(${i})">${item.done ? '✓' : ''}</div>
-      <div class="hw-text ${item.done ? 'done-txt' : ''}">${item.text}</div>
-    </li>
-  `).join('');
+      <div class="hw-cb ${item.done?'checked':''}" onclick="toggleHWItem(${i})">${item.done?'✓':''}</div>
+      <div class="hw-text ${item.done?'done-txt':''}">${item.text}</div>
+    </li>`
+  ).join('');
 }
 
 function toggleHWItem(i) {
   hwItems[i].done = !hwItems[i].done;
-  localStorage.setItem('b80_hw', JSON.stringify(hwItems));
+  saveToBin();
   renderHWList();
 }
 
@@ -930,56 +1209,53 @@ function addHW() {
   const inp = document.getElementById('newHW');
   const text = inp.value.trim();
   if (!text) return;
-  hwItems.push({text, done: false});
-  localStorage.setItem('b80_hw', JSON.stringify(hwItems));
-  inp.value = '';
+  hwItems.push({text,done:false});
+  saveToBin();
+  inp.value='';
   renderHWList();
 }
 
-function toggleHW(el) {
-  el.classList.toggle('checked');
-  el.textContent = el.classList.contains('checked') ? '✓' : '';
-  const txt = el.nextElementSibling;
-  txt.classList.toggle('done-txt');
+// ── DRILLS ────────────────────────────────────────────────────────────────────
+function toggleDrill(e, el) {
+  if (e.target.tagName==='A'||e.target.closest('a')) return;
+  el.classList.toggle('done');
 }
 
-// ── DRILLS ───────────────────────────────────────────────────────────────────
-function toggleDrill(el) { el.classList.toggle('done'); }
-
-// ── AI COACH ─────────────────────────────────────────────────────────────────
+// ── AI COACH ──────────────────────────────────────────────────────────────────
 async function askAI(q) {
-  if (!q || !q.trim()) return;
-  document.getElementById('aiInp').value = '';
+  if (!q||!q.trim()) return;
+  document.getElementById('aiInp').value='';
   const resp = document.getElementById('aiResp');
   const text = document.getElementById('aiRtxt');
   resp.classList.add('vis');
-  text.innerHTML = `<span style="color:var(--tl)">Thinking<span class="dots"><span>.</span><span>.</span><span>.</span></span></span>`;
+  text.innerHTML=`<span style="color:var(--tl)">Thinking<span class="dots"><span>.</span><span>.</span><span>.</span></span></span>`;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514', max_tokens:1000,
-        system:`You are a concise, practical golf coach helping a player go from shooting 95 to breaking 80 at Ocean Resorts Golf Club in Berlin, Maryland (Par 72, rating 71.6, slope 131). The player is currently working on fixing a head-lifting issue during the swing. Give specific, actionable advice in 3–5 sentences. Be encouraging but direct. No fluff. Plain text only, no markdown.`,
-        messages:[{role:'user', content:q}]
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:`You are a concise, practical golf coach helping a player go from shooting 95 to breaking 80 at Ocean Resorts Golf Club in Berlin, Maryland (Par 72, rating 71.6, slope 131). The player is currently working on fixing a head-lifting issue during the swing. Give specific, actionable advice in 3–5 sentences. Be encouraging but direct. Plain text only, no markdown.`,
+        messages:[{role:'user',content:q}]
       })
     });
     const data = await res.json();
-    text.textContent = data.content?.[0]?.text || 'Sorry, connection issue. Try again!';
+    text.textContent = data.content?.[0]?.text||'Sorry, connection issue. Try again!';
   } catch(e) {
-    text.textContent = 'Connection error. Please try again.';
+    text.textContent='Connection error. Please try again.';
   }
 }
 
-// ── PROGRESS ─────────────────────────────────────────────────────────────────
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
 function updateProgress() {
-  const sc = rounds.map(r => r.score);
-  const best = sc.length ? Math.min(...sc) : 95;
-  ['m95','m90','m85','m80'].forEach(id => document.getElementById(id).classList.remove('reached','current'));
-  const thresholds = [{id:'m95',t:95},{id:'m90',t:90},{id:'m85',t:85},{id:'m80',t:80}];
-  thresholds.forEach(m => { if (best < m.t) document.getElementById(m.id).classList.add('reached'); });
-  const pct = Math.min(100, Math.max(0, ((95 - best) / 15) * 100));
-  document.getElementById('mFill').style.height = pct + '%';
+  const sc = rounds.map(r=>r.score);
+  const best = sc.length?Math.min(...sc):95;
+  ['m95','m90','m85','m80'].forEach(id=>document.getElementById(id).classList.remove('reached','current'));
+  [{id:'m95',t:95},{id:'m90',t:90},{id:'m85',t:85},{id:'m80',t:80}].forEach(m=>{
+    if (best<m.t) document.getElementById(m.id).classList.add('reached');
+  });
+  const pct = Math.min(100,Math.max(0,((95-best)/15)*100));
+  document.getElementById('mFill').style.height = pct+'%';
   drawChart();
 }
 
@@ -987,44 +1263,41 @@ function drawChart() {
   const canvas = document.getElementById('pgChart');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const W = canvas.offsetWidth, H = canvas.offsetHeight;
-  canvas.width = W * (window.devicePixelRatio||1);
-  canvas.height = H * (window.devicePixelRatio||1);
+  const W=canvas.offsetWidth, H=canvas.offsetHeight;
+  canvas.width=W*(window.devicePixelRatio||1);
+  canvas.height=H*(window.devicePixelRatio||1);
   ctx.scale(window.devicePixelRatio||1, window.devicePixelRatio||1);
   if (!rounds.length) {
-    ctx.fillStyle = '#6b8a74'; ctx.font = '13px DM Sans,sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('Log rounds to see your score trend', W/2, H/2); return;
+    ctx.fillStyle='#6b8a74';ctx.font='12px DM Sans,sans-serif';ctx.textAlign='center';
+    ctx.fillText('Log rounds to see your score trend',W/2,H/2);return;
   }
-  const sorted = [...rounds].sort((a,b) => new Date(a.date)-new Date(b.date));
-  const sc = sorted.map(r => r.score);
-  const pad = {l:40,r:18,t:18,b:28}, gW = W-pad.l-pad.r, gH = H-pad.t-pad.b;
-  const minS = Math.min(75,...sc), maxS = Math.max(100,...sc);
-  const xP = i => pad.l + (i/Math.max(sc.length-1,1))*gW;
-  const yP = s => pad.t + ((maxS-s)/(maxS-minS))*gH;
-  // 80 line
-  ctx.strokeStyle = 'rgba(201,168,76,.4)'; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(pad.l, yP(80)); ctx.lineTo(pad.l+gW, yP(80)); ctx.stroke();
-  ctx.setLineDash([]); ctx.fillStyle='#c9a84c'; ctx.font='10px DM Sans,sans-serif'; ctx.textAlign='left';
-  ctx.fillText('80', pad.l-28, yP(80)+4);
-  // line
-  if (sc.length > 1) {
-    ctx.beginPath(); ctx.moveTo(xP(0), yP(sc[0]));
-    sc.forEach((s,i) => { if(i>0) ctx.lineTo(xP(i), yP(s)); });
-    ctx.strokeStyle='#2d5a3d'; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.stroke();
+  const sorted=[...rounds].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const sc=sorted.map(r=>r.score);
+  const pad={l:38,r:16,t:16,b:26},gW=W-pad.l-pad.r,gH=H-pad.t-pad.b;
+  const minS=Math.min(75,...sc),maxS=Math.max(100,...sc);
+  const xP=i=>pad.l+(i/Math.max(sc.length-1,1))*gW;
+  const yP=s=>pad.t+((maxS-s)/(maxS-minS))*gH;
+  ctx.strokeStyle='rgba(201,168,76,.4)';ctx.setLineDash([4,4]);ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad.l,yP(80));ctx.lineTo(pad.l+gW,yP(80));ctx.stroke();
+  ctx.setLineDash([]);ctx.fillStyle='#c9a84c';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText('80',pad.l-26,yP(80)+3);
+  if (sc.length>1) {
+    ctx.beginPath();ctx.moveTo(xP(0),yP(sc[0]));
+    sc.forEach((s,i)=>{if(i>0)ctx.lineTo(xP(i),yP(s));});
+    ctx.strokeStyle='#2d5a3d';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.stroke();
   }
-  // dots
-  sc.forEach((s,i) => {
-    ctx.beginPath(); ctx.arc(xP(i), yP(s), 5, 0, Math.PI*2);
-    ctx.fillStyle = s<=80 ? '#c9a84c' : '#4a8c5c'; ctx.fill();
-    ctx.fillStyle='#1a2a1f'; ctx.font='11px DM Sans,sans-serif'; ctx.textAlign='center';
-    ctx.fillText(s, xP(i), yP(s)-10);
+  sc.forEach((s,i)=>{
+    ctx.beginPath();ctx.arc(xP(i),yP(s),5,0,Math.PI*2);
+    ctx.fillStyle=s<=80?'#c9a84c':'#4a8c5c';ctx.fill();
+    ctx.fillStyle='#1a2a1f';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='center';
+    ctx.fillText(s,xP(i),yP(s)-9);
   });
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────────────────────────────────
 document.getElementById('noteDate').valueAsDate = new Date();
-updateHeaderBest();
 buildScorecard();
+loadFromBin();
 </script>
 </body>
 </html>

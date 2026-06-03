@@ -227,10 +227,89 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sec.active .card:nth-child(2){animation-delay:.05s}
 .sec.active .card:nth-child(3){animation-delay:.09s}
 @keyframes fu{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:580px){.sform,.dg,.ai-qg{grid-template-columns:1fr}.hdr-right{flex-wrap:wrap}.sc-meta{grid-template-columns:1fr 1fr}.sc-totals{grid-template-columns:1fr 1fr 1fr}}
+/* SPLASH SCREEN */
+.splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#0d2318 0%,#1a3a2a 50%,#0f2a1c 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.splash-logo{font-size:64px;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(201,168,76,.4))}
+.splash-title{font-family:'DM Serif Display',serif;font-size:36px;color:#fff;letter-spacing:-1px;margin-bottom:4px}
+.splash-sub{font-size:13px;color:rgba(255,255,255,.45);letter-spacing:.5px;margin-bottom:32px}
+.splash-status{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px 24px;width:100%;max-width:340px;margin-bottom:32px;text-align:center}
+.splash-status-lbl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.splash-progress-track{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin-bottom:10px}
+.splash-progress-fill{height:100%;background:linear-gradient(90deg,var(--gm),var(--gold));border-radius:4px;transition:width 1s ease}
+.splash-score-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:4px}
+.splash-from{font-family:'DM Serif Display',serif;font-size:28px;color:rgba(255,255,255,.3);text-decoration:line-through;text-decoration-color:rgba(201,168,76,.3)}
+.splash-arrow{color:var(--gold);font-size:18px}
+.splash-current{font-family:'DM Serif Display',serif;font-size:28px;color:#fff}
+.splash-goal{font-family:'DM Serif Display',serif;font-size:28px;color:rgba(255,255,255,.3)}
+.splash-stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.splash-stat{background:rgba(255,255,255,.05);border-radius:8px;padding:8px 6px;text-align:center}
+.splash-stat-val{font-family:'DM Serif Display',serif;font-size:18px;color:var(--goldl);line-height:1}
+.splash-stat-lbl{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.login-row{display:flex;gap:12px;width:100%;max-width:340px}
+.login-btn{flex:1;padding:16px 12px;border:none;border-radius:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .22s ease;display:flex;flex-direction:column;align-items:center;gap:4px}
+.login-btn-drew{background:linear-gradient(135deg,var(--gm),var(--gl));color:#fff;box-shadow:0 4px 20px rgba(45,90,61,.5)}
+.login-btn-drew:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(45,90,61,.6)}
+.login-btn-steve{background:linear-gradient(135deg,#2a3a4a,#3d5a6e);color:#fff;box-shadow:0 4px 20px rgba(42,58,74,.5)}
+.login-btn-steve:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(42,58,74,.6)}
+.login-btn .avatar{font-size:28px}
+.login-btn .name{font-size:15px;font-weight:700}
+.login-btn .role{font-size:10px;opacity:.7;font-weight:400;letter-spacing:.5px}
+/* COACH VIEW differences */
+body.coach-mode .nb[data-sec="scorecard"],
+body.coach-mode .nb[data-sec="drills"]{display:none}
+body.coach-mode .hdr{background:linear-gradient(135deg,#1a2a3a 0%,#2a3d52 100%)}
+body.coach-mode .hdr::after{background:#4a8ab0}
+body.coach-mode .club-strip{background:rgba(74,138,176,.08);border-color:rgba(74,138,176,.14);color:rgba(200,220,240,.7)}
+body.coach-mode .club-strip span{color:#7ab8d4}
+body.coach-mode .nav{background:#1a2a3a}
+/* header user pill */
+.user-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:5px 12px 5px 8px;cursor:pointer;transition:var(--tr)}
+.user-pill:hover{background:rgba(255,255,255,.14)}
+.user-pill .avatar{font-size:16px}
+.user-pill .uname{font-size:11px;color:rgba(255,255,255,.75);font-weight:500}
+@media(max-width:580px){.sform,.dg,.ai-qg{grid-template-columns:1fr}.hdr-right{flex-wrap:wrap}.sc-meta{grid-template-columns:1fr 1fr}.sc-totals{grid-template-columns:1fr 1fr 1fr}.login-row{flex-direction:column}.splash-score-row{gap:8px}}
 </style>
 </head>
 <body>
+
+<!-- SPLASH SCREEN -->
+<div class="splash" id="splash">
+  <div class="splash-logo">⛳</div>
+  <div class="splash-title">Break 80</div>
+  <div class="splash-sub">Ocean Resorts Golf Club · Berlin, MD</div>
+
+  <div class="splash-status">
+    <div class="splash-status-lbl">Drew's Challenge Progress</div>
+    <div class="splash-progress-track">
+      <div class="splash-progress-fill" id="splashFill" style="width:0%"></div>
+    </div>
+    <div class="splash-score-row">
+      <span class="splash-from">95</span>
+      <span class="splash-arrow">→</span>
+      <span class="splash-current" id="splashCurrent">95</span>
+      <span style="font-size:14px;color:rgba(255,255,255,.3)">→ goal</span>
+      <span class="splash-goal">80</span>
+    </div>
+    <div class="splash-stat-row">
+      <div class="splash-stat"><div class="splash-stat-val" id="splashBest">—</div><div class="splash-stat-lbl">Best round</div></div>
+      <div class="splash-stat"><div class="splash-stat-val" id="splashRounds">0</div><div class="splash-stat-lbl">Rounds</div></div>
+      <div class="splash-stat"><div class="splash-stat-val" id="splashAvg">—</div><div class="splash-stat-lbl">Avg score</div></div>
+    </div>
+  </div>
+
+  <div class="login-row">
+    <button class="login-btn login-btn-drew" onclick="login('drew')">
+      <span class="avatar">🏌️</span>
+      <span class="name">Drew</span>
+      <span class="role">Player</span>
+    </button>
+    <button class="login-btn login-btn-steve" onclick="login('steve')">
+      <span class="avatar">📋</span>
+      <span class="name">Steve</span>
+      <span class="role">Coach</span>
+    </button>
+  </div>
+</div>
 
 <div class="hdr">
   <div class="hdr-in">
@@ -239,9 +318,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="brand"><h1>Break 80</h1><p>Your personal golf improvement coach</p></div>
     </div>
     <div class="hdr-right">
-      <div class="hdr-badge"><div class="lbl">Best Round</div><div class="val" id="hdrBest">—</div><div class="sub">Ocean Resorts</div></div>
+      <div class="hdr-badge"><div class="lbl">Best Round</div><div class="val" id="hdrBest">—</div><div class="sub" id="hdrBestDate">Ocean Resorts</div></div>
+      <div class="hdr-badge"><div class="lbl">Last Round</div><div class="val" id="hdrLast">—</div><div class="sub" id="hdrLastDate">—</div></div>
       <div class="hdr-badge"><div class="lbl">Handicap</div><div class="val" id="hdrHcap">~23</div><div class="sub">estimated</div></div>
       <div class="goal-badge"><div class="lbl">Goal</div><div class="gnums"><span class="gfrom">95</span><span class="garrow">→</span><span class="gto">80</span></div></div>
+      <button class="user-pill" onclick="showSplash()" title="Switch user"><span class="avatar" id="headerAvatar">🏌️</span><span class="uname" id="headerUser">Drew</span></button>
     </div>
   </div>
 </div>
@@ -260,6 +341,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <button class="nb" data-sec="progress">📈 Progress</button>
   </div>
 </nav>
+
+<!-- SYNC STATUS BAR -->
+<div id="syncBar" style="max-width:960px;margin:10px auto 0;padding:0 16px;display:none">
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;font-size:11px;font-weight:500" id="syncBarInner">
+    <div id="syncDot" style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#ccc"></div>
+    <span id="syncMsg">Connecting...</span>
+    <button onclick="loadFromBin()" style="margin-left:auto;background:none;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:2px 10px;font-size:10px;font-weight:600;color:inherit;cursor:pointer;opacity:.7">↻ Retry</button>
+  </div>
+</div>
 
 <main class="main">
 
@@ -455,18 +545,79 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 <!-- MY ROUNDS -->
 <div class="sec" id="sec-rounds">
-  <div class="card">
-    <div class="ch"><div class="ci ci-g">📊</div><div><div class="ct">My stats</div><div class="cs" id="statsLbl">Log rounds to see trends</div></div></div>
-    <div class="stats-row">
-      <div class="sbox"><div class="sv" id="stBest">—</div><div class="sl">Best</div></div>
-      <div class="sbox"><div class="sv" id="stAvg">—</div><div class="sl">Avg score</div></div>
-      <div class="sbox"><div class="sv" id="stRounds">0</div><div class="sl">Rounds</div></div>
+
+  <!-- LIST VIEW -->
+  <div id="rounds-list-view">
+    <div class="card">
+      <div class="ch"><div class="ci ci-g">📊</div><div><div class="ct">My stats</div><div class="cs" id="statsLbl">Log rounds to see trends</div></div>
+      <button onclick="loadFromBin()" style="margin-left:auto;background:var(--gp);border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--gm);cursor:pointer;white-space:nowrap" title="Reload from cloud">↻ Sync</button>
+    </div>
+      <div class="stats-row">
+        <div class="sbox"><div class="sv" id="stBest">—</div><div class="sl">Best</div></div>
+        <div class="sbox"><div class="sv" id="stAvg">—</div><div class="sl">Avg score</div></div>
+        <div class="sbox"><div class="sv" id="stRounds">0</div><div class="sl">Rounds</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px">
+        <div class="sbox"><div class="sv" id="stAvgPutts">—</div><div class="sl">Avg putts</div></div>
+        <div class="sbox"><div class="sv" id="stAvgFW">—</div><div class="sl">Avg FW hit</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ci ci-g">🕐</div><div><div class="ct">Round history</div><div class="cs">Tap a round to see hole-by-hole details</div></div></div>
+      <div id="roundsList"><div class="empty"><div class="big">⛳</div><p>No rounds yet. Use the Scorecard tab to log your first round!</p></div></div>
+    </div>
+
+  </div><!-- end rounds-list-view -->
+
+  <!-- DETAIL VIEW -->
+  <div id="rounds-detail-view" style="display:none">
+    <!-- back button -->
+    <button onclick="closeRoundDetail()" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:9px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin-bottom:14px;transition:var(--tr)" onmouseover="this.style.background='rgba(255,255,255,.14)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+      ← Back to rounds
+    </button>
+
+    <!-- round header -->
+    <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:16px;padding:20px;margin-bottom:13px;color:#fff;border:1px solid rgba(255,255,255,.08)">
+      <div style="font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px" id="rd-course"></div>
+      <div style="font-size:13px;color:var(--goldl);margin-bottom:14px" id="rd-date"></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
+        <div><div style="font-family:'DM Serif Display',serif;font-size:32px;color:#fff;line-height:1" id="rd-score"></div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Score</div></div>
+        <div><div style="font-family:'DM Serif Display',serif;font-size:32px;line-height:1" id="rd-vspar"></div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">vs Par</div></div>
+        <div><div style="font-family:'DM Serif Display',serif;font-size:32px;color:#fff;line-height:1" id="rd-putts">—</div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Putts</div></div>
+        <div><div style="font-family:'DM Serif Display',serif;font-size:32px;color:#fff;line-height:1" id="rd-fw">—</div><div style="font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Fairways</div></div>
+      </div>
+    </div>
+
+    <!-- scoring breakdown -->
+    <div class="card" id="rd-breakdown-card">
+      <div class="ch"><div class="ci ci-gold">🏆</div><div><div class="ct">Scoring breakdown</div><div class="cs" id="rd-breakdown-sub"></div></div></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px" id="rd-score-pills"></div>
+      <!-- putting insight -->
+      <div id="rd-putt-insight" style="background:var(--gp);border-radius:10px;padding:12px;margin-bottom:14px;display:none">
+        <div style="font-size:10px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px">⛳ Putting breakdown</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="rd-putt-pills"></div>
+      </div>
+    </div>
+
+    <!-- hole by hole -->
+    <div class="card">
+      <div class="ch"><div class="ci ci-g">📋</div><div><div class="ct">Hole by hole</div><div class="cs">Full scorecard with putts</div></div></div>
+      <div style="overflow-x:auto">
+        <table class="sc-tbl" id="rd-hole-table">
+          <thead><tr><th>H</th><th>Par</th><th>Yds</th><th>Score</th><th>Putts</th><th>+/-</th><th>FW</th></tr></thead>
+          <tbody id="rd-hole-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- delete -->
+    <div style="text-align:center;padding:8px 0 4px">
+      <button id="rd-delete-btn" style="background:none;border:1px solid rgba(255,80,80,.35);border-radius:8px;padding:8px 20px;color:rgba(255,120,120,.8);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:var(--tr)" onmouseover="this.style.background='rgba(255,80,80,.1)'" onmouseout="this.style.background='none'">
+        🗑 Delete this round
+      </button>
     </div>
   </div>
-  <div class="card">
-    <div class="ch"><div class="ci ci-g">🕐</div><div><div class="ct">Round history</div></div></div>
-    <div id="roundsList"><div class="empty"><div class="big">⛳</div><p>No rounds yet. Use the Scorecard tab to log your first round!</p></div></div>
-  </div>
+
 </div>
 
 <!-- AI COACH -->
@@ -733,40 +884,75 @@ let putts  = Array(18).fill(null);
 let synced = false;
 
 // ── JSONBIN ───────────────────────────────────────────────────────────────────
+function setSyncStatus(state, msg) {
+  const bar = document.getElementById('syncBar');
+  const inner = document.getElementById('syncBarInner');
+  const dot = document.getElementById('syncDot');
+  const msgEl = document.getElementById('syncMsg');
+  if (!bar) return;
+  bar.style.display = 'block';
+  if (msgEl) msgEl.textContent = msg;
+  if (state === 'ok') {
+    if (dot) { dot.style.background = '#22c55e'; dot.style.animation = ''; }
+    if (inner) { inner.style.background = 'rgba(34,197,94,.15)'; inner.style.color = '#86efac'; }
+    setTimeout(() => { bar.style.display = 'none'; }, 4000);
+  } else if (state === 'err') {
+    if (dot) { dot.style.background = '#ef4444'; dot.style.animation = ''; }
+    if (inner) { inner.style.background = 'rgba(239,68,68,.15)'; inner.style.color = '#fca5a5'; }
+  } else {
+    if (dot) { dot.style.background = '#c9a84c'; dot.style.animation = 'pulse .8s infinite'; }
+    if (inner) { inner.style.background = 'rgba(201,168,76,.15)'; inner.style.color = '#f0d98a'; }
+  }
+}
+
 async function loadFromBin() {
-  setSyncStatus('busy','Loading from cloud...');
+  setSyncStatus('busy', 'Loading data from cloud...');
   try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`,{
-      headers:{'X-Master-Key': JSONBIN_KEY, 'X-Bin-Meta': 'false'}
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
+      headers: { 'X-Master-Key': JSONBIN_KEY, 'X-Bin-Meta': 'false' }
     });
-    if (!res.ok) throw new Error('Load failed');
+    if (!res.ok) {
+      const errText = await res.text().catch(() => res.statusText);
+      console.error('JSONbin load HTTP error:', res.status, errText);
+      throw new Error(`HTTP ${res.status}`);
+    }
     const data = await res.json();
-    if (data.rounds) rounds = data.rounds;
-    if (data.coachNotes) coachNotes = data.coachNotes;
-    if (data.hwItems) hwItems = data.hwItems;
-    setSyncStatus('ok','Synced with cloud');
+    console.log('JSONbin loaded OK:', JSON.stringify(data).slice(0, 200));
+    if (Array.isArray(data.rounds)) rounds = data.rounds;
+    if (Array.isArray(data.coachNotes)) coachNotes = data.coachNotes;
+    if (Array.isArray(data.hwItems)) hwItems = data.hwItems;
+    saveLocal();
     synced = true;
+    setSyncStatus('ok', `Cloud sync OK — ${rounds.length} round${rounds.length !== 1 ? 's' : ''} loaded`);
     updateHeaderBest();
     renderRounds();
   } catch(e) {
-    setSyncStatus('err','Cloud sync failed — using local data');
+    console.error('loadFromBin failed:', e);
+    setSyncStatus('err', `Sync failed: ${e.message} — tap ↻ to retry`);
     loadLocal();
   }
 }
 
 async function saveToBin() {
-  setSyncStatus('busy','Saving to cloud...');
+  setSyncStatus('busy', 'Saving to cloud...');
   try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`,{
-      method:'PUT',
-      headers:{'Content-Type':'application/json','X-Master-Key': JSONBIN_KEY},
-      body: JSON.stringify({rounds, coachNotes, hwItems})
+    const payload = { rounds, coachNotes, hwItems };
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+      body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('Save failed');
-    setSyncStatus('ok','Saved to cloud ✓');
+    if (!res.ok) {
+      const errText = await res.text().catch(() => res.statusText);
+      console.error('JSONbin save HTTP error:', res.status, errText);
+      throw new Error(`HTTP ${res.status}`);
+    }
+    console.log('JSONbin saved OK, rounds:', rounds.length);
+    setSyncStatus('ok', `Saved to cloud ✓ (${rounds.length} rounds)`);
     saveLocal();
   } catch(e) {
-    setSyncStatus('err','Cloud save failed — saved locally');
+    console.error('saveToBin failed:', e);
+    setSyncStatus('err', `Cloud save failed: ${e.message} — saved locally`);
     saveLocal();
   }
 }
@@ -778,32 +964,91 @@ function saveLocal() {
 }
 
 function loadLocal() {
-  rounds = JSON.parse(localStorage.getItem('b80_rounds')||'[]');
-  coachNotes = JSON.parse(localStorage.getItem('b80_notes')||'[]');
+  rounds = JSON.parse(localStorage.getItem('b80_rounds') || '[]');
+  coachNotes = JSON.parse(localStorage.getItem('b80_notes') || '[]');
   const hw = localStorage.getItem('b80_hw');
   if (hw) hwItems = JSON.parse(hw);
   updateHeaderBest();
   renderRounds();
 }
 
-function setSyncStatus(state, msg) {
-  document.querySelectorAll('.sync-dot').forEach(d => { d.className='sync-dot'; d.classList.add(state); });
-  document.querySelectorAll('.sync-msg').forEach(el => el.textContent = msg);
+// ── NAV ───────────────────────────────────────────────────────────────────────
+// ── HISTORY / BACK-BUTTON SUPPORT ────────────────────────────────────────────
+// State shape: { sec, scView, hole }
+//   sec     = active tab id suffix (e.g. 'overview', 'scorecard')
+//   scView  = 'start' | 'live'   (only relevant when sec === 'scorecard')
+//   hole    = 0-17               (only relevant when scView === 'live')
+
+function navPush(sec, scView, hole) {
+  const state = { sec, scView: scView || 'start', hole: hole || 0 };
+  history.pushState(state, '', '#' + sec + (scView === 'live' ? '-hole' + (hole + 1) : ''));
+  applyNavState(state, false);
 }
 
-// ── NAV ───────────────────────────────────────────────────────────────────────
+function applyNavState(state, isPopState) {
+  const { sec, scView, hole, view, roundId } = state;
+
+  // activate correct tab
+  document.querySelectorAll('.nb').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(x => x.classList.remove('active'));
+  const btn = document.querySelector(`.nb[data-sec="${sec}"]`);
+  if (btn) btn.classList.add('active');
+  const secEl = document.getElementById('sec-' + sec);
+  if (secEl) secEl.classList.add('active');
+
+  // tab-specific side effects
+  if (sec === 'progress') updateProgress();
+  if (sec === 'mycoach') renderCoachBoard();
+
+  if (sec === 'rounds') {
+    renderRounds();
+    if (view === 'detail' && roundId) {
+      const r = rounds.find(x => x.id === roundId);
+      if (r) {
+        _renderRoundDetail(r);
+      } else {
+        // round not found, show list
+        document.getElementById('rounds-detail-view').style.display = 'none';
+        document.getElementById('rounds-list-view').style.display = 'block';
+      }
+    } else {
+      document.getElementById('rounds-detail-view').style.display = 'none';
+      document.getElementById('rounds-list-view').style.display = 'block';
+    }
+  }
+
+  if (sec === 'scorecard') {
+    buildScorecard();
+    if (scView === 'live') {
+      if (isPopState) lvHole = hole;
+      document.getElementById('sc-start').style.display = 'none';
+      document.getElementById('sc-live').style.display = 'block';
+      renderLiveHole();
+    } else {
+      document.getElementById('sc-live').style.display = 'none';
+      document.getElementById('sc-start').style.display = 'block';
+      checkResumeHint();
+    }
+  }
+}
+
+window.addEventListener('popstate', e => {
+  if (e.state) {
+    applyNavState(e.state, true);
+  } else {
+    // fallen back to the very first page — show overview
+    applyNavState({ sec: 'overview', scView: 'start', hole: 0 }, true);
+  }
+});
+
 document.querySelectorAll('.nb').forEach(b => {
   b.addEventListener('click', () => {
-    document.querySelectorAll('.nb').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.sec').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    document.getElementById('sec-'+b.dataset.sec).classList.add('active');
-    if (b.dataset.sec==='progress') updateProgress();
-    if (b.dataset.sec==='rounds') renderRounds();
-    if (b.dataset.sec==='mycoach') renderCoachBoard();
-    if (b.dataset.sec==='scorecard') buildScorecard();
+    navPush(b.dataset.sec, 'start', 0);
   });
 });
+
+// seed initial history entry so the very first back press works
+history.replaceState({ sec: 'overview', scView: 'start', hole: 0 }, '', '#overview');
 
 // ── OVERVIEW ──────────────────────────────────────────────────────────────────
 function selArea(el) {
@@ -896,6 +1141,7 @@ function resumeRound() {
 function showLiveView() {
   document.getElementById('sc-start').style.display = 'none';
   document.getElementById('sc-live').style.display = 'block';
+  history.pushState({ sec: 'scorecard', scView: 'live', hole: lvHole }, '', '#scorecard-hole' + (lvHole + 1));
   renderLiveHole();
 }
 
@@ -1022,15 +1268,21 @@ function setFairway(val) {
 function goNextHole() {
   if (lvHole === 17) { finishRound(); return; }
   lvHole = Math.min(17, lvHole + 1);
+  history.pushState({ sec: 'scorecard', scView: 'live', hole: lvHole }, '', '#scorecard-hole' + (lvHole + 1));
   renderLiveHole();
 }
 
 function goHole(delta) {
   lvHole = Math.max(0, Math.min(17, lvHole + delta));
+  history.pushState({ sec: 'scorecard', scView: 'live', hole: lvHole }, '', '#scorecard-hole' + (lvHole + 1));
   renderLiveHole();
 }
 
-function jumpToHole(i) { lvHole = i; renderLiveHole(); }
+function jumpToHole(i) {
+  lvHole = i;
+  history.pushState({ sec: 'scorecard', scView: 'live', hole: lvHole }, '', '#scorecard-hole' + (lvHole + 1));
+  renderLiveHole();
+}
 
 function toggleMiniCard() {
   const body = document.getElementById('mini-sc-body');
@@ -1086,6 +1338,7 @@ function finishRound() {
   lvRoundActive = false;
   document.getElementById('sc-live').style.display = 'none';
   document.getElementById('sc-start').style.display = 'block';
+  history.pushState({ sec: 'scorecard', scView: 'start', hole: 0 }, '', '#scorecard');
   checkResumeHint();
   alert(`Round saved! ⛳\nScore: ${tScore} (${diff > 0 ? '+' : ''}${diff} vs par)${hasPutts ? '\nPutts: ' + tPutts : ''}${fairwaysPlayed > 0 ? '\nFairways: ' + fairwaysHit + '/' + fairwaysPlayed : ''}`);
 }
@@ -1098,6 +1351,7 @@ function abandonRound() {
   lvRoundActive = false;
   document.getElementById('sc-live').style.display = 'none';
   document.getElementById('sc-start').style.display = 'block';
+  history.pushState({ sec: 'scorecard', scView: 'start', hole: 0 }, '', '#scorecard');
   checkResumeHint();
 }
 
@@ -1109,41 +1363,300 @@ function renderRounds() {
     document.getElementById('stBest').textContent='—';
     document.getElementById('stAvg').textContent='—';
     document.getElementById('stRounds').textContent='0';
+    document.getElementById('stAvgPutts').textContent='—';
+    document.getElementById('stAvgFW').textContent='—';
     document.getElementById('statsLbl').textContent='Log rounds to see trends';
     return;
   }
   const sc = rounds.map(r=>r.score);
   const best = Math.min(...sc);
   const avg = Math.round(sc.reduce((a,b)=>a+b,0)/sc.length);
-  document.getElementById('stBest').textContent=best;
-  document.getElementById('stAvg').textContent=avg;
-  document.getElementById('stRounds').textContent=rounds.length;
-  document.getElementById('statsLbl').textContent=`${rounds.length} round${rounds.length!==1?'s':''} logged`;
+  document.getElementById('stBest').textContent = best;
+  document.getElementById('stAvg').textContent = avg;
+  document.getElementById('stRounds').textContent = rounds.length;
+  document.getElementById('statsLbl').textContent = `${rounds.length} round${rounds.length!==1?'s':''} logged`;
+
+  // avg putts
+  const puttRounds = rounds.filter(r=>r.putts!=null);
+  document.getElementById('stAvgPutts').textContent = puttRounds.length ? Math.round(puttRounds.reduce((a,r)=>a+r.putts,0)/puttRounds.length) : '—';
+  // avg fairways
+  const fwRounds = rounds.filter(r=>r.fairways!=null);
+  document.getElementById('stAvgFW').textContent = fwRounds.length ? (fwRounds.reduce((a,r)=>a+r.fairways,0)/fwRounds.length).toFixed(1)+'/14' : '—';
+
   list.innerHTML = rounds.map(r => {
     const vp = r.score - 72;
     const cls = vp>=20?'over':vp<=12?'great':'close';
     const sign = vp>0?'+':'';
-    const extras = [r.putts?`${r.putts} putts`:null, r.fairways?`${r.fairways}/14 FW`:null].filter(Boolean).join(' · ');
-    return `<div class="rrow">
-      <div><div class="rcourse">${r.course}</div>
-      <div class="rdate">${new Date(r.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}${extras?' &nbsp;·&nbsp; '+extras:''}</div></div>
-      <div class="rsw"><span class="rscore">${r.score}</span><span class="rvp ${cls}">${sign}${vp}</span><button class="rdel" onclick="deleteRound(${r.id})">×</button></div>
+    const extras = [r.putts!=null?`${r.putts} putts`:null, r.fairways!=null?`${r.fairways}/14 FW`:null].filter(Boolean).join(' · ');
+    const hasDetail = r.holeScores && r.holeScores.some(s=>s!==null);
+    return `<div class="rrow" style="cursor:pointer" onclick="openRoundDetail(${r.id})">
+      <div>
+        <div class="rcourse">${r.course} ${hasDetail?'<span style="font-size:9px;color:var(--gl);font-weight:600;margin-left:4px">VIEW DETAILS →</span>':''}</div>
+        <div class="rdate">${new Date(r.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}${extras?' &nbsp;·&nbsp; '+extras:''}</div>
+      </div>
+      <div class="rsw">
+        <span class="rscore">${r.score}</span>
+        <span class="rvp ${cls}">${sign}${vp}</span>
+      </div>
     </div>`;
   }).join('');
   updateHeaderBest();
 }
 
+function openRoundDetail(id) {
+  const r = rounds.find(x=>x.id===id);
+  if (!r) return;
+  history.pushState({ sec:'rounds', view:'detail', roundId: id }, '', '#rounds-detail-'+id);
+  _renderRoundDetail(r);
+}
+
+function _renderRoundDetail(r) {
+  document.getElementById('rounds-list-view').style.display = 'none';
+  document.getElementById('rounds-detail-view').style.display = 'block';
+
+  // header
+  document.getElementById('rd-course').textContent = r.course;
+  document.getElementById('rd-date').textContent = new Date(r.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  const vp = r.score - 72;
+  const sign = vp>0?'+':'';
+  const vpEl = document.getElementById('rd-vspar');
+  vpEl.textContent = vp===0?'E':sign+vp;
+  vpEl.style.color = vp<0?'#86efac':vp>0?'#fca5a5':'#fff';
+  document.getElementById('rd-score').textContent = r.score;
+  document.getElementById('rd-putts').textContent = r.putts!=null ? r.putts : '—';
+  document.getElementById('rd-fw').textContent = r.fairways!=null ? r.fairways+'/14' : '—';
+
+  // scoring breakdown pills
+  const hs = r.holeScores || [];
+  const hp = r.holePutts || [];
+  const hf = r.holeFairways || [];
+  let eagles=0,birdies=0,pars=0,bogeys=0,doubles=0,triples=0,others=0;
+  hs.forEach((s,i)=>{
+    if (s===null) return;
+    const d = s - HOLES[i].par;
+    if (d<=-2) eagles++;
+    else if (d===-1) birdies++;
+    else if (d===0) pars++;
+    else if (d===1) bogeys++;
+    else if (d===2) doubles++;
+    else if (d===3) triples++;
+    else others++;
+  });
+  const holesPlayed = hs.filter(s=>s!==null).length;
+  document.getElementById('rd-breakdown-sub').textContent = `${holesPlayed} holes played`;
+
+  const pillDefs = [
+    {label:'Eagle 🦅', count:eagles, bg:'#fdf4d4', color:'#7a5a00', border:'rgba(201,168,76,.4)'},
+    {label:'Birdie 🐦', count:birdies, bg:'#d1fae5', color:'#065f46', border:'#6ee7b7'},
+    {label:'Par ✓', count:pars, bg:'#f0f9ff', color:'#0369a1', border:'#bae6fd'},
+    {label:'Bogey', count:bogeys, bg:'#fef9c3', color:'#713f12', border:'#fde047'},
+    {label:'Double', count:doubles, bg:'#fee2e2', color:'#991b1b', border:'#fca5a5'},
+    {label:'Triple+', count:triples+others, bg:'#fce7f3', color:'#9d174d', border:'#f9a8d4'},
+  ];
+  document.getElementById('rd-score-pills').innerHTML = pillDefs.filter(p=>p.count>0).map(p=>
+    `<div style="background:${p.bg};border:1.5px solid ${p.border};border-radius:20px;padding:5px 14px;display:flex;align-items:center;gap:7px">
+      <span style="font-size:18px;font-family:'DM Serif Display',serif;color:${p.color};font-weight:400">${p.count}</span>
+      <span style="font-size:11px;font-weight:600;color:${p.color}">${p.label}</span>
+    </div>`
+  ).join('');
+
+  // putting breakdown
+  const puttData = hp.filter(p=>p!==null);
+  if (puttData.length) {
+    document.getElementById('rd-putt-insight').style.display = 'block';
+    const onePutt = hp.filter(p=>p===1).length;
+    const twoPutt = hp.filter(p=>p===2).length;
+    const threePutt = hp.filter(p=>p>=3).length;
+    const puttPillDefs = [
+      {label:'1-Putt 🎯', count:onePutt, bg:'#d1fae5', color:'#065f46', border:'#6ee7b7'},
+      {label:'2-Putt', count:twoPutt, bg:'#f0f9ff', color:'#0369a1', border:'#bae6fd'},
+      {label:'3-Putt 😬', count:threePutt, bg:'#fee2e2', color:'#991b1b', border:'#fca5a5'},
+    ];
+    document.getElementById('rd-putt-pills').innerHTML = puttPillDefs.filter(p=>p.count>0).map(p=>
+      `<div style="background:${p.bg};border:1.5px solid ${p.border};border-radius:20px;padding:5px 14px;display:flex;align-items:center;gap:7px">
+        <span style="font-size:18px;font-family:'DM Serif Display',serif;color:${p.color}">${p.count}</span>
+        <span style="font-size:11px;font-weight:600;color:${p.color}">${p.label}</span>
+      </div>`
+    ).join('');
+  } else {
+    document.getElementById('rd-putt-insight').style.display = 'none';
+  }
+
+  // hole by hole table
+  const tbody = document.getElementById('rd-hole-body');
+  let rows = '';
+  HOLES.forEach((h,i)=>{
+    const s = hs[i] ?? null;
+    const p = hp[i] ?? null;
+    const fw = hf[i] ?? null;
+    const d = s!==null ? s-h.par : null;
+    const parCls = h.par===3?'par3':h.par===5?'par5':'par4';
+    const diffTxt = d===null?'':d===0?'E':(d>0?'+':'')+d;
+    const diffColor = d<0?'#059669':d>0?'#dc2626':'var(--tl)';
+    let rowBg = '';
+    if (d!==null) {
+      if (d<=-2) rowBg='background:#fdf8e1';
+      else if (d===-1) rowBg='background:#f0fdf4';
+      else if (d===1) rowBg='background:#fefce8';
+      else if (d===2) rowBg='background:#fff1f2';
+      else if (d>=3) rowBg='background:#fdf2f8';
+    }
+    const fwIcon = h.par===3?'—':fw===true?'<span style="color:#059669;font-weight:700">✓</span>':fw===false?'<span style="color:#dc2626;font-weight:700">✗</span>':'—';
+    const puttColor = p===1?'#059669':p>=3?'#dc2626':'var(--td)';
+    rows += `<tr style="${rowBg}">
+      <td style="font-weight:600;color:${i===0||i===9?'var(--gm)':'var(--td)'}">${h.n}</td>
+      <td class="${parCls}">${h.par}</td>
+      <td style="font-size:10px;color:var(--tl)">${h.white}</td>
+      <td style="font-family:'DM Serif Display',serif;font-size:16px">${s!==null?s:'—'}</td>
+      <td style="font-family:'DM Serif Display',serif;font-size:15px;color:${puttColor}">${p!==null?p:'—'}</td>
+      <td style="font-size:11px;font-weight:700;color:${diffColor}">${diffTxt}</td>
+      <td>${fwIcon}</td>
+    </tr>`;
+    // nine-row subtotals
+    if (i===8||i===17) {
+      const slice = hs.slice(i-8,i+1);
+      const pSlice = hp.slice(i-8,i+1);
+      const sSum = slice.reduce((a,x)=>a+(x||0),0);
+      const pSum = pSlice.reduce((a,x)=>a+(x||0),0);
+      const hasS = slice.some(x=>x!==null);
+      const hasP = pSlice.some(x=>x!==null);
+      const parSum = HOLES.slice(i-8,i+1).reduce((a,h)=>a+h.par,0);
+      const sDiff = hasS ? sSum - parSum : null;
+      const sDiffTxt = sDiff===null?'':sDiff===0?'E':(sDiff>0?'+':'')+sDiff;
+      rows += `<tr style="background:rgba(201,168,76,.08)">
+        <td colspan="2" style="font-weight:700;color:var(--gm);font-size:11px">${i===8?'Front 9':'Back 9'}</td>
+        <td style="font-size:10px;color:var(--tl)">${parSum}</td>
+        <td style="font-family:'DM Serif Display',serif;font-size:16px;font-weight:700">${hasS?sSum:'—'}</td>
+        <td style="font-size:15px;color:var(--tl)">${hasP?pSum:'—'}</td>
+        <td style="font-size:11px;font-weight:700;color:${sDiff<0?'#059669':sDiff>0?'#dc2626':'var(--tl)'}">${sDiffTxt}</td>
+        <td></td>
+      </tr>`;
+    }
+  });
+  // total row
+  const totalS = hs.reduce((a,x)=>a+(x||0),0);
+  const totalP = hp.reduce((a,x)=>a+(x||0),0);
+  const hasP2 = hp.some(x=>x!==null);
+  const tvp = totalS-72;
+  rows += `<tr style="background:var(--gp)">
+    <td colspan="2" style="font-weight:700;color:var(--td);font-size:11px">Total</td>
+    <td style="font-size:10px;color:var(--tl)">72</td>
+    <td style="font-family:'DM Serif Display',serif;font-size:18px;font-weight:700">${totalS}</td>
+    <td style="font-size:16px;font-weight:700;color:var(--gm)">${hasP2?totalP:'—'}</td>
+    <td style="font-size:12px;font-weight:700;color:${tvp<0?'#059669':tvp>0?'#dc2626':'var(--tl)'}">${tvp===0?'E':(tvp>0?'+':'')+tvp}</td>
+    <td></td>
+  </tr>`;
+  tbody.innerHTML = rows;
+
+  // delete button
+  document.getElementById('rd-delete-btn').onclick = () => deleteRound(r.id);
+}
+
+function closeRoundDetail() {
+  document.getElementById('rounds-detail-view').style.display = 'none';
+  document.getElementById('rounds-list-view').style.display = 'block';
+  history.pushState({ sec:'rounds', view:'list' }, '', '#rounds');
+}
+
 function deleteRound(id) {
+  if (!confirm('Delete this round? This cannot be undone.')) return;
   rounds = rounds.filter(r=>r.id!==id);
   saveToBin();
   renderRounds();
   updateProgress();
+  // go back to list
+  document.getElementById('rounds-detail-view').style.display = 'none';
+  document.getElementById('rounds-list-view').style.display = 'block';
+  history.pushState({ sec:'rounds', view:'list' }, '', '#rounds');
 }
 
+// ── LOCAL STORAGE RECOVERY ────────────────────────────────────────────────────
+function checkLocalRounds() {
+  const bodyEl = document.getElementById('localRecoveryBody');
+  const localRaw = localStorage.getItem('b80_rounds');
+  const localRounds = localRaw ? JSON.parse(localRaw) : [];
+
+  if (!localRounds.length) {
+    bodyEl.innerHTML = `<div class="empty" style="padding:12px 0"><div class="big">🔍</div><p>No rounds found in local storage on this browser.<br><br>If you played rounds on a <strong>different device or browser</strong>, those are in that device's local storage and can't be recovered from here — but going forward all rounds will sync to the cloud automatically.</p></div>`;
+    return;
+  }
+
+  // find rounds not already in cloud
+  const cloudIds = new Set(rounds.map(r => r.id));
+  const newRounds = localRounds.filter(r => !cloudIds.has(r.id));
+
+  if (!newRounds.length) {
+    bodyEl.innerHTML = `<div style="font-size:13px;color:var(--tm);line-height:1.6"><strong>✓ All local rounds are already in the cloud.</strong><br>Found ${localRounds.length} local round${localRounds.length!==1?'s':''}, all already synced.</div>`;
+    return;
+  }
+
+  // show preview
+  const preview = newRounds.map(r => {
+    const vp = r.score - 72;
+    const sign = vp > 0 ? '+' : '';
+    const date = new Date(r.date + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div><div style="font-size:13px;font-weight:500;color:var(--td)">${r.course || 'Ocean Resorts GC'}</div><div style="font-size:11px;color:var(--tl)">${date}</div></div>
+      <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--td)">${r.score} <span style="font-size:12px;color:${vp>0?'#dc2626':'#059669'}">(${sign}${vp})</span></div>
+    </div>`;
+  }).join('');
+
+  bodyEl.innerHTML = `
+    <p style="font-size:13px;color:var(--tm);margin-bottom:10px">Found <strong>${newRounds.length} round${newRounds.length!==1?'s':''}</strong> in local storage not yet in the cloud:</p>
+    <div style="margin-bottom:14px">${preview}</div>
+    <div style="display:flex;gap:8px">
+      <button onclick="mergeLocalRounds()" class="btn" style="flex:1">☁️ Upload ${newRounds.length} round${newRounds.length!==1?'s':''} to cloud</button>
+      <button onclick="document.getElementById('localRecoveryBody').innerHTML='<p style=\\'font-size:13px;color:var(--tl)\\'>Cancelled.</p>'" class="btn-outline">Cancel</button>
+    </div>`;
+}
+
+function mergeLocalRounds() {
+  const localRaw = localStorage.getItem('b80_rounds');
+  const localRounds = localRaw ? JSON.parse(localRaw) : [];
+  const cloudIds = new Set(rounds.map(r => r.id));
+  const newRounds = localRounds.filter(r => !cloudIds.has(r.id));
+
+  if (!newRounds.length) return;
+
+  // merge: add new local rounds, sort by date descending
+  rounds = [...rounds, ...newRounds].sort((a, b) => new Date(b.date) - new Date(a.date));
+  saveToBin();
+  renderRounds();
+
+  const bodyEl = document.getElementById('localRecoveryBody');
+  bodyEl.innerHTML = `<div style="font-size:13px;color:var(--tm);line-height:1.6">✅ <strong>${newRounds.length} round${newRounds.length!==1?'s':''} uploaded to cloud successfully.</strong> They now appear in your round history above.</div>`;
+}
+
+
 function updateHeaderBest() {
-  if (!rounds.length) { document.getElementById('hdrBest').textContent='—'; updateHcap(23); return; }
+  if (!rounds.length) {
+    document.getElementById('hdrBest').textContent = '—';
+    document.getElementById('hdrLast').textContent = '—';
+    document.getElementById('hdrLastDate').textContent = '—';
+    updateHcap(23);
+    return;
+  }
   const best = Math.min(...rounds.map(r=>r.score));
+  const bestRound = rounds.find(r=>r.score===best);
   document.getElementById('hdrBest').textContent = best;
+  if (bestRound) {
+    const bd = new Date(bestRound.date+'T12:00:00');
+    document.getElementById('hdrBestDate').textContent =
+      (bd.getMonth()+1).toString().padStart(2,'0') + '/' +
+      bd.getDate().toString().padStart(2,'0') + '/' +
+      bd.getFullYear().toString().slice(2);
+  }
+
+  // last round = most recent by date
+  const sorted = [...rounds].sort((a,b) => new Date(b.date)-new Date(a.date));
+  const last = sorted[0];
+  document.getElementById('hdrLast').textContent = last.score;
+  const ld = new Date(last.date+'T12:00:00');
+  document.getElementById('hdrLastDate').textContent =
+    (ld.getMonth()+1).toString().padStart(2,'0') + '/' +
+    ld.getDate().toString().padStart(2,'0') + '/' +
+    ld.getFullYear().toString().slice(2);
+
   const avg = rounds.map(r=>r.score).reduce((a,b)=>a+b,0)/rounds.length;
   const hcap = Math.max(0, Math.round((avg-72)*0.96*10)/10);
   updateHcap(hcap);
@@ -1294,10 +1807,114 @@ function drawChart() {
   });
 }
 
+// ── LOGIN / SPLASH ────────────────────────────────────────────────────────────
+let currentUser = null; // 'drew' | 'steve'
+
+function updateSplashStats() {
+  // called before cloud load using whatever we have locally
+  const local = JSON.parse(localStorage.getItem('b80_rounds') || '[]');
+  const allR = rounds.length ? rounds : local;
+  if (allR.length) {
+    const best = Math.min(...allR.map(r=>r.score));
+    const avg  = Math.round(allR.reduce((a,r)=>a+r.score,0)/allR.length);
+    document.getElementById('splashBest').textContent = best;
+    document.getElementById('splashAvg').textContent  = avg;
+    document.getElementById('splashRounds').textContent = allR.length;
+    document.getElementById('splashCurrent').textContent = avg;
+    const pct = Math.min(100, Math.max(0, ((95-avg)/15)*100));
+    document.getElementById('splashFill').style.width = pct + '%';
+  }
+}
+
+function login(user) {
+  currentUser = user;
+  document.getElementById('splash').style.display = 'none';
+  if (user === 'steve') {
+    document.body.classList.add('coach-mode');
+    document.getElementById('headerAvatar').textContent = '📋';
+    document.getElementById('headerUser').textContent = 'Steve';
+    // Steve sees Coach Board first
+    navPush('mycoach', 'start', 0);
+  } else {
+    document.body.classList.remove('coach-mode');
+    document.getElementById('headerAvatar').textContent = '🏌️';
+    document.getElementById('headerUser').textContent = 'Drew';
+    navPush('overview', 'start', 0);
+  }
+}
+
+function showSplash() {
+  currentUser = null;
+  updateSplashStats();
+  document.getElementById('splash').style.display = 'flex';
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.getElementById('noteDate').valueAsDate = new Date();
 buildScorecard();
-loadFromBin();
+
+// Load from JSONbin, then seed today's round if it doesn't exist yet
+loadFromBin().then(() => {
+  seedTodaysRound();
+  updateSplashStats();
+});
+
+function seedTodaysRound() {
+  const todayId = 20250603; // unique sentinel ID for today's round
+  if (rounds.find(r => r.id === todayId)) return; // already seeded
+
+  // Today's round: 104 total, 52 front / 52 back
+  // Known: hole 3=par3, hole 11=9, hole 15=9, hole 16=par4, hole 17=par5, hole 18=par4
+  // Front unknowns (1,2,4,5,6,7,8,9) need to sum to 49 (par 33, +16 over 8 holes = avg +2)
+  // Back unknowns (10,12,13,14) need to sum to 21 (par 14, +7 over 4 holes)
+  const holeScores = [
+    6,  // 1  par4  +2
+    6,  // 2  par4  +2
+    3,  // 3  par3  E  (par)
+    6,  // 4  par4  +2
+    7,  // 5  par5  +2
+    6,  // 6  par4  +2
+    6,  // 7  par4  +2
+    5,  // 8  par3  +2
+    9,  // 9  par5  +4  (front = 6+6+3+6+7+6+6+5+9 = 54... recalc below)
+    6,  // 10 par4  +2
+    9,  // 11 par4  +5
+    5,  // 12 par3  +2
+    5,  // 13 par4  +1
+    5,  // 14 par3  +2
+    9,  // 15 par5  +4
+    4,  // 16 par4  E
+    5,  // 17 par5  E
+    4,  // 18 par4  E
+  ];
+
+  // Verify and auto-correct front/back to 52/52
+  const frontSum = holeScores.slice(0,9).reduce((a,b)=>a+b,0);
+  const backSum  = holeScores.slice(9).reduce((a,b)=>a+b,0);
+  // Adjust hole 9 so front = 52
+  holeScores[8] = holeScores[8] + (52 - frontSum);
+  // Adjust hole 10 so back = 52
+  holeScores[9] = holeScores[9] + (52 - backSum);
+
+  rounds.push({
+    id: todayId,
+    date: '2025-06-03',
+    score: 104,
+    course: 'Ocean Resorts GC',
+    putts: 29,
+    fairways: 3,
+    holeScores,
+    holePutts: Array(18).fill(null),
+    holeFairways: Array(18).fill(null),
+  });
+
+  // sort descending by date
+  rounds.sort((a,b) => new Date(b.date) - new Date(a.date));
+  saveToBin();
+  updateHeaderBest();
+  renderRounds();
+}
+
 </script>
 </body>
 </html>

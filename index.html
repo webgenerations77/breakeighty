@@ -227,8 +227,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sec.active .card:nth-child(2){animation-delay:.05s}
 .sec.active .card:nth-child(3){animation-delay:.09s}
 @keyframes fu{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
-/* SPLASH SCREEN */
-.splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#0d2318 0%,#1a3a2a 50%,#0f2a1c 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+/* COURSE PICKER */
+.course-card{border:2px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;transition:var(--tr);background:#fff;text-align:left}
+.course-card:hover{border-color:var(--gl);background:var(--gp);transform:translateY(-1px)}
+.course-card.selected{border-color:var(--gm);background:#d4eadb}
+.course-card .cc-name{font-size:12px;font-weight:700;color:var(--td);line-height:1.3;margin-bottom:3px}
+.course-card .cc-loc{font-size:10px;color:var(--tl)}
+.course-card .cc-par{font-size:10px;font-weight:600;color:var(--gm);margin-top:5px}
+.course-card .cc-home{font-size:9px;background:var(--gold);color:var(--td);border-radius:20px;padding:1px 7px;font-weight:700;display:inline-block;margin-bottom:4px}
+.splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#0d2318 0%,#1a3a2a 50%,#0f2a1c 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 24px 40px;overflow-y:auto}
 .splash-logo{font-size:64px;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(201,168,76,.4))}
 .splash-title{font-family:'DM Serif Display',serif;font-size:36px;color:#fff;letter-spacing:-1px;margin-bottom:4px}
 .splash-sub{font-size:13px;color:rgba(255,255,255,.45);letter-spacing:.5px;margin-bottom:32px}
@@ -267,6 +274,42 @@ body.coach-mode .nav{background:#1a2a3a}
 .user-pill:hover{background:rgba(255,255,255,.14)}
 .user-pill .avatar{font-size:16px}
 .user-pill .uname{font-size:11px;color:rgba(255,255,255,.75);font-weight:500}
+.login-btn-guest{width:100%;max-width:340px;margin-top:10px;padding:12px 20px;border:1.5px solid rgba(255,255,255,.15);border-radius:12px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .22s ease;letter-spacing:.2px}
+.login-btn-guest:hover{background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);border-color:rgba(255,255,255,.3)}
+.guest-hero{background:linear-gradient(160deg,var(--gd),var(--gm));border-radius:16px;padding:22px;margin-bottom:13px;text-align:center;border:1px solid rgba(201,168,76,.2)}
+.guest-hero h2{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:4px}
+.guest-hero p{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:16px}
+.guest-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.guest-stat{background:rgba(255,255,255,.07);border-radius:10px;padding:10px 4px;text-align:center}
+.guest-stat-val{font-family:'DM Serif Display',serif;font-size:24px;color:var(--gold);line-height:1}
+.guest-stat-lbl{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.msg-card{background:var(--gp);border-radius:12px;padding:14px;border:1px solid rgba(74,140,92,.2);margin-bottom:8px;position:relative}
+.msg-from{font-size:10px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.msg-text{font-size:13px;color:var(--tm);line-height:1.6}
+.msg-date{font-size:10px;color:var(--tl);margin-top:5px}
+.msg-unread{position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+/* TROLL FEATURES */
+.troll-section{margin-bottom:13px}
+.wheel-btn{width:100%;padding:16px;border:none;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-family:'DM Serif Display',serif;font-size:18px;cursor:pointer;transition:var(--tr);letter-spacing:-.3px}
+.wheel-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.4)}
+.wheel-btn:active{transform:scale(.97)}
+.wheel-result{background:#f5f3ff;border:1.5px solid #a78bfa;border-radius:12px;padding:16px;margin-top:10px;display:none;text-align:center}
+.wheel-result .wr-emoji{font-size:48px;margin-bottom:8px}
+.wheel-result .wr-text{font-size:14px;color:#4c1d95;font-style:italic;line-height:1.6;font-weight:500}
+.reaction-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.reaction-btn{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px 6px;cursor:pointer;text-align:center;transition:var(--tr);font-size:9px;color:var(--tl)}
+.reaction-btn:hover{border-color:var(--gl);background:var(--gp)}
+.reaction-btn .re{font-size:28px;display:block;margin-bottom:4px}
+.reaction-btn.sent{background:var(--gp);border-color:var(--gm)}
+.bet-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.bet-btn{padding:14px 10px;border:2px solid transparent;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);text-align:center}
+.bet-yes{background:#d1fae5;border-color:#059669;color:#065f46}
+.bet-yes:hover{background:#a7f3d0}
+.bet-no{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+.bet-no:hover{background:#fecaca}
+.bet-tally{display:flex;align-items:center;gap:0;height:10px;border-radius:5px;overflow:hidden;margin-top:10px}
+.bet-tally-yes{background:#059669;transition:width .6s ease}
+.bet-tally-no{background:#dc2626;flex:1;transition:width .6s ease}
 @media(max-width:580px){.sform,.dg,.ai-qg{grid-template-columns:1fr}.hdr-right{flex-wrap:wrap}.sc-meta{grid-template-columns:1fr 1fr}.sc-totals{grid-template-columns:1fr 1fr 1fr}.login-row{flex-direction:column}.splash-score-row{gap:8px}}
 </style>
 </head>
@@ -276,7 +319,7 @@ body.coach-mode .nav{background:#1a2a3a}
 <div class="splash" id="splash">
   <div class="splash-logo">⛳</div>
   <div class="splash-title">Break 80</div>
-  <div class="splash-sub">Ocean Resorts Golf Club · Berlin, MD</div>
+  <div class="splash-sub">Chasing the Impossible Dream</div>
 
   <div class="splash-status">
     <div class="splash-status-lbl">Drew's Challenge Progress</div>
@@ -284,31 +327,60 @@ body.coach-mode .nav{background:#1a2a3a}
       <div class="splash-progress-fill" id="splashFill" style="width:0%"></div>
     </div>
     <div class="splash-score-row">
-      <span class="splash-from">95</span>
+      <span class="splash-from">104</span>
       <span class="splash-arrow">→</span>
-      <span class="splash-current" id="splashCurrent">95</span>
+      <span class="splash-current" id="splashCurrent">104</span>
       <span style="font-size:14px;color:rgba(255,255,255,.3)">→ goal</span>
       <span class="splash-goal">80</span>
     </div>
     <div class="splash-stat-row">
       <div class="splash-stat"><div class="splash-stat-val" id="splashBest">—</div><div class="splash-stat-lbl">Best round</div></div>
       <div class="splash-stat"><div class="splash-stat-val" id="splashRounds">0</div><div class="splash-stat-lbl">Rounds</div></div>
-      <div class="splash-stat"><div class="splash-stat-val" id="splashAvg">—</div><div class="splash-stat-lbl">Avg score</div></div>
+      <div class="splash-stat"><div class="splash-stat-val" id="splashHcap">—</div><div class="splash-stat-lbl">Handicap</div></div>
+    </div>
+    <!-- Birthday countdown -->
+    <div style="margin-top:14px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);border-radius:12px;padding:14px 16px;text-align:center">
+      <div style="font-size:9px;font-weight:700;color:var(--goldl);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px">🎯 Mission deadline · Sept 4, 2027</div>
+      <div style="display:flex;align-items:flex-start;justify-content:center;gap:10px;margin-bottom:12px">
+        <div style="text-align:center">
+          <div style="font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);line-height:1" id="splashDays">—</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">days</div>
+        </div>
+        <div style="color:rgba(255,255,255,.2);font-size:22px;padding-top:4px">:</div>
+        <div style="text-align:center">
+          <div style="font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);line-height:1" id="splashHours">—</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">hrs</div>
+        </div>
+        <div style="color:rgba(255,255,255,.2);font-size:22px;padding-top:4px">:</div>
+        <div style="text-align:center">
+          <div style="font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);line-height:1" id="splashMins">—</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">min</div>
+        </div>
+        <div style="color:rgba(255,255,255,.2);font-size:22px;padding-top:4px">:</div>
+        <div style="text-align:center">
+          <div style="font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);line-height:1" id="splashSecs">—</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-top:2px">sec</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,.55);font-style:italic;line-height:1.5;padding:8px 4px 0;border-top:1px solid rgba(255,255,255,.08)" id="splashQuote"></div>
     </div>
   </div>
 
   <div class="login-row">
     <button class="login-btn login-btn-drew" onclick="login('drew')">
-      <span class="avatar">🏌️</span>
-      <span class="name">Drew</span>
-      <span class="role">Player</span>
+      <span class="avatar" style="pointer-events:none">🏌️</span>
+      <span class="name" style="pointer-events:none">Drew</span>
+      <span class="role" style="pointer-events:none">Player</span>
     </button>
     <button class="login-btn login-btn-steve" onclick="login('steve')">
-      <span class="avatar">📋</span>
-      <span class="name">Steve</span>
-      <span class="role">Coach</span>
+      <span class="avatar" style="pointer-events:none">📋</span>
+      <span class="name" style="pointer-events:none">Steve</span>
+      <span class="role" style="pointer-events:none">Coach</span>
     </button>
   </div>
+  <button class="login-btn-guest" onclick="login('guest')">
+    <span style="pointer-events:none">👥 Friend / Guest — Leave a message for Drew</span>
+  </button>
 </div>
 
 <div class="hdr">
@@ -321,8 +393,6 @@ body.coach-mode .nav{background:#1a2a3a}
       <div class="hdr-badge"><div class="lbl">Best Round</div><div class="val" id="hdrBest">—</div><div class="sub" id="hdrBestDate">Ocean Resorts</div></div>
       <div class="hdr-badge"><div class="lbl">Last Round</div><div class="val" id="hdrLast">—</div><div class="sub" id="hdrLastDate">—</div></div>
       <div class="hdr-badge"><div class="lbl">Handicap</div><div class="val" id="hdrHcap">~23</div><div class="sub">estimated</div></div>
-      <div class="goal-badge"><div class="lbl">Goal</div><div class="gnums"><span class="gfrom">95</span><span class="garrow">→</span><span class="gto">80</span></div></div>
-      <button class="user-pill" onclick="showSplash()" title="Switch user"><span class="avatar" id="headerAvatar">🏌️</span><span class="uname" id="headerUser">Drew</span></button>
     </div>
   </div>
 </div>
@@ -355,17 +425,58 @@ body.coach-mode .nav{background:#1a2a3a}
 
 <!-- OVERVIEW -->
 <div class="sec active" id="sec-overview">
+  <!-- Birthday countdown banner -->
+  <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:16px;padding:18px 20px;margin-bottom:13px;border:1px solid rgba(201,168,76,.25)">
+    <div style="font-size:10px;font-weight:700;color:var(--goldl);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">🎯 Mission deadline · Sept 4, 2027</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;margin-bottom:12px">
+      <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px 4px">
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;color:var(--gold);line-height:1" id="ovDays">—</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Days</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px 4px">
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;color:var(--gold);line-height:1" id="ovHours">—</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Hours</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px 4px">
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;color:var(--gold);line-height:1" id="ovMins">—</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Min</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px 4px">
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;color:var(--gold);line-height:1" id="ovSecs">—</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Sec</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center;margin-bottom:12px">
+      <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px 6px">
+        <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--gold);line-height:1" id="ovWeeks">—</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Weeks remaining</div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px 6px">
+        <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--gold);line-height:1" id="ovHcap">—</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Handicap</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:10px 14px;text-align:center">
+      <div style="font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px">This week's motivation</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);font-style:italic;line-height:1.6" id="ovQuote"></div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="ch"><div class="ci ci-g">⚠️</div><div><div class="ct">Current focus: Head lift</div><div class="cs">Coach-identified issue — see Coach Board for homework</div></div></div>
     <ul class="tl-list">
-      <li class="ti"><div class="tn">!</div><div class="tt"><strong>What head lifting costs you.</strong> When your head comes up early, your shoulders follow, the club loses path, and you skull or fat the shot. At a 95-handicap level this costs 4–6 strokes per round.</div></li>
+      <li class="ti"><div class="tn">!</div><div class="tt"><strong>What head lifting costs you.</strong> When your head comes up early, your shoulders follow, the club loses path, and you skull or fat the shot. This alone is costing you 4–6 strokes per round.</div></li>
       <li class="ti"><div class="tn">1</div><div class="tt"><strong>"Logo to the ball" drill.</strong> Put a coin behind the ball. Keep eyes on that spot through impact — don't look up until you hear the ball land.</div></li>
       <li class="ti"><div class="tn">2</div><div class="tt"><strong>Stay down, finish tall.</strong> Feel like your chest points at the ground at impact. Your head naturally comes up after the ball is gone — trust it.</div></li>
       <li class="ti"><div class="tn">3</div><div class="tt"><strong>Listen for contact.</strong> On the range, close your eyes after setup and listen for the click of solid contact before looking up. This rewires the "peek" instinct.</div></li>
     </ul>
   </div>
+  <div class="card" id="drewMsgCard" style="display:none">
+    <div class="ch"><div class="ci ci-gold">📬</div><div><div class="ct">Messages from the crew</div><div class="cs" id="drewMsgCount">Loading...</div></div></div>
+    <div id="drewMsgList"></div>
+  </div>
   <div class="card">
-    <div class="ch"><div class="ci ci-g">⛳</div><div><div class="ct">Where your 15 strokes are hiding</div><div class="cs">Click any area for specific fixes</div></div></div>
+    <div class="ch"><div class="ci ci-g">⛳</div><div><div class="ct">Where your strokes are hiding</div><div class="cs">Click any area for specific fixes</div></div></div>
     <div class="sg" id="strokeGrid">
       <div class="si sel" data-area="putting" onclick="selArea(this)"><div class="sa">Putting</div><div class="sn">~38</div><div class="st">Target: 32 putts</div><div class="sb"><div class="sbf" style="width:60%"></div></div></div>
       <div class="si" data-area="shortgame" onclick="selArea(this)"><div class="sa">Short Game</div><div class="sn">~5 chips</div><div class="st">Target: 2-shot saves</div><div class="sb"><div class="sbf" style="width:35%"></div></div></div>
@@ -374,15 +485,6 @@ body.coach-mode .nav{background:#1a2a3a}
     </div>
     <div id="areaTips" class="tl-list" style="border-top:1px solid var(--border);padding-top:13px"></div>
   </div>
-  <div class="card">
-    <div class="ch"><div class="ci ci-gold">💡</div><div><div class="ct">Fastest path to 80</div><div class="cs">Highest-ROI changes right now</div></div></div>
-    <ul class="tl-list">
-      <li class="ti"><div class="tn">1</div><div class="tt"><strong>Stop 3-putting.</strong> Most 95-shooters 3-putt 6–8× per round. Cutting to 2× saves 4–6 strokes — the single biggest ROI change you can make.</div></li>
-      <li class="ti"><div class="tn">2</div><div class="tt"><strong>Keep your head down through impact.</strong> Fixing the head-lift alone tightens contact dramatically across every club.</div></li>
-      <li class="ti"><div class="tn">3</div><div class="tt"><strong>Get up-and-down from within 50 yards.</strong> Chip to a 6-foot circle instead of leaving 20 feet. 80-shooters save par from greenside 30–40% of the time.</div></li>
-      <li class="ti"><div class="tn">4</div><div class="tt"><strong>Play Ocean Resorts smart.</strong> Holes 4, 6, 9, 18 have water. Extra club, aim away from hazard — bogey is always a win on those holes.</div></li>
-    </ul>
-  </div>
 </div>
 
 <!-- SCORECARD -->
@@ -390,28 +492,28 @@ body.coach-mode .nav{background:#1a2a3a}
 
   <!-- START SCREEN -->
   <div id="sc-start">
-    <div class="card" style="text-align:center;padding:32px 24px">
-      <div style="font-size:52px;margin-bottom:12px">⛳</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--td);margin-bottom:4px">Ocean Resorts Golf Club</div>
-      <div style="font-size:12px;color:var(--tl);margin-bottom:24px">Berlin, MD &nbsp;·&nbsp; Par 72 &nbsp;·&nbsp; Rating 71.6 / Slope 131</div>
-      <div class="sform" style="max-width:400px;margin:0 auto 20px">
-        <div class="fg"><label>Date</label><input type="date" id="scDate"></div>
-        <div class="fg"><label>Tees</label>
-          <select id="scTees">
-            <option value="blue">Blue (6,596 yds)</option>
-            <option value="white" selected>White (~6,100 yds)</option>
-            <option value="gold">Gold (~5,600 yds)</option>
-            <option value="red">Red (4,800 yds)</option>
-          </select>
+    <div class="card" style="text-align:center;padding:28px 22px 32px">
+      <div style="font-size:48px;margin-bottom:10px">⛳</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--td);margin-bottom:4px" id="scCourseName">Select a Course</div>
+      <div style="font-size:12px;color:var(--tl);margin-bottom:24px" id="scCourseInfo">Choose your course below to begin</div>
+
+      <div style="max-width:420px;margin:0 auto">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <div class="fg" style="grid-column:1/-1">
+            <label>Course</label>
+            <select id="scCourseSelect" onchange="selectCourseFromDropdown(this.value)" style="font-size:13px">
+              <option value="">— Select a course —</option>
+            </select>
+          </div>
+          <div class="fg"><label>Date</label><input type="date" id="scDate"></div>
+          <div class="fg"><label>Tees</label><select id="scTees"></select></div>
         </div>
+        <button class="btn" style="font-size:15px;padding:14px 28px;border-radius:12px;opacity:.4" onclick="startRound()" id="startRoundBtn" disabled>
+          🏌️ Start Round
+        </button>
+        <div style="margin-top:12px;font-size:11px;color:var(--tl)" id="sc-resume-hint"></div>
       </div>
-      <button class="btn" style="max-width:280px;margin:0 auto;font-size:15px;padding:14px 28px;border-radius:12px" onclick="startRound()">
-        🏌️ Start Round
-      </button>
-      <div style="margin-top:16px;font-size:11px;color:var(--tl)" id="sc-resume-hint"></div>
     </div>
-    <!-- mini scorecard of any in-progress round -->
-    <div id="sc-summary-card" style="display:none"></div>
   </div>
 
   <!-- LIVE HOLE VIEW -->
@@ -806,7 +908,7 @@ body.coach-mode .nav{background:#1a2a3a}
     </div>
     <div class="mt" id="mTrack">
       <div class="ml"></div><div class="mlf" id="mFill" style="height:0%"></div>
-      <div class="ms" id="m95"><div class="md">95</div><div class="mi"><div class="msc">Starting: 95</div><div class="mdes">Managing course, fixing head lift, reducing 3-putts.</div></div></div>
+      <div class="ms" id="m95"><div class="md">104</div><div class="mi"><div class="msc">Starting: 104</div><div class="mdes">Day 1. The impossible dream begins.</div></div></div>
       <div class="ms" id="m90"><div class="md">90</div><div class="mi"><div class="msc">Sub-90: Bogey golfer</div><div class="mdes">Fewer blow-ups. Putts under 34. Short game clicking.</div></div></div>
       <div class="ms" id="m85"><div class="md">85</div><div class="mi"><div class="msc">Sub-85: Getting real</div><div class="mdes">4+ GIR. 2-putt most holes. Head staying down.</div></div></div>
       <div class="ms" id="m80"><div class="md">80</div><div class="mi"><div class="msc">Break 80: The goal ⛳</div><div class="mdes">6 GIR, 32 putts, no blow-ups. Ocean Resorts conquered.</div></div></div>
@@ -818,34 +920,521 @@ body.coach-mode .nav{background:#1a2a3a}
   </div>
 </div>
 
+<!-- GUEST VIEW -->
+<div class="sec" id="sec-guest">
+  <div class="guest-hero">
+    <h2>Drew's Break 80 Challenge</h2>
+    <p>Follow the journey · Cheer him on · Or destroy him 😈</p>
+    <div class="guest-stat-row">
+      <div class="guest-stat"><div class="guest-stat-val" id="guestBest">—</div><div class="guest-stat-lbl">Best round</div></div>
+      <div class="guest-stat"><div class="guest-stat-val" id="guestRounds">—</div><div class="guest-stat-lbl">Rounds played</div></div>
+      <div class="guest-stat"><div class="guest-stat-val" id="guestHcap">—</div><div class="guest-stat-lbl">Handicap</div></div>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="card">
+    <div style="font-size:11px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Progress: 104 → 80</div>
+    <div style="height:10px;background:var(--gp);border-radius:5px;overflow:hidden;margin-bottom:8px">
+      <div id="guestProgress" style="height:100%;background:linear-gradient(90deg,var(--gm),var(--gl));border-radius:5px;width:0%;transition:width 1s ease"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--tl)">
+      <span>Started: 104</span>
+      <span id="guestCurrent" style="font-weight:600;color:var(--gm)">Current best: —</span>
+      <span>Goal: 80</span>
+    </div>
+  </div>
+
+  <!-- WILL HE MAKE IT? THE BET -->
+  <div class="card">
+    <div class="ch"><div class="ci" style="background:#fef3c7">🎲</div><div><div class="ct">Will he actually break 80?</div><div class="cs">Cast your vote — Drew sees the tally</div></div></div>
+    <div class="bet-row">
+      <button class="bet-btn bet-yes" onclick="castBet('yes')">✅ He's got this!</button>
+      <button class="bet-btn bet-no" onclick="castBet('no')">💀 No chance</button>
+    </div>
+    <div class="bet-tally" id="betTally" style="margin-top:10px;display:none">
+      <div class="bet-tally-yes" id="betYesBar" style="width:50%"></div>
+      <div class="bet-tally-no" id="betNoBar" style="width:50%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:6px;display:none" id="betLabels">
+      <span style="color:#059669;font-weight:600" id="betYesLbl">0 believers</span>
+      <span style="color:#dc2626;font-weight:600" id="betNoLbl">0 doubters</span>
+    </div>
+  </div>
+
+  <!-- SPIN THE WHEEL OF DOOM -->
+  <div class="card">
+    <div class="ch"><div class="ci" style="background:#f5f3ff">🎡</div><div><div class="ct">Spin the Wheel of Doom</div><div class="cs">Generate a custom roast and send it to Drew</div></div></div>
+    <button class="wheel-btn" onclick="spinWheel()">🎰 Spin for a roast</button>
+    <div class="wheel-result" id="wheelResult">
+      <div class="wr-emoji" id="wrEmoji"></div>
+      <div class="wr-text" id="wrText"></div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button onclick="spinWheel()" style="flex:1;background:rgba(124,58,237,.1);border:1.5px solid #a78bfa;border-radius:8px;padding:8px;font-family:'DM Sans',sans-serif;font-size:12px;color:#7c3aed;cursor:pointer">🔄 Spin again</button>
+        <button onclick="sendWheelRoast()" style="flex:1;background:#7c3aed;border:none;border-radius:8px;padding:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:#fff;cursor:pointer">📨 Send to Drew</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REACTION GIFS -->
+  <div class="card">
+    <div class="ch"><div class="ci" style="background:#fff0f0">🎭</div><div><div class="ct">Send a reaction</div><div class="cs">One-tap responses — Drew sees these too</div></div></div>
+    <div class="reaction-grid">
+      <button class="reaction-btn" onclick="sendReaction('🤣','Laughing')"><span class="re">🤣</span>Laughing</button>
+      <button class="reaction-btn" onclick="sendReaction('😬','Yikes')"><span class="re">😬</span>Yikes</button>
+      <button class="reaction-btn" onclick="sendReaction('👏','Nice one!')"><span class="re">👏</span>Nice one!</button>
+      <button class="reaction-btn" onclick="sendReaction('💀','RIP')"><span class="re">💀</span>RIP</button>
+      <button class="reaction-btn" onclick="sendReaction('🔥','On fire!')"><span class="re">🔥</span>On fire!</button>
+      <button class="reaction-btn" onclick="sendReaction('🐔','Chicken')"><span class="re">🐔</span>Chicken</button>
+      <button class="reaction-btn" onclick="sendReaction('🤌','Chef\'s kiss')"><span class="re">🤌</span>Chef's kiss</button>
+      <button class="reaction-btn" onclick="sendReaction('🎉','Let\'s go!')"><span class="re">🎉</span>Let's go!</button>
+    </div>
+    <div id="reactionStatus" style="margin-top:8px;font-size:11px;color:var(--gm);text-align:center;display:none"></div>
+  </div>
+
+  <!-- LEAVE A MESSAGE -->
+  <div class="card">
+    <div class="ch"><div class="ci ci-gold">💬</div><div><div class="ct">Leave Drew a message</div><div class="cs">Full message — encouragement, trash talk, or wisdom</div></div></div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <div class="fg"><label>Your name</label><input type="text" id="guestName" placeholder="e.g. Mike, Sarah, The Boys..." maxlength="40"></div>
+      <div class="fg"><label>Message</label>
+        <textarea id="guestMsg" placeholder="Let him have it... or be kind. Your call." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--td);outline:none;resize:vertical;min-height:80px;transition:var(--tr)" onfocus="this.style.borderColor='var(--gl)'" onblur="this.style.borderColor='var(--border)'" maxlength="280"></textarea>
+      </div>
+      <div class="fg"><label>Tone</label>
+        <select id="guestTone">
+          <option value="support">💚 Supportive</option>
+          <option value="trash">🔥 Trash talk</option>
+          <option value="doubt">💀 Total disbelief</option>
+          <option value="wisdom">🧠 Golf wisdom</option>
+          <option value="bet">🎲 I bet you can't</option>
+        </select>
+      </div>
+      <button class="btn" onclick="submitGuestMessage()">📨 Send message to Drew</button>
+    </div>
+    <div id="guestMsgStatus" style="margin-top:10px;font-size:12px;color:var(--gm);display:none"></div>
+  </div>
+
+  <!-- RECENT MESSAGES -->
+  <div class="card">
+    <div class="ch"><div class="ci ci-g">📬</div><div><div class="ct">The wall of shame glory</div><div class="cs">What the crew is saying</div></div></div>
+    <div id="guestMsgFeed"><div class="empty"><div class="big">💬</div><p style="font-size:13px">No messages yet — be the first!</p></div></div>
+  </div>
+
+  <div style="text-align:center;padding:10px 0">
+    <button onclick="showSplash()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:8px 20px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--tl);cursor:pointer">← Back to login</button>
+  </div>
+</div>
+
 </main>
+
+<!-- HOLE RESULT SPLASH OVERLAY -->
+<div id="holeResultOverlay" style="display:none;position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;padding:24px" onclick="dismissHoleResult()">
+  <div id="holeResultBg" style="position:absolute;inset:0;opacity:.92"></div>
+  <div style="position:relative;z-index:1;text-align:center;max-width:320px;width:100%">
+    <div id="holeResultAvatar" style="font-size:96px;line-height:1;margin-bottom:8px;animation:avatarPop .4s cubic-bezier(.34,1.56,.64,1) both"></div>
+    <div id="holeResultLabel" style="font-family:'DM Serif Display',serif;font-size:42px;color:#fff;line-height:1;margin-bottom:6px;text-shadow:0 2px 20px rgba(0,0,0,.4)"></div>
+    <div id="holeResultSub" style="font-size:16px;color:rgba(255,255,255,.8);margin-bottom:4px"></div>
+    <div id="holeResultScore" style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:28px"></div>
+    <div style="font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.5px">tap anywhere to continue</div>
+  </div>
+</div>
+
+<style>
+@keyframes avatarPop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes overlayFadeIn{from{opacity:0}to{opacity:1}}
+</style>
 
 <script>
 // ── CONFIG ────────────────────────────────────────────────────────────────────
 const JSONBIN_ID = '6a1dc936a5160c15fd97e3ad';
 const JSONBIN_KEY = '$2a$10$nVmjEwLhwXLRrL88.zZ1s.ZCCzZ4igJKpPymaesgglCrFHi8.pYNe';
 
-// ── COURSE DATA ───────────────────────────────────────────────────────────────
-const HOLES = [
-  {n:1,par:4,blue:397,white:370,gold:340,red:300,hdcp:11,tip:"Play left to avoid bunkers. Short approach. Two putts = par. Good opener."},
-  {n:2,par:4,blue:432,white:408,gold:375,red:330,hdcp:3,tip:"Slight dogleg right. Big green is forgiving — club up on approach."},
-  {n:3,par:3,blue:209,white:185,gold:162,red:135,hdcp:13,tip:"Long narrow par 3 through trees. Straight long iron mandatory. Aim center."},
-  {n:4,par:4,blue:388,white:360,gold:330,red:290,hdcp:7,tip:"NO DRIVER. 3-wood or long iron. Approach carries water to shallow green — extra club."},
-  {n:5,par:5,blue:558,white:520,gold:480,red:430,hdcp:1,tip:"Tee shot down right side. Three-shot hole for most. Don't get greedy in two."},
-  {n:6,par:4,blue:395,white:370,gold:340,red:300,hdcp:9,tip:"WATER: Aim at tree cluster across pond. Water pinches green front — extra club."},
-  {n:7,par:4,blue:378,white:352,gold:320,red:280,hdcp:15,tip:"Play tee over mound left. Back-left pin? Play center for 2 putts and par."},
-  {n:8,par:3,blue:218,white:192,gold:165,red:140,hdcp:5,tip:"Long accurate iron required. Very undulating green — aim center always."},
-  {n:9,par:5,blue:536,white:500,gold:455,red:405,hdcp:17,tip:"WATER: Hidden pond front of green. Play correct tier of severe two-tiered green. Bogey = win."},
-  {n:10,par:4,blue:381,white:355,gold:325,red:285,hdcp:12,tip:"Carry the ditch with enough club to reach the dogleg corner. Premium tee shot."},
-  {n:11,par:4,blue:425,white:398,gold:365,red:320,hdcp:2,tip:"Sharp dogleg right — DO NOT cut corner. Hit far enough to have a shot at green."},
-  {n:12,par:3,blue:175,white:155,gold:135,red:110,hdcp:16,tip:"Mound divides green — play to proper side. Avoid being long."},
-  {n:13,par:4,blue:415,white:388,gold:356,red:310,hdcp:4,tip:"Tee must avoid going left. Check pin. Correct distance on undulating green."},
-  {n:14,par:3,blue:155,white:138,gold:118,red:95,hdcp:18,tip:"Tricky 3-level green. Club selection is everything — avoid front/back bunkers."},
-  {n:15,par:5,blue:512,white:480,gold:440,red:390,hdcp:8,tip:"Reachable in two. Not as long as it looks. Avoid trees. Birdie/eagle chance!"},
-  {n:16,par:4,blue:348,white:325,gold:298,red:260,hdcp:14,tip:"Short dogleg right. Aim at left greenside bunker for easy pitch. Best birdie hole."},
-  {n:17,par:5,blue:510,white:475,gold:435,red:380,hdcp:10,tip:"Let it rip! Short par 5. Keep second shot left. Generous landing areas."},
-  {n:18,par:4,blue:374,white:350,gold:320,red:280,hdcp:6,tip:"WATER: Pond left sneaks into fairway. Play tee shot right side. Solid finish."},
-];
+// ── COURSE DATABASE ───────────────────────────────────────────────────────────
+const COURSES = {
+  'ocean-resorts': {
+    id: 'ocean-resorts', name: 'Ocean Resorts GC', location: 'Berlin, MD', par: 72,
+    architect: 'Unknown', opened: 1990, isHome: true,
+    tees: {
+      blue:  {name:'Blue',  yards:6596, rating:71.6, slope:131},
+      white: {name:'White', yards:6100, rating:69.4, slope:125},
+      gold:  {name:'Gold',  yards:5600, rating:67.0, slope:118},
+      red:   {name:'Red',   yards:4800, rating:63.5, slope:110},
+    },
+    holes: [
+      {n:1,par:4,blue:397,white:370,gold:340,red:300,hdcp:11},{n:2,par:4,blue:432,white:408,gold:375,red:330,hdcp:3},
+      {n:3,par:3,blue:209,white:185,gold:162,red:135,hdcp:13},{n:4,par:4,blue:388,white:360,gold:330,red:290,hdcp:7},
+      {n:5,par:5,blue:558,white:520,gold:480,red:430,hdcp:1},{n:6,par:4,blue:395,white:370,gold:340,red:300,hdcp:9},
+      {n:7,par:4,blue:378,white:352,gold:320,red:280,hdcp:15},{n:8,par:3,blue:218,white:192,gold:165,red:140,hdcp:5},
+      {n:9,par:5,blue:536,white:500,gold:455,red:405,hdcp:17},{n:10,par:4,blue:381,white:355,gold:325,red:285,hdcp:12},
+      {n:11,par:4,blue:425,white:398,gold:365,red:320,hdcp:2},{n:12,par:3,blue:175,white:155,gold:135,red:110,hdcp:16},
+      {n:13,par:4,blue:415,white:388,gold:356,red:310,hdcp:4},{n:14,par:3,blue:155,white:138,gold:118,red:95,hdcp:18},
+      {n:15,par:5,blue:512,white:480,gold:440,red:390,hdcp:8},{n:16,par:4,blue:348,white:325,gold:298,red:260,hdcp:14},
+      {n:17,par:5,blue:510,white:475,gold:435,red:380,hdcp:10},{n:18,par:4,blue:374,white:350,gold:320,red:280,hdcp:6},
+    ],
+    holeTips: [
+      {fw:"Play tee shot left to avoid fairway bunkers. A 3-wood keeps you safe.",gr:"Big forgiving green — aim dead center. Two putts is par."},
+      {fw:"Slight dogleg right. Take enough club to reach the elbow. Avoid right rough.",gr:"Large green is forgiving. Club up — most amateurs come up short."},
+      {fw:"Long narrow par 3 through trees. Straight long iron mandatory. Take plenty of club.",gr:"Narrow green. Lag and two-putt for par. Don't chase a miss."},
+      {fw:"⚠️ NO DRIVER. 3-wood or long iron. Water right punishes wild shots.",gr:"Shallow green with water front. One extra club minimum. Never be short."},
+      {fw:"Tee shot down right side. Three-shot hole — don't get greedy in two.",gr:"Take the safe route front of green on third. Bump-and-run beats a flop."},
+      {fw:"⚠️ WATER: Aim at tree cluster across pond. Keep left-center.",gr:"Water pinches green front. One extra club. Never attack front pin."},
+      {fw:"Play tee shot over mound left. Don't bite off too much.",gr:"Back-left pin? Play center. Two putts from middle beats bunker every time."},
+      {fw:"Long par 3. Smooth 80% swing beats a wild full swing.",gr:"Very undulating green — always aim center. Lag first, make second."},
+      {fw:"⚠️ WATER: Hidden pond guards green in three-shot range. Lay up short.",gr:"Severe two-tiered green — MUST be on correct tier. Bogey is a great score."},
+      {fw:"Carry the ditch to reach the dogleg corner. Don't under-club.",gr:"Green accessible from fairway. Avoid deep bunkers left."},
+      {fw:"⚠️ Sharp dogleg right — do NOT cut corner. Hit far enough left side.",gr:"Tough green to hold. Aim middle and accept a lag putt. Par is great."},
+      {fw:"Short par 3 — smooth iron, not full swing. Accuracy over distance.",gr:"Mound divides green front-to-back. Play to correct side."},
+      {fw:"Avoid going left at all costs — trees and trouble lurk there.",gr:"Undulating green — check pin carefully. Correct distance is everything."},
+      {fw:"Short par 3. Club down from instinct — most golfers fly this green.",gr:"⚠️ Tricky 3-level green. Front and back bunkers penalize. Aim correct tier."},
+      {fw:"Reachable par 5. Well-placed lay-up leaves simple wedge. Avoid trees right.",gr:"Don't get greedy — wedge from 80-100 yards beats hero 3-wood. Birdie/eagle chance!"},
+      {fw:"Short dogleg right — aim at left greenside bunker as target. Opens green perfectly.",gr:"Best birdie hole on the course. Short pitch, makeable putt. Commit to target."},
+      {fw:"Let it rip! Short par 5. Keep second shot left of fairway bunker.",gr:"Generous landing areas. Don't overthink — two-putt birdie."},
+      {fw:"⚠️ WATER: Pond sneaks into left fairway. OB also left — play tee shot right.",gr:"Good angle from right fairway. Aim center of green. Don't blow up on 18."},
+    ],
+  },
+
+  'eagles-landing': {
+    id: 'eagles-landing', name: "Eagle's Landing GC", location: 'Berlin, MD', par: 72,
+    architect: 'Dr. Michael Hurdzan', opened: 1991, isHome: false,
+    tees: {
+      black: {name:'Black', yards:7003, rating:74.3, slope:126},
+      blue:  {name:'Blue',  yards:6500, rating:71.5, slope:122},
+      white: {name:'White', yards:6000, rating:69.0, slope:116},
+      red:   {name:'Red',   yards:5100, rating:68.0, slope:112},
+    },
+    holes: [
+      {n:1,par:4,blue:385,white:355,red:295,hdcp:9},{n:2,par:4,blue:404,white:375,red:310,hdcp:5},
+      {n:3,par:3,blue:176,white:155,red:125,hdcp:17},{n:4,par:5,blue:523,white:490,red:420,hdcp:3},
+      {n:5,par:4,blue:394,white:368,red:305,hdcp:7},{n:6,par:3,blue:201,white:178,red:140,hdcp:15},
+      {n:7,par:4,blue:373,white:346,red:285,hdcp:11},{n:8,par:5,blue:541,white:505,red:435,hdcp:1},
+      {n:9,par:4,blue:388,white:360,red:298,hdcp:13},{n:10,par:4,blue:402,white:373,red:308,hdcp:6},
+      {n:11,par:5,blue:538,white:502,red:430,hdcp:2},{n:12,par:3,blue:190,white:168,red:132,hdcp:16},
+      {n:13,par:4,blue:412,white:382,red:318,hdcp:4},{n:14,par:4,blue:372,white:344,red:282,hdcp:12},
+      {n:15,par:3,blue:177,white:158,red:124,hdcp:18},{n:16,par:5,blue:510,white:475,red:405,hdcp:8},
+      {n:17,par:4,blue:395,white:365,red:302,hdcp:10},{n:18,par:4,blue:418,white:388,red:322,hdcp:14},
+    ],
+    holeTips: [
+      {fw:"Good opening hole. Fairway opens up — driver is fine. Set up for a mid-iron in.",gr:"Generous green. Aim center. Good chance for an early par to settle nerves."},
+      {fw:"Straight par 4. Pick a line off the tee and commit to it.",gr:"Approach from the fairway. Club up slightly — green plays a touch longer."},
+      {fw:"Short par 3 over water. Take enough club — don't be short.",gr:"Small green, go at the flag. Two-putt and move on."},
+      {fw:"Long par 5. Safe tee shot down the right leaves you a clear angle for the layup.",gr:"Three-shot hole. Wedge in from 90 yards is the play. Birdie chance."},
+      {fw:"Straight par 4. Driver or 3-wood depending on confidence. Fairway is key.",gr:"Medium approach. Aim center-left of green away from trouble."},
+      {fw:"Beautiful par 3 overlooking Sinepuxent Bay after crossing the bridge. Take the right club.",gr:"Green slopes front-to-back. Leave approach below the hole for uphill putt."},
+      {fw:"⭐ Hole 7 — signature hole with stunning bay views. Take it in and play smart.",gr:"Approach over marsh to a spectacular green. Extra club, aim center."},
+      {fw:"Long par 5. Driver down right side. Second shot should be a lay-up to 80-100 yards.",gr:"Wedge into a large green. Birdie opportunity if you're disciplined."},
+      {fw:"Finishing hole of the front nine. Slight dogleg — driver with a controlled cut.",gr:"Green is well-bunkered. Aim fat part of green. Par = good nine."},
+      {fw:"Solid opener on the back. Fairway is wide — hit driver and take your chance.",gr:"Approach to a receptive green. Two-putt par is the target here."},
+      {fw:"Reachable par 5. Lay up conservatively or go for it — know your number.",gr:"Large green. Don't leave a downhill putt. Come in below the hole."},
+      {fw:"Short par 3. Take one less club than you think — coastal breeze helps.",gr:"Small but receptive green. Straightforward two-putt par."},
+      {fw:"Long par 4. You need two good shots here. Driver then long iron or hybrid.",gr:"Green is elevated slightly. Take extra club on approach — comes up short often."},
+      {fw:"Shorter par 4. 3-wood off tee leaves perfect distance. Don't get greedy.",gr:"Tighter green. Precision approach wins. Middle of green, two-putt par."},
+      {fw:"Short finishing par 3 of the trio. Club selection in wind is everything.",gr:"Receptive green. Aim at the pin if you have the right club."},
+      {fw:"Reachable par 5. Lay up right side for best angle into the green.",gr:"Wide green. Birdie chance if you're within 100 yards in two. Go for it."},
+      {fw:"Long par 4. Keep driver in play — right side of fairway is best angle.",gr:"Approach to a difficult green. Two-putt par is a very good score here."},
+      {fw:"Strong finishing hole. Driver down center. Course rating reflects difficulty here.",gr:"Well-bunkered green. Aim center-right. Make par and walk off happy."},
+    ],
+  },
+
+  'river-run': {
+    id: 'river-run', name: 'River Run Golf Club', location: 'Berlin, MD', par: 71,
+    architect: 'Gary Player', opened: 1991, isHome: false,
+    tees: {
+      blue:  {name:'Blue',  yards:6705, rating:70.4, slope:128},
+      white: {name:'White', yards:6200, rating:68.2, slope:122},
+      gold:  {name:'Gold',  yards:5700, rating:65.8, slope:114},
+      red:   {name:'Red',   yards:5100, rating:63.5, slope:108},
+    },
+    holes: [
+      {n:1,par:4,blue:370,white:342,gold:312,red:275,hdcp:11},{n:2,par:4,blue:395,white:366,gold:335,red:295,hdcp:3},
+      {n:3,par:5,blue:530,white:495,gold:455,red:405,hdcp:7},{n:4,par:3,blue:195,white:173,gold:150,red:122,hdcp:15},
+      {n:5,par:4,blue:388,white:360,gold:330,red:290,hdcp:1},{n:6,par:4,blue:362,white:336,gold:308,red:270,hdcp:13},
+      {n:7,par:3,blue:185,white:165,gold:143,red:115,hdcp:17},{n:8,par:5,blue:525,white:490,gold:450,red:400,hdcp:5},
+      {n:9,par:4,blue:380,white:352,gold:322,red:283,hdcp:9},{n:10,par:4,blue:410,white:380,gold:348,red:306,hdcp:4},
+      {n:11,par:4,blue:388,white:360,gold:330,red:290,hdcp:8},{n:12,par:3,blue:200,white:178,gold:154,red:126,hdcp:16},
+      {n:13,par:5,blue:540,white:504,gold:463,red:413,hdcp:2},{n:14,par:4,blue:370,white:342,gold:312,red:275,hdcp:12},
+      {n:15,par:4,blue:395,white:366,gold:335,red:295,hdcp:6},{n:16,par:3,blue:185,white:165,gold:143,red:115,hdcp:18},
+      {n:17,par:4,blue:410,white:380,gold:348,red:306,hdcp:10},{n:18,par:4,blue:377,white:350,gold:320,red:281,hdcp:14},
+    ],
+    holeTips: [
+      {fw:"Open Scottish-links-style front nine. Wide fairway — driver is fine. Get settled.",gr:"Medium green. Aim center. Par here sets a great tone for the round."},
+      {fw:"Longer par 4. Front nine is open rolling terrain — take driver and swing free.",gr:"Generous green. Club up slightly. Two putts = nice par."},
+      {fw:"Par 5 on the open front nine. Lay up for your best wedge distance.",gr:"Large receptive green. Birdie chance from within 100 yards. Take it."},
+      {fw:"Par 3 across open marsh terrain. Wind is a factor on the front nine here.",gr:"Medium green. Aim center to give yourself a makeable two-putt."},
+      {fw:"Stroke index 1 — toughest hole on the course. Fairway first, green second.",gr:"Don't be a hero. Lay up if needed and make par from 100 yards."},
+      {fw:"Shorter par 4. 3-wood or long iron off the tee leaves a short iron in.",gr:"Smaller green. Precision approach. This is a genuine birdie hole."},
+      {fw:"Short par 3. Front nine finishes with a couple of interesting par 3s.",gr:"Aim middle of green. Two putts and move to the more tree-lined back nine."},
+      {fw:"Par 5 on the open front nine. Three-shot hole for most. Play it safe.",gr:"Wide green. Lay up right and wedge in. Good birdie chance here."},
+      {fw:"Closing hole of the front nine. Solid par 4. Fairway first.",gr:"Aim center of green. Make par and take a strong nine into the back."},
+      {fw:"Tree-lined back nine starts here. Tighter fairways — accuracy beats distance.",gr:"Smaller green, well bunkered. Aim center and make solid two-putt par."},
+      {fw:"Tree-lined fairway. Pick a line and commit. Avoid the rough — it's thick.",gr:"Approach requires precision. One extra club than you think."},
+      {fw:"Par 3 on the back nine — tree-lined and more sheltered from wind.",gr:"Green is tight. Aim center and make par. Don't get greedy."},
+      {fw:"Par 5 on tree-lined back nine. Three-shot hole. Keep it in the fairway.",gr:"Wedge in from 90-100 yards for birdie chance. Don't leave it short."},
+      {fw:"Shorter par 4. Driver may be too much — 3-wood or long iron for position.",gr:"Good birdie chance if tee shot is in play. Aim center-left of green."},
+      {fw:"Longer par 4. Two solid shots needed. Driver and long iron minimum.",gr:"Back nine greens are smaller. Aim center. Par is always available."},
+      {fw:"Short par 3. Sheltered from wind by trees. Take your yardage club.",gr:"Receptive green. Great chance for a one-putt. Attack the flag."},
+      {fw:"Long par 4. Driver and still a long iron or hybrid to reach. Course's back-nine test.",gr:"Big green. Aim fat part and make two putts. Strong par here is excellent."},
+      {fw:"Finishing hole on the back nine. Straight par 4. Driver then medium iron.",gr:"Aim center of closing green. Make par and enjoy the round."},
+    ],
+  },
+
+  'war-admiral': {
+    id: 'war-admiral', name: 'GlenRiddle — War Admiral', location: 'Berlin, MD', par: 72,
+    architect: 'Bobby Weed', opened: 2002, isHome: false,
+    tees: {
+      black: {name:'Black', yards:7014, rating:74.2, slope:148},
+      blue:  {name:'Blue',  yards:6500, rating:71.8, slope:142},
+      white: {name:'White', yards:6000, rating:69.5, slope:135},
+      red:   {name:'Red',   yards:5200, rating:70.2, slope:126},
+    },
+    holes: [
+      {n:1,par:4,blue:392,white:362,red:298,hdcp:11},{n:2,par:4,blue:415,white:383,red:316,hdcp:3},
+      {n:3,par:3,blue:175,white:155,red:122,hdcp:15},{n:4,par:5,blue:558,white:520,red:445,hdcp:1},
+      {n:5,par:4,blue:405,white:374,red:308,hdcp:7},{n:6,par:4,blue:388,white:358,red:295,hdcp:9},
+      {n:7,par:3,blue:168,white:150,red:118,hdcp:17},{n:8,par:5,blue:545,white:508,red:433,hdcp:5},
+      {n:9,par:4,blue:402,white:371,red:306,hdcp:13},{n:10,par:4,blue:398,white:368,red:303,hdcp:6},
+      {n:11,par:5,blue:542,white:505,red:430,hdcp:2},{n:12,par:3,blue:180,white:160,red:126,hdcp:16},
+      {n:13,par:4,blue:418,white:386,red:318,hdcp:4},{n:14,par:4,blue:375,white:347,red:285,hdcp:12},
+      {n:15,par:3,blue:195,white:173,red:136,hdcp:18},{n:16,par:5,blue:525,white:488,red:415,hdcp:8},
+      {n:17,par:4,blue:408,white:377,red:310,hdcp:10},{n:18,par:4,blue:381,white:352,red:290,hdcp:14},
+    ],
+    holeTips: [
+      {fw:"Mature forest setting — sheltered from wind but demands precision. Fairway first always.",gr:"War Admiral greens are fast and hard. Don't be above the hole — lag to two-putt."},
+      {fw:"Forced carries and tight corridors define this course. Pick conservative targets.",gr:"Greens slope and contour. Check the break carefully — lip-outs are common."},
+      {fw:"Par 3 carries over tidal marsh. Take enough club — there is no bail-out short.",gr:"Three-tiered green. Hit the right tier or two-putting is nearly impossible."},
+      {fw:"Long par 5. Forced carries punish aggression. Three-shot hole — play it safe.",gr:"Well-bunkered raised green. Leave approach below the hole. Birdie = great."},
+      {fw:"Tight fairway. Driver or 3-wood depending on your miss. Right spot beats long.",gr:"Shallow green — going long can be fatal. One extra club but don't miss long."},
+      {fw:"Tidal marsh comes into play on five holes — this is one. Aim away from the marsh.",gr:"Aim middle of green. Left sucker pin is a trap — play away from it."},
+      {fw:"Short par 3. Leave driver in the bag. Long iron to the right side of the green.",gr:"Well bunkered. Short game required if you miss. Two putts from center is par."},
+      {fw:"Par 5 with marsh in play. Make sure you leave yourself a full third shot.",gr:"Raised green — difficult to hold. Plenty of short game required. Bogey is fine."},
+      {fw:"Closing front nine hole. Favor left side off the tee eliminating right bunkers.",gr:"Green slopes left-to-right away from front. Small run-up before green."},
+      {fw:"Back nine opens through mature pines. Right side of fairway for best angle in.",gr:"Don't go long here. Green is tight and bunkers are penalizing."},
+      {fw:"⭐ Par 5 with gorgeous tidal marsh views. Lay up correctly — check marsh yardage.",gr:"Green holds long irons well. Right-center of fairway gives best approach angle."},
+      {fw:"Par 3 over marsh — drop area left of tees if needed. Take enough club.",gr:"Large green with 3 tiers. Hit the right tier for birdie. Drop area available."},
+      {fw:"Long par 4. Plenty of room off the tee but bunkers right are in play.",gr:"Well-bunkered target green. Precision approach needed. Par = excellent."},
+      {fw:"Shorter par 4. Driver is not necessary — long iron gives better angle.",gr:"Green is quite shallow. Going long is fatal. Club down and commit."},
+      {fw:"Long par 3. Once you carry the marsh, a large green with 3 tiers awaits.",gr:"Hitting the right tier gives birdie chance. Drop area left of white tees."},
+      {fw:"Par 5. Position off the tee is paramount — right-center for shortest approach.",gr:"Green guarded by bunkers and marsh — sloped back to front. Drop area greenside."},
+      {fw:"Long par 4. Aim for right side of fairway for best approach angle.",gr:"Make sure you leave a full shot into green to get spin. Raised, well-bunkered."},
+      {fw:"Closing hole. Favor left side to eliminate crossing bunkers. Good tee shot wins.",gr:"Green slopes from left-to-right and away from front. Small run-up area."},
+    ],
+  },
+
+  'rum-pointe': {
+    id: 'rum-pointe', name: 'Rum Pointe Seaside GL', location: 'Berlin, MD', par: 72,
+    architect: 'Pete & P.B. Dye', opened: 1997, isHome: false,
+    tees: {
+      black: {name:'Black', yards:7001, rating:72.6, slope:122},
+      blue:  {name:'Blue',  yards:6500, rating:70.4, slope:118},
+      white: {name:'White', yards:6001, rating:68.3, slope:113},
+      red:   {name:'Red',   yards:5200, rating:69.1, slope:115},
+    },
+    holes: [
+      {n:1,par:5,blue:528,white:490,red:420,hdcp:9},{n:2,par:4,blue:402,white:372,red:307,hdcp:5},
+      {n:3,par:3,blue:188,white:167,red:132,hdcp:15},{n:4,par:4,blue:398,white:368,red:303,hdcp:3},
+      {n:5,par:5,blue:520,white:484,red:413,hdcp:13},{n:6,par:4,blue:388,white:358,red:295,hdcp:7},
+      {n:7,par:3,blue:195,white:173,red:136,hdcp:17},{n:8,par:4,blue:412,white:381,red:314,hdcp:1},
+      {n:9,par:4,blue:380,white:351,red:289,hdcp:11},{n:10,par:4,blue:405,white:374,red:308,hdcp:4},
+      {n:11,par:3,blue:192,white:170,red:134,hdcp:16},{n:12,par:5,blue:535,white:498,red:425,hdcp:2},
+      {n:13,par:4,blue:395,white:365,red:300,hdcp:8},{n:14,par:4,blue:388,white:358,red:295,hdcp:12},
+      {n:15,par:3,blue:198,white:176,red:138,hdcp:18},{n:16,par:5,blue:522,white:486,red:414,hdcp:6},
+      {n:17,par:4,blue:415,white:384,red:316,hdcp:10},{n:18,par:4,blue:340,white:314,red:258,hdcp:14},
+    ],
+    holeTips: [
+      {fw:"Stunning links layout — 17 holes have bay views. Wind is always a factor. Aim downwind.",gr:"Pete Dye greens are tricky. More sand than any course you've played. Aim center always."},
+      {fw:"Wide open links fairway. Crosswind will move the ball. Aim into the wind.",gr:"Immaculately maintained greens roll perfectly and fast. Don't be above the hole."},
+      {fw:"Bay view par 3. Wind comes across — club up or down depending on direction.",gr:"Sand everywhere around this green. Safe is always center. Two putts = par."},
+      {fw:"Toughest on the front. Wide fairway but wind punishes wayward shots.",gr:"Dye signature green — humps and mounds. Lag from correct level."},
+      {fw:"Par 5 with spectacular bay view. Lay up for best wedge distance — don't gamble.",gr:"Large green receptive to high shots. Birdie chance from wedge distance."},
+      {fw:"Wind hole. Aim into the prevailing breeze and let it drift to center.",gr:"Green perched above fairway. Club selection critical. Miss short not long."},
+      {fw:"Par 3 along the bay. Most dramatic tee shot on the course. Pick club for wind.",gr:"Long green. Back pin is a full extra club. Front pin — take one less."},
+      {fw:"Stroke index 1. Into the wind this hole plays brutally long. Lay up if needed.",gr:"Stay patient. Par is excellent. Don't make a big number chasing birdie."},
+      {fw:"Closing front nine. Wind typically helps here. Take one less club if downwind.",gr:"Green receptive. End the front nine with a par and you're in great shape."},
+      {fw:"Back nine with bay views continues. Wind from left — aim down right side.",gr:"Fast greens on the back. Never above the hole. Lag putting is essential."},
+      {fw:"Par 3 on back nine. Wind changes direction on many holes — check flag carefully.",gr:"Large green with tiers. Hit the right level. Drop area available if short."},
+      {fw:"Long par 5. Lay up in two to 80-100 yards. Don't try to reach in two.",gr:"Wedge approach to a Dye green. Birdie available if disciplined."},
+      {fw:"Wind across fairway. Aim into it and let it carry to center.",gr:"Precision approach. Sand right and left. Middle of green is the only safe play."},
+      {fw:"Long par 4. Head down, make solid contact. Wind will exaggerate any miss.",gr:"Green slopes toward the bay. Club up and aim center-left to feed to pin."},
+      {fw:"Final par 3. Gorgeous bay view. Deep breath — pick your wind-adjusted club.",gr:"Beautiful but treacherous green. Two putts and move to a great closing stretch."},
+      {fw:"Par 5. Downwind is reachable in two — but water and sand lurk. Lay up safely.",gr:"Giant Dye green. Birdie chance if disciplined. Don't make bogey here."},
+      {fw:"Long par 4. Fairway is generous but wind will test you. Commit to target.",gr:"Well-bunkered green. Aim center. Par is excellent on this tough hole."},
+      {fw:"Short closing hole — but don't let your guard down. Sand everywhere.",gr:"Last green at Rum Pointe. Make par and walk off one of the best courses on the Shore."},
+    ],
+  },
+
+  'hoopers-landing': {
+    id: 'hoopers-landing', name: "Hooper's Landing GC", location: 'Seaford, DE', par: 72,
+    architect: 'Alfred H. Tull / Richard Mandell', opened: 1949, isHome: false,
+    tees: {
+      blue:  {name:'Blue',  yards:6651, rating:71.5, slope:126},
+      white: {name:'White', yards:6146, rating:69.2, slope:120},
+      gold:  {name:'Gold',  yards:5527, rating:66.5, slope:113},
+      red:   {name:'Red',   yards:5483, rating:71.0, slope:120},
+    },
+    holes: [
+      {n:1,par:4,blue:383,white:354,gold:318,red:310,hdcp:9},{n:2,par:4,blue:402,white:371,gold:334,red:325,hdcp:5},
+      {n:3,par:5,blue:528,white:488,gold:438,red:427,hdcp:3},{n:4,par:3,blue:182,white:168,gold:151,red:147,hdcp:15},
+      {n:5,par:4,blue:388,white:358,gold:322,red:314,hdcp:7},{n:6,par:4,blue:362,white:334,gold:300,red:292,hdcp:13},
+      {n:7,par:3,blue:195,white:180,gold:162,red:158,hdcp:17},{n:8,par:5,blue:512,white:473,gold:425,red:415,hdcp:1},
+      {n:9,par:4,blue:375,white:346,gold:311,red:303,hdcp:11},{n:10,par:4,blue:395,white:365,gold:328,red:320,hdcp:4},
+      {n:11,par:5,blue:545,white:503,gold:452,red:441,hdcp:2},{n:12,par:3,blue:175,white:161,gold:145,red:141,hdcp:16},
+      {n:13,par:4,blue:408,white:377,gold:339,red:330,hdcp:6},{n:14,par:4,blue:370,white:342,gold:307,red:299,hdcp:12},
+      {n:15,par:3,blue:185,white:171,gold:154,red:150,hdcp:18},{n:16,par:5,blue:520,white:480,gold:432,red:421,hdcp:8},
+      {n:17,par:4,blue:412,white:381,gold:342,red:333,hdcp:10},{n:18,par:4,blue:374,white:345,gold:310,red:302,hdcp:14},
+    ],
+    holeTips: [
+      {fw:"Two distinct nines — the original 9 and the Richard Mandell addition. Good opener.",gr:"Well-maintained greens roll true. Aim center and make par. Good start."},
+      {fw:"Straightforward par 4. Driver then medium iron. Fairway is your friend here.",gr:"Receptive green. Club up slightly. Two-putt par is the goal."},
+      {fw:"Par 5 — birdie opportunity. Lay up for best wedge distance.",gr:"Large green. Birdie from inside 100 yards is very makeable. Take it."},
+      {fw:"Par 3. Take your yardage club and commit. No hero shots needed.",gr:"Middle of green gives comfortable two-putt. Aim away from trouble."},
+      {fw:"Good par 4. Drive it in play and attack with mid-iron.",gr:"Green is receptive. Par is available. Focus on two-putting."},
+      {fw:"Shorter par 4. 3-wood off tee for position. Set up a scoring chance.",gr:"Good birdie hole if tee shot is in play. Aim center-left."},
+      {fw:"Longer par 3. Wind can be a factor on the DelMarVa peninsula.",gr:"Medium green. Aim center. Two putts = good result here."},
+      {fw:"Long par 5. Stroke index 1 — hardest hole. Three shots for most.",gr:"Patient play rewarded. Wedge in and make birdie or par."},
+      {fw:"Closing front nine hole. Solid par 4. Fairway then approach.",gr:"Make par and take a strong front nine into the back."},
+      {fw:"Back nine features different terrain. Stay focused and play one shot at a time.",gr:"Greens are well-maintained. Lag from distance and two-putt."},
+      {fw:"Par 5. Stroke index 2 — take it seriously. Three solid shots wins here.",gr:"Don't be greedy. Wedge in for birdie chance. Par is always available."},
+      {fw:"Short par 3. Straightforward — take your club and make a smooth swing.",gr:"Good birdie chance. Aim at the flag and make your putt."},
+      {fw:"Long par 4. Two quality shots required. Fairway, then precision approach.",gr:"Stay below the hole. Uphill putts are your friend on these greens."},
+      {fw:"Shorter par 4. Good scoring chance. 3-wood or long iron for position.",gr:"Good birdie hole. Short approach from fairway — commit to the target."},
+      {fw:"Short par 3. Finishing par 3 of the round. Take your yardage club.",gr:"Aim center. Make par and head to the strong finishing stretch."},
+      {fw:"Par 5. Birdie opportunity if played smartly. Lay up for best angle.",gr:"Wide green. Get it on and two-putt for birdie. Don't make bogey."},
+      {fw:"Long par 4. Need two solid shots. Driver then long iron to reach.",gr:"Aim center of green. Par here is an excellent score."},
+      {fw:"Closing hole. Straight par 4. Driver and medium iron. Finish strong.",gr:"Make par on 18 and complete a solid round at Hooper's Landing."},
+    ],
+  },
+
+  'lighthouse-sound': {
+    id: 'lighthouse-sound', name: "The Links at Lighthouse Sound", location: 'Bishopville, MD', par: 72,
+    architect: 'Arthur Hills', opened: 2000, isHome: false,
+    tees: {
+      black: {name:'Black', yards:7003, rating:73.5, slope:144},
+      blue:  {name:'Blue',  yards:6501, rating:71.2, slope:138},
+      white: {name:'White', yards:5987, rating:68.8, slope:130},
+      red:   {name:'Red',   yards:5251, rating:70.5, slope:126},
+    },
+    holes: [
+      {n:1,par:4,blue:402,white:368,red:308,hdcp:9},{n:2,par:4,blue:388,white:355,red:295,hdcp:5},
+      {n:3,par:5,blue:540,white:502,red:428,hdcp:1},{n:4,par:3,blue:205,white:182,red:143,hdcp:15},
+      {n:5,par:4,blue:415,white:381,red:317,hdcp:3},{n:6,par:4,blue:372,white:341,red:283,hdcp:13},
+      {n:7,par:3,blue:192,white:171,red:134,hdcp:17},{n:8,par:5,blue:548,white:509,red:434,hdcp:7},
+      {n:9,par:4,blue:395,white:362,red:300,hdcp:11},{n:10,par:4,blue:408,white:374,red:311,hdcp:4},
+      {n:11,par:5,blue:535,white:497,red:423,hdcp:2},{n:12,par:3,blue:185,white:165,red:129,hdcp:16},
+      {n:13,par:4,blue:412,white:378,red:314,hdcp:6},{n:14,par:4,blue:390,white:357,red:296,hdcp:10},
+      {n:15,par:3,blue:198,white:176,red:138,hdcp:18},{n:16,par:5,blue:528,white:490,red:417,hdcp:8},
+      {n:17,par:4,blue:418,white:384,red:319,hdcp:12},{n:18,par:4,blue:368,white:337,red:280,hdcp:14},
+    ],
+    holeTips: [
+      {fw:"⭐ Lighthouse Sound features the longest cart bridge in the US. Stunning bay views throughout.",gr:"Slope 144 — this is a demanding course. Aim center of every green. No risky pins."},
+      {fw:"Wind off the bay is constant. Always check direction before club selection.",gr:"Arthur Hills greens are large and undulating. Lag from distance. Never above the hole."},
+      {fw:"Long par 5 with bay views. Three-shot hole — lay up for wedge distance.",gr:"Receptive green. Birdie from 90-100 yards is very makeable here."},
+      {fw:"Long par 3 over marshland. Wind will influence distance significantly.",gr:"Large target but marsh short. Take enough club — never be short here."},
+      {fw:"Long par 4. Stroke index 3 — play it conservatively. Fairway then mid-iron.",gr:"Stay below the hole. This green is tricky — uphill putt is essential."},
+      {fw:"Shorter par 4. Good scoring chance. 3-wood for position off the tee.",gr:"Good birdie opportunity if tee shot is in the fairway. Commit to approach."},
+      {fw:"Par 3 with water views. Club selection critical — wind always a factor.",gr:"Aim center green always. Sand and water punish misses. Make par and move on."},
+      {fw:"Long par 5. Lay up to 80-100 yards. Don't try to reach over the marsh.",gr:"Large green — good birdie chance from wedge distance. Take it."},
+      {fw:"Closing front nine. Wind off the bay on this hole — adjust accordingly.",gr:"Make par and take the front nine score into the back."},
+      {fw:"Back nine with even better bay views. Wind is a constant factor.",gr:"Greens are firmer on the back nine. Aim center and lag putt."},
+      {fw:"Long par 5. Stroke index 2 — three shots required. Patient play wins.",gr:"Don't be greedy. Wedge from 90 yards and make birdie or par."},
+      {fw:"Bay view par 3. Stunning location — enjoy the moment and pick the right club.",gr:"Medium green. Aim center. Two putts = excellent result."},
+      {fw:"Long par 4. Into the wind this plays brutally tough. Lay up if needed.",gr:"Precision approach required. Center of green. Two-putt par is fantastic."},
+      {fw:"Straightforward par 4. Driver and mid-iron. Consistent play wins here.",gr:"Aim center-right. Green feeds toward the bay. Two putts = par."},
+      {fw:"Final par 3. Beautiful setting. Take the right club for the wind conditions.",gr:"Large green with multiple levels. Hit correct level for birdie. Aim conservatively."},
+      {fw:"Par 5. Wind direction determines strategy. Lay up or go — know your number.",gr:"Wide green. Birdie chance from inside 100 yards. Don't make a big number."},
+      {fw:"Long par 4. Penultimate hole — stay focused. Fairway then long approach.",gr:"Tough green to hold. Aim center. Par here sets up great finish."},
+      {fw:"Closing hole at Lighthouse Sound. Bay views on 18 — enjoy it and make par.",gr:"Aim center of closing green. Make par and finish strong at one of the Shore's best."},
+    ],
+  },
+
+  'man-owar': {
+    id: 'man-owar', name: "GlenRiddle — Man O'War", location: 'Berlin, MD', par: 72,
+    architect: 'Bobby Weed', opened: 1998, isHome: false,
+    tees: {
+      black: {name:'Black', yards:7196, rating:75.0, slope:145},
+      blue:  {name:'Blue',  yards:6700, rating:72.5, slope:138},
+      white: {name:'White', yards:6100, rating:70.0, slope:130},
+      red:   {name:'Red',   yards:5300, rating:71.0, slope:128},
+    },
+    holes: [
+      {n:1,par:4,blue:408,white:372,red:305,hdcp:9},{n:2,par:5,blue:548,white:508,red:433,hdcp:3},
+      {n:3,par:4,blue:392,white:359,red:295,hdcp:11},{n:4,par:3,blue:202,white:179,red:140,hdcp:15},
+      {n:5,par:4,blue:418,white:384,red:316,hdcp:1},{n:6,par:5,blue:542,white:503,red:428,hdcp:7},
+      {n:7,par:3,blue:185,white:165,red:129,hdcp:17},{n:8,par:4,blue:410,white:377,red:310,hdcp:5},
+      {n:9,par:4,blue:388,white:356,red:293,hdcp:13},{n:10,par:4,blue:415,white:381,red:314,hdcp:4},
+      {n:11,par:4,blue:405,white:372,red:306,hdcp:8},{n:12,par:5,blue:540,white:501,red:427,hdcp:2},
+      {n:13,par:3,blue:195,white:173,red:136,hdcp:16},{n:14,par:4,blue:385,white:354,red:291,hdcp:12},
+      {n:15,par:5,blue:548,white:509,red:433,hdcp:6},{n:16,par:4,blue:412,white:379,red:312,hdcp:10},
+      {n:17,par:3,blue:178,white:158,red:124,hdcp:18},{n:18,par:4,blue:327,white:300,red:247,hdcp:14},
+    ],
+    holeTips: [
+      {fw:"Pure windswept links golf. Large greens, pot bunkers, sand dunes, and constant eastern shore winds.",gr:"Man O'War greens are large but tricky in wind. Always check the breeze before putting."},
+      {fw:"Par 5 — driver is your friend on Man O'War. Double fairways give generous width.",gr:"Birdie chance from 80-100 yards. Large green holds approach shots well."},
+      {fw:"Links-style par 4. Use the double fairway to your advantage off the tee.",gr:"Pot bunkers around green. Aim center and avoid getting trapped short."},
+      {fw:"Long par 3. The historic racetrack comes into play as a strategic cross hazard.",gr:"Large green but wind affects everything. Add one club for coastal breeze."},
+      {fw:"Stroke index 1. On Man O'War you can pull out driver on most par 4s.",gr:"Par here is excellent. Don't take risks — fairway, approach, two putts."},
+      {fw:"Par 5 with racetrack cross hazard. Thrilling hole — lay up short of the hazard.",gr:"Birdie is available if you're disciplined. Large receptive green."},
+      {fw:"Short par 3. Links feel — ball will run on the ground if you miss short.",gr:"Bump-and-run is a legitimate play if wind is into you. Aim for correct level."},
+      {fw:"Long par 4. Pot bunkers define this course — avoid them at all costs.",gr:"Green slopes significantly. Get on the right level or lag from distance."},
+      {fw:"Closing front nine. Links golf requires imagination. Use the ground if helpful.",gr:"Make par and enjoy the unique experience of Man O'War's front nine."},
+      {fw:"Back nine continues the links experience. Wind direction may have shifted.",gr:"Greens are large — don't leave yourself above the hole on the back nine."},
+      {fw:"Par 4 on the back. Driver is fine unless hazard is short. Check yardage.",gr:"Aim center of generous green. Par here is a solid result."},
+      {fw:"Long par 5. Historic thoroughbred racetrack hazard adds drama. Lay up safely.",gr:"Three-shot hole. Wedge from 90 yards for birdie. Enjoy the surroundings."},
+      {fw:"Par 3 on the back. Wind often swirls here — check multiple flags if possible.",gr:"Large green — aim center. Birdie chance if approach is on correct level."},
+      {fw:"Par 4. Shorter back nine holes — driver is occasionally left in the bag.",gr:"Precision is rewarded. Good birdie hole if tee shot is in the fairway."},
+      {fw:"Long par 5. Hit driver and commit. Links fairways are forgiving — use them.",gr:"Large green. Birdie from wedge distance is very makeable here."},
+      {fw:"Par 4. Driver on most par 4s except 17 — pin back and ball rolls off back.",gr:"⚠️ Back pin: go easy or ball rolls off back into water. Front pin: attack."},
+      {fw:"Short par 3. Final par 3 at Man O'War. Wind is always the variable.",gr:"Bump-and-run if wind is into you. Get on the green and two-putt."},
+      {fw:"Short closing par 4 — but don't relax. Finish with a par and enjoy this masterpiece.",gr:"Make par on 18 and walk off one of the finest links experiences on the Eastern Shore."},
+    ],
+  },
+
+  'nutters-crossing': {
+    id: 'nutters-crossing', name: "Nutters Crossing GC", location: 'Salisbury, MD', par: 70,
+    architect: 'Ault, Clark & Associates', opened: 1991, isHome: false,
+    tees: {
+      blue:  {name:'Blue',  yards:6029, rating:69.0, slope:125},
+      white: {name:'White', yards:5576, rating:66.9, slope:120},
+      gold:  {name:'Gold',  yards:5009, rating:64.2, slope:112},
+      red:   {name:'Red',   yards:4462, rating:65.8, slope:111},
+    },
+    holes: [
+      {n:1,par:4,blue:378,white:350,gold:315,red:280,hdcp:7},{n:2,par:4,blue:358,white:331,gold:298,red:265,hdcp:13},
+      {n:3,par:3,blue:165,white:153,gold:137,red:122,hdcp:17},{n:4,par:4,blue:385,white:356,gold:320,red:285,hdcp:3},
+      {n:5,par:4,blue:372,white:344,gold:309,red:275,hdcp:9},{n:6,par:5,blue:510,white:472,gold:424,red:378,hdcp:5},
+      {n:7,par:4,blue:340,white:315,gold:283,red:252,hdcp:15},{n:8,par:3,blue:185,white:171,gold:154,red:137,hdcp:11},
+      {n:9,par:4,blue:340,white:315,gold:283,red:252,hdcp:1},{n:10,par:4,blue:362,white:335,gold:301,red:268,hdcp:8},
+      {n:11,par:3,blue:185,white:171,gold:154,red:137,hdcp:16},{n:12,par:4,blue:388,white:359,gold:323,red:287,hdcp:2},
+      {n:13,par:4,blue:342,white:316,gold:284,red:253,hdcp:12},{n:14,par:4,blue:395,white:365,gold:329,red:293,hdcp:4},
+      {n:15,par:3,blue:175,white:162,gold:146,red:129,hdcp:18},{n:16,par:5,blue:515,white:476,gold:428,red:381,hdcp:6},
+      {n:17,par:4,blue:360,white:333,gold:299,red:266,hdcp:14},{n:18,par:4,blue:374,white:346,gold:311,red:277,hdcp:10},
+    ],
+    holeTips: [
+      {fw:"Open front nine — wide fairways, let it rip. Water lurks on 12 holes so stay alert.",gr:"Greens built to USGA specs — true and consistent. Aim center and lag putt."},
+      {fw:"Front nine is wide open — great chance to score. Drive it and attack.",gr:"50+ bunkers on this course — sand is everywhere. Aim center of every green."},
+      {fw:"Short par 3. Signature hole: par-3 15th later is the challenge, not this one.",gr:"Good birdie chance. Aim at pin and make your putt."},
+      {fw:"Stroke index 3. Good par 4 — fairway then mid-iron approach.",gr:"Receptive green. Two-putt par and stay consistent through the front."},
+      {fw:"Gently rolling hills define the front nine. Enjoy the open terrain.",gr:"Aim center. Bunkers strategically placed will catch directional misses."},
+      {fw:"Par 5 on the front. Ruark Play-3 package course — worth the effort to birdie.",gr:"Birdie from inside 100 yards. Take a deep breath and make a smooth swing."},
+      {fw:"Short par 4. 3-wood gives perfect angle. Set up a short iron approach.",gr:"Good birdie hole. Tight green — commit to the shot and trust it."},
+      {fw:"Water lurks on at least a dozen holes — check yardage to hazards.",gr:"Medium green. Par is fine. Stay consistent and make the turn well."},
+      {fw:"Stroke index 1 — toughest front nine hole. Focus, fairway, par = great.",gr:"Don't give it away here. Two putts and take a strong front nine to the back."},
+      {fw:"Back nine through woodlands — tighter and demands more accuracy.",gr:"Tree-lined back nine greens are smaller. Precision approach is essential."},
+      {fw:"Par 3 on the back nine through the trees. Accuracy is everything here.",gr:"Smaller target in the trees. Make par and move to the scoring stretch."},
+      {fw:"Stroke index 2. Long par 4. Two quality shots required. Fairway first.",gr:"Good par here is excellent. Stay patient through the back nine."},
+      {fw:"Shorter par 4 through trees. 3-wood or long iron for accuracy.",gr:"Good birdie chance. Fairway shot sets up a short approach — commit."},
+      {fw:"Longer par 4. Driver then long iron or hybrid to reach.",gr:"Precision approach. Make par and set up the stretch run."},
+      {fw:"⭐ Signature par 3: must navigate a narrow water channel to reach the green.",gr:"Scenic and challenging. Take enough club to carry the water — no bail-out."},
+      {fw:"Par 5. Ruark course with great conditions. Three-shot birdie opportunity.",gr:"Birdie chance from inside 100 yards. Finish the back nine strong."},
+      {fw:"Par 4 through woodland. Tighter fairway — 3-wood beats driver for control.",gr:"Good closing stretch begins. Make par and stay focused for two more."},
+      {fw:"Closing par 4. Driver then approach. Finish the round at Nutters strong.",gr:"Make par on 18 and you've had a complete round at one of Salisbury's best."},
+    ],
+  },
+};
+
+// active course for live scorecard
+let activeCourse = COURSES['ocean-resorts'];
+let HOLES = activeCourse.holes; // dynamic reference
+
+
 
 const TIPS = {
   putting:[
@@ -873,6 +1462,7 @@ const TIPS = {
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let rounds = [];
 let coachNotes = [];
+let guestMessages = [];
 let hwItems = [
   {text:'Do the "logo to ball" drill — 20 reps every range session until contact is consistent',done:false},
   {text:'Eyes-closed contact drill — hit 10 balls listening for the click before looking up',done:false},
@@ -921,11 +1511,14 @@ async function loadFromBin() {
     if (Array.isArray(data.rounds)) rounds = data.rounds;
     if (Array.isArray(data.coachNotes)) coachNotes = data.coachNotes;
     if (Array.isArray(data.hwItems)) hwItems = data.hwItems;
+    if (Array.isArray(data.guestMessages)) guestMessages = data.guestMessages;
     saveLocal();
     synced = true;
     setSyncStatus('ok', `Cloud sync OK — ${rounds.length} round${rounds.length !== 1 ? 's' : ''} loaded`);
     updateHeaderBest();
     renderRounds();
+    if (currentUser === 'drew') renderDrewMessages();
+    if (currentUser === 'guest') renderGuestView();
   } catch(e) {
     console.error('loadFromBin failed:', e);
     setSyncStatus('err', `Sync failed: ${e.message} — tap ↻ to retry`);
@@ -936,7 +1529,7 @@ async function loadFromBin() {
 async function saveToBin() {
   setSyncStatus('busy', 'Saving to cloud...');
   try {
-    const payload = { rounds, coachNotes, hwItems };
+    const payload = { rounds, coachNotes, hwItems, guestMessages };
     const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
@@ -961,11 +1554,13 @@ function saveLocal() {
   localStorage.setItem('b80_rounds', JSON.stringify(rounds));
   localStorage.setItem('b80_notes', JSON.stringify(coachNotes));
   localStorage.setItem('b80_hw', JSON.stringify(hwItems));
+  localStorage.setItem('b80_guestMsgs', JSON.stringify(guestMessages));
 }
 
 function loadLocal() {
   rounds = JSON.parse(localStorage.getItem('b80_rounds') || '[]');
   coachNotes = JSON.parse(localStorage.getItem('b80_notes') || '[]');
+  guestMessages = JSON.parse(localStorage.getItem('b80_guestMsgs') || '[]');
   const hw = localStorage.getItem('b80_hw');
   if (hw) hwItems = JSON.parse(hw);
   updateHeaderBest();
@@ -995,6 +1590,14 @@ function applyNavState(state, isPopState) {
   if (btn) btn.classList.add('active');
   const secEl = document.getElementById('sec-' + sec);
   if (secEl) secEl.classList.add('active');
+
+  if (sec === 'overview') {
+    renderDrewMessages();
+  }
+
+  if (sec === 'guest') {
+    renderGuestView();
+  }
 
   // tab-specific side effects
   if (sec === 'progress') updateProgress();
@@ -1033,11 +1636,15 @@ function applyNavState(state, isPopState) {
 }
 
 window.addEventListener('popstate', e => {
-  if (e.state) {
+  if (e.state && e.state.sec === 'splash') {
+    // Back pressed from first logged-in screen — return to splash
+    document.querySelectorAll('.sec').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.nb').forEach(x => x.classList.remove('active'));
+    showSplash();
+  } else if (e.state && e.state.sec) {
     applyNavState(e.state, true);
   } else {
-    // fallen back to the very first page — show overview
-    applyNavState({ sec: 'overview', scView: 'start', hole: 0 }, true);
+    showSplash();
   }
 });
 
@@ -1047,8 +1654,9 @@ document.querySelectorAll('.nb').forEach(b => {
   });
 });
 
-// seed initial history entry so the very first back press works
-history.replaceState({ sec: 'overview', scView: 'start', hole: 0 }, '', '#overview');
+// Don't pre-activate any nav state at load — the splash login controls first navigation
+// history.replaceState is called inside login() instead
+history.replaceState({ sec: 'splash', scView: 'start', hole: 0 }, '', '#');
 
 // ── OVERVIEW ──────────────────────────────────────────────────────────────────
 function selArea(el) {
@@ -1062,44 +1670,6 @@ function selArea(el) {
 selArea(document.querySelector('.si.sel'));
 
 // ── SCORECARD — LIVE HOLE-BY-HOLE ────────────────────────────────────────────
-const HOLE_TIPS = [
-  {fw:"Play tee shot to the left side to avoid fairway bunkers on the right. A 3-wood keeps you safe and leaves a short iron in.",
-   gr:"Big, forgiving green — aim dead center. Two putts is par. A great chance to start the round on a positive note."},
-  {fw:"Slight dogleg right. Take enough club off the tee to reach the elbow. Avoid the rough on the right side.",
-   gr:"Large green is forgiving. Club up on approach — most amateurs come up short here. Aim center, ignore tucked pins."},
-  {fw:"Long narrow par 3 through trees. You need a straight long iron or hybrid. Take plenty of club — coming up short means trouble.",
-   gr:"Narrow green. If you're on, lag and two-putt for par. Don't chase it if you miss — chip to a safe spot and one-putt."},
-  {fw:"⚠️ NO DRIVER. Use 3-wood or long iron. Water on the right punishes wild tee shots. Place it safely in the left-center fairway.",
-   gr:"Shallow green with water front. Take at least one extra club. Aim center-back of green. Short is in the water — don't be short."},
-  {fw:"Tee shot down the right side to open up the hole. This is a three-shot hole — don't get greedy going for it in two.",
-   gr:"Take the safe route to the front of the green on your third shot. Bump-and-run beats a flop from 80 yards every time."},
-  {fw:"⚠️ WATER: Aim at the cluster of trees across the pond off the tee. Keep it left-center and avoid the right rough entirely.",
-   gr:"Water pinches the front of the green. Take one extra club minimum. Never go at a front pin — aim fat part of green always."},
-  {fw:"Play your tee shot over the mound on the left side. Avoid biting off too much — place it in the fairway for a clean angle in.",
-   gr:"If the pin is back-left, play to center. Two putts from the middle always beats a chip from the bunker."},
-  {fw:"Long par 3 requiring a long, accurate iron or hybrid. Don't try to hero it. A smooth 80% swing beats a wild full swing.",
-   gr:"Very undulating green — always aim center regardless of pin location. Three-putts are common here. Lag first, make second."},
-  {fw:"⚠️ WATER: Hidden pond guards the front of the green in three-shot range. Lay up short of it on your second shot. Don't gamble.",
-   gr:"Severe two-tiered green — MUST be on the correct tier. Wrong side means an almost impossible putt. Bogey is a great score here."},
-  {fw:"You need to carry the ditch with your tee shot to reach the dogleg corner. Don't under-club here — take enough stick.",
-   gr:"Green is accessible from the fairway. Take your full yardage club. Avoid the bunkers left — they're deep and penalizing."},
-  {fw:"⚠️ Sharp dogleg right — do NOT cut the corner. Hit it far enough down the left side to leave a clear angle to the green.",
-   gr:"Tough green to hold. Aim for the middle and accept a lag putt. Par is a great score on this hole."},
-  {fw:"Short par 3 — take a smooth iron, not a full swing. Accuracy matters more than distance. Club down one from your instinct.",
-   gr:"A mound divides the green front-to-back. Play to the correct side or two-putting becomes very difficult."},
-  {fw:"Avoid going left off the tee at all costs — trees and trouble lurk there. Play right-center and take your medicine.",
-   gr:"Undulating green — check pin position carefully before your approach. Correct distance is everything here. Lag from the right tier."},
-  {fw:"Short par 3. Club down from your instinct — most golfers fly this green. Smooth and accurate is the play.",
-   gr:"⚠️ Tricky 3-level green. Front and back bunkers penalize misses. Aim at the correct level of green and lag to two-putt par."},
-  {fw:"Reachable par 5. Even if you can't reach in two, a well-placed lay-up leaves a simple wedge. Avoid the trees on the right.",
-   gr:"Don't get greedy — a wedge from 80-100 yards beats a hero 3-wood. Green is accessible. Birdie or eagle chance here!"},
-  {fw:"Short dogleg right — aim your tee shot at the left greenside bunker as your target. This opens the green perfectly.",
-   gr:"Best birdie opportunity on the course. Short pitch from the left leaves a makeable putt. Commit fully to the target."},
-  {fw:"Let it rip! Short par 5 rewards aggression. Keep the second shot left of center to avoid the fairway bunker on the right.",
-   gr:"Generous landing areas around the green. Don't overthink it — get it on in regulation and two-putt for birdie."},
-  {fw:"⚠️ WATER: The pond sneaks into the left side of the fairway. Play tee shot to the right. OB is also left — double danger zone.",
-   gr:"Good approach angle from right fairway. Aim center of green. Don't blow up your round on the last hole — make par and walk in proud."},
-];
 
 let lvHole = 0;
 let lvScores = Array(18).fill(null);
@@ -1109,8 +1679,50 @@ let lvRoundActive = false;
 
 function buildScorecard() {
   document.getElementById('scDate').valueAsDate = new Date();
+  // Populate course dropdown
+  const sel = document.getElementById('scCourseSelect');
+  if (sel && sel.options.length <= 1) {
+    Object.values(COURSES).forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = (c.isHome ? '🏠 ' : '') + c.name + ' — ' + c.location;
+      sel.appendChild(opt);
+    });
+  }
+  // Pre-select home course
+  if (sel && sel.value === '') {
+    sel.value = 'ocean-resorts';
+    selectCourseFromDropdown('ocean-resorts');
+  }
   checkResumeHint();
 }
+
+function selectCourseFromDropdown(courseId) {
+  if (!courseId) return;
+  activeCourse = COURSES[courseId];
+  HOLES = activeCourse.holes;
+  // Update name/info display
+  document.getElementById('scCourseName').textContent = activeCourse.name;
+  document.getElementById('scCourseInfo').textContent =
+    activeCourse.location + ' · Par ' + activeCourse.par +
+    ' · Rating ' + Object.values(activeCourse.tees)[1].rating +
+    ' / Slope ' + Object.values(activeCourse.tees)[1].slope +
+    ' · ' + activeCourse.architect;
+  // Update tees dropdown
+  const teeSel = document.getElementById('scTees');
+  teeSel.innerHTML = Object.entries(activeCourse.tees).map(([k, t]) =>
+    `<option value="${k}">${t.name} (${t.yards} yds — ${t.rating}/${t.slope})</option>`
+  ).join('');
+  const teeKeys = Object.keys(activeCourse.tees);
+  teeSel.value = teeKeys[Math.min(1, teeKeys.length - 1)];
+  // Enable start button
+  const btn = document.getElementById('startRoundBtn');
+  if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+}
+
+// kept for backward compat — not used anymore
+function renderCourseGrid() {}
+function selectCourse(id) { selectCourseFromDropdown(id); }
 
 function checkResumeHint() {
   const hasData = lvScores.some(s => s !== null);
@@ -1122,10 +1734,12 @@ function checkResumeHint() {
 }
 
 function startRound() {
+  if (!activeCourse) { alert('Please select a course first.'); return; }
   lvScores = Array(18).fill(null);
   lvPutts = Array(18).fill(null);
   lvFairways = Array(18).fill(null);
   lvHole = 0;
+  HOLES = activeCourse.holes;
   lvRoundActive = true;
   showLiveView();
 }
@@ -1147,15 +1761,15 @@ function showLiveView() {
 
 function renderLiveHole() {
   const h = HOLES[lvHole];
-  const tee = document.getElementById('scTees')?.value || 'white';
+  const tee = document.getElementById('scTees')?.value || Object.keys(activeCourse.tees)[1] || 'white';
 
   document.getElementById('lv-hole-num').textContent = h.n;
   document.getElementById('lv-par-badge').textContent = 'Par ' + h.par;
-  document.getElementById('lv-yardage').textContent = h[tee] + ' yds';
+  document.getElementById('lv-yardage').textContent = (h[tee] || h[Object.keys(activeCourse.tees)[0]] || '—') + ' yds';
   document.getElementById('lv-hdcp-badge').textContent = 'Hcp ' + h.hdcp;
   document.getElementById('lv-hole-count').textContent = `${lvHole + 1} of 18`;
 
-  const tips = HOLE_TIPS[lvHole];
+  const tips = (activeCourse.holeTips || [])[lvHole] || {fw:'Play smart and keep the ball in play.',gr:'Aim center of the green and make two putts.'};
   document.getElementById('lv-tip-fw-text').textContent = tips.fw;
   document.getElementById('lv-tip-gr-text').textContent = tips.gr;
 
@@ -1265,11 +1879,114 @@ function setFairway(val) {
   renderLiveHole();
 }
 
+// ── HOLE RESULT SPLASH ───────────────────────────────────────────────────────
+const HOLE_RESULTS = {
+  eagle: {
+    avatars: ['🦅','🏆','🎯','⚡','🔥'],
+    label: 'Eagle!',
+    subs: ['Absolutely electric!', 'That\'s what dreams are made of.', 'Two under — you\'re a legend.', 'Unreal shot. Remember this feeling.'],
+    bg: 'linear-gradient(160deg,#7a5a00,#c9a84c,#f0d98a)',
+  },
+  birdie: {
+    avatars: ['🐦','🎉','🌟','🙌','💪'],
+    label: 'Birdie!',
+    subs: ['One under par — beautiful.', 'That\'s how you play golf.', 'Steve would be proud.', 'Keep that momentum going.'],
+    bg: 'linear-gradient(160deg,#065f46,#059669,#34d399)',
+  },
+  par: {
+    avatars: ['✅','👍','🤜','😤','💼'],
+    label: 'Par',
+    subs: ['Steady and solid.', 'Par is always a good score.', 'Consistent. That\'s the game.', 'Exactly what 80 looks like.'],
+    bg: 'linear-gradient(160deg,#1e3a5f,#1d4ed8,#60a5fa)',
+  },
+  bogey: {
+    avatars: ['😤','🚶','💪','🤔','📋'],
+    label: 'Bogey',
+    subs: ['One over. Move on.', 'Take the bogey and go.', 'Bogey golfer goals — keep it up.', 'That\'s the grind. Next hole.'],
+    bg: 'linear-gradient(160deg,#78350f,#d97706,#fbbf24)',
+  },
+  double: {
+    avatars: ['😬','🥊','🔄','💭','🛠️'],
+    label: 'Double',
+    subs: ['Shake it off. One hole.', 'Reset and reload.', 'These happen. Head down.', 'Forget it. Focus on the next tee.'],
+    bg: 'linear-gradient(160deg,#7f1d1d,#dc2626,#f87171)',
+  },
+  triple: {
+    avatars: ['🤯','😤','🧱','🪛','💥'],
+    label: 'Triple+',
+    subs: ['Everyone has these. Move on.', 'The round isn\'t over.', 'Take a breath. Next hole fresh.', 'Steve says: reset. That\'s it.'],
+    bg: 'linear-gradient(160deg,#4c1d95,#7c3aed,#a78bfa)',
+  },
+  nine: {
+    avatars: ['😱','🤦','📖','🔧','🧘'],
+    label: 'Wow.',
+    subs: ['That one\'s for the book.', 'We don\'t talk about that hole.', 'Stuff happens. Fresh start.', 'Literally the only way is up.'],
+    bg: 'linear-gradient(160deg,#1f2937,#374151,#6b7280)',
+  },
+};
+
+function showHoleResult(score, par, holeNum) {
+  const diff = score - par;
+  let key;
+  if (score >= 9) key = 'nine';
+  else if (diff <= -2) key = 'eagle';
+  else if (diff === -1) key = 'birdie';
+  else if (diff === 0) key = 'par';
+  else if (diff === 1) key = 'bogey';
+  else if (diff === 2) key = 'double';
+  else key = 'triple';
+
+  const res = HOLE_RESULTS[key];
+  const avatar = res.avatars[Math.floor(Math.random() * res.avatars.length)];
+  const sub = res.subs[Math.floor(Math.random() * res.subs.length)];
+  const sign = diff > 0 ? '+' : '';
+  const diffTxt = diff === 0 ? 'E' : sign + diff;
+
+  document.getElementById('holeResultAvatar').textContent = avatar;
+  document.getElementById('holeResultLabel').textContent = res.label;
+  document.getElementById('holeResultSub').textContent = sub;
+  document.getElementById('holeResultScore').textContent = `Hole ${holeNum} · Score ${score} · ${diffTxt} vs par`;
+  document.getElementById('holeResultBg').style.background = res.bg;
+
+  const overlay = document.getElementById('holeResultOverlay');
+  overlay.style.display = 'flex';
+  overlay.style.animation = 'overlayFadeIn .25s ease both';
+}
+
+function dismissHoleResult() {
+  const overlay = document.getElementById('holeResultOverlay');
+  overlay.style.display = 'none';
+  // Now actually advance to next hole
+  if (_pendingNextHole !== null) {
+    const next = _pendingNextHole;
+    _pendingNextHole = null;
+    if (next === 'finish') {
+      finishRound();
+    } else {
+      lvHole = next;
+      history.pushState({ sec: 'scorecard', scView: 'live', hole: lvHole }, '', '#scorecard-hole' + (lvHole + 1));
+      renderLiveHole();
+    }
+  }
+}
+
+let _pendingNextHole = null;
+
 function goNextHole() {
-  if (lvHole === 17) { finishRound(); return; }
-  lvHole = Math.min(17, lvHole + 1);
-  history.pushState({ sec: 'scorecard', scView: 'live', hole: lvHole }, '', '#scorecard-hole' + (lvHole + 1));
-  renderLiveHole();
+  const s = lvScores[lvHole];
+  const h = HOLES[lvHole];
+
+  if (s !== null) {
+    // Show result splash, then advance
+    _pendingNextHole = lvHole === 17 ? 'finish' : lvHole + 1;
+    showHoleResult(s, h.par, h.n);
+  } else {
+    // No score entered — just advance silently
+    if (lvHole === 17) { finishRound(); return; }
+    lvHole = Math.min(17, lvHole + 1);
+    history.pushState({ sec: 'scorecard', scView: 'live', hole: lvHole }, '', '#scorecard-hole' + (lvHole + 1));
+    renderLiveHole();
+  }
 }
 
 function goHole(delta) {
@@ -1321,7 +2038,7 @@ function finishRound() {
     id: Date.now(),
     date: document.getElementById('scDate').value || new Date().toISOString().split('T')[0],
     score: tScore,
-    course: 'Ocean Resorts GC',
+    course: activeCourse ? activeCourse.name : 'Ocean Resorts GC',
     putts: hasPutts ? tPutts : null,
     fairways: fairwaysPlayed > 0 ? fairwaysHit : null,
     holeScores: [...lvScores],
@@ -1663,7 +2380,11 @@ function updateHeaderBest() {
 }
 
 function updateHcap(h) {
-  document.getElementById('hdrHcap').textContent = typeof h==='number' && h!==23 ? h.toFixed(1) : '~'+Math.round(h);
+  const val = typeof h === 'number' && h !== 23 ? h.toFixed(1) : '~' + Math.round(h);
+  document.getElementById('hdrHcap').textContent = val;
+  // also push to overview tile
+  const ovHcap = document.getElementById('ovHcap');
+  if (ovHcap) ovHcap.textContent = val;
 }
 
 // ── COACH BOARD ───────────────────────────────────────────────────────────────
@@ -1807,39 +2528,434 @@ function drawChart() {
   });
 }
 
-// ── LOGIN / SPLASH ────────────────────────────────────────────────────────────
+// ── GUEST VIEW ────────────────────────────────────────────────────────────────
+
+const ROASTS = [
+  {e:'🐌',t:"Drew is making progress at the speed of a snail crossing the Sahara. At this rate, he'll break 80 by his 60th birthday. Maybe."},
+  {e:'🏌️',t:"Saw your scorecard. Called my therapist. She said you need one more than I do."},
+  {e:'🎱',t:"Breaking 80 is basically a participation trophy at this point. You're not even close to the people who don't participate."},
+  {e:'🤦',t:"Bro, my grandmother walks faster than your handicap is dropping. She's also a better putter."},
+  {e:'💀',t:"104 strokes. That's not golf. That's a nature walk with occasional swinging."},
+  {e:'🐢',t:"They said the journey of a thousand miles begins with a single step. Yours began with a shank."},
+  {e:'😤',t:"I Googled 'how to break 80' and the first result said 'don't be Drew.'"},
+  {e:'🎪',t:"Your golf game is like a circus — lots of drama, everyone watching, nobody sure what's happening."},
+  {e:'📉',t:"Your handicap is so high it needs its own zip code."},
+  {e:'🧢',t:"Pretty sure your golf hat is the most athletic thing about your game."},
+  {e:'🌊',t:"Ocean Resorts called. They want to rename the water hazards after you."},
+  {e:'⏰',t:"At your current rate of improvement, you'll break 80 right around the heat death of the universe."},
+  {e:'🤡',t:"I believe in you, Drew. I just also believe in leprechauns and winning lottery tickets."},
+  {e:'🎯',t:"Breaking 80 is your dream. Mine is watching you try. Both are equally entertaining."},
+  {e:'🔭',t:"Scientists needed the Hubble telescope to find your ball on hole 9. Still searching."},
+  {e:'🤸',t:"They say golf is a mental game. Which explains everything about your scorecard."},
+  {e:'🏆',t:"You're not bad at golf. You're just really, really, really, really good at making it hard."},
+  {e:'⛳',t:"Hole 11: a 9. Hole 15: a 9. At least you're consistent. Consistently horrifying."},
+  {e:'🎲',t:"I bet $5 you can't break 90 before your birthday. My therapist says betting against friends is healthy."},
+  {e:'🧠',t:"Golf is a thinking man's game. That's why you struggle. (I say this with love.)"},
+  {e:'🌴',t:"Your tee shot on 18 was so far left it landed in a different county. Impressive."},
+  {e:'📸',t:"I've seen your swing on video. Twice. The second time I needed a drink."},
+  {e:'😂',t:"Your game has improved dramatically. You used to be terrible. Now you're just very bad."},
+  {e:'🚁',t:"They needed a search party to find your drive on hole 5. The pilot charged extra."},
+  {e:'🏄',t:"You're not chasing the impossible dream. You're just making golf more... creative."},
+];
+
+const TONES = {
+  support: '💚',
+  trash: '🔥',
+  doubt: '💀',
+  wisdom: '🧠',
+  bet: '🎲',
+};
+
+let currentRoast = null;
+
+function spinWheel() {
+  const r = ROASTS[Math.floor(Math.random() * ROASTS.length)];
+  currentRoast = r;
+  document.getElementById('wrEmoji').textContent = r.e;
+  document.getElementById('wrText').textContent = r.t;
+  const result = document.getElementById('wheelResult');
+  result.style.display = 'block';
+  result.style.animation = 'none';
+  requestAnimationFrame(() => {
+    result.style.animation = 'fu .3s ease-out';
+  });
+}
+
+function sendWheelRoast() {
+  if (!currentRoast) return;
+  const name = document.getElementById('guestName')?.value.trim() || 'A friend';
+  if (!name || name === 'A friend') {
+    alert('Enter your name first so Drew knows who to blame! 😈');
+    document.getElementById('guestName')?.focus();
+    return;
+  }
+  const msg = {
+    id: Date.now(),
+    from: name,
+    text: currentRoast.t,
+    emoji: currentRoast.e,
+    type: 'roast',
+    tone: 'trash',
+    date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'}),
+    read: false,
+  };
+  guestMessages.push(msg);
+  saveToBin();
+  renderGuestView();
+  const result = document.getElementById('wheelResult');
+  result.innerHTML = '<div style="text-align:center;padding:8px"><div style="font-size:32px">📨</div><div style="font-size:13px;color:#7c3aed;font-weight:600;margin-top:6px">Roast delivered. Drew will suffer shortly.</div></div>';
+  setTimeout(() => { result.style.display = 'none'; currentRoast = null; }, 3000);
+}
+
+function sendReaction(emoji, label) {
+  const name = document.getElementById('guestName')?.value.trim() || 'Someone';
+  const msg = {
+    id: Date.now(),
+    from: name !== 'Someone' ? name : 'A friend',
+    text: emoji + ' ' + label,
+    emoji,
+    type: 'reaction',
+    tone: 'support',
+    date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'}),
+    read: false,
+  };
+  guestMessages.push(msg);
+  saveToBin();
+  const status = document.getElementById('reactionStatus');
+  if (status) { status.style.display = 'block'; status.textContent = emoji + ' Reaction sent to Drew!'; setTimeout(() => status.style.display = 'none', 2500); }
+  renderGuestView();
+}
+
+function castBet(vote) {
+  const bets = guestMessages.filter(m => m.type === 'bet');
+  const yesCount = bets.filter(m => m.bet === 'yes').length + (vote === 'yes' ? 1 : 0);
+  const noCount = bets.filter(m => m.bet === 'no').length + (vote === 'no' ? 1 : 0);
+  const total = yesCount + noCount;
+
+  const name = document.getElementById('guestName')?.value.trim() || 'Anonymous';
+  const text = vote === 'yes'
+    ? `${name} believes Drew will break 80. ✅`
+    : `${name} thinks Drew has absolutely no chance. 💀`;
+
+  guestMessages.push({
+    id: Date.now(),
+    from: name,
+    text,
+    type: 'bet',
+    bet: vote,
+    tone: vote === 'yes' ? 'support' : 'doubt',
+    date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}),
+    read: false,
+  });
+  saveToBin();
+
+  // Update tally display
+  const tally = document.getElementById('betTally');
+  const labels = document.getElementById('betLabels');
+  const yesBar = document.getElementById('betYesBar');
+  const noBar = document.getElementById('betNoBar');
+  const yesLbl = document.getElementById('betYesLbl');
+  const noLbl = document.getElementById('betNoLbl');
+  if (tally) tally.style.display = 'flex';
+  if (labels) labels.style.display = 'flex';
+  const yPct = total > 0 ? Math.round((yesCount/total)*100) : 50;
+  if (yesBar) yesBar.style.width = yPct + '%';
+  if (yesLbl) yesLbl.textContent = yesCount + ' believer' + (yesCount !== 1 ? 's' : '');
+  if (noLbl) noLbl.textContent = noCount + ' doubter' + (noCount !== 1 ? 's' : '');
+  renderGuestView();
+}
+
+function renderGuestView() {
+  if (rounds.length) {
+    const best = Math.min(...rounds.map(r => r.score));
+    const avg = rounds.reduce((a,r) => a+r.score, 0) / rounds.length;
+    const hcap = Math.max(0, ((avg - 72) * 0.96)).toFixed(1);
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('guestBest', best); set('guestRounds', rounds.length); set('guestHcap', hcap);
+    set('guestCurrent', 'Current best: ' + best);
+    const pct = Math.min(100, Math.max(0, ((104 - best) / 24) * 100));
+    const pg = document.getElementById('guestProgress'); if (pg) pg.style.width = pct + '%';
+  }
+
+  // Update bet tally from saved messages
+  const bets = guestMessages.filter(m => m.type === 'bet');
+  if (bets.length) {
+    const yesCount = bets.filter(m => m.bet === 'yes').length;
+    const noCount = bets.filter(m => m.bet === 'no').length;
+    const total = yesCount + noCount;
+    const tally = document.getElementById('betTally');
+    const labels = document.getElementById('betLabels');
+    const yesBar = document.getElementById('betYesBar');
+    const yesLbl = document.getElementById('betYesLbl');
+    const noLbl = document.getElementById('betNoLbl');
+    if (tally) tally.style.display = 'flex';
+    if (labels) labels.style.display = 'flex';
+    const yPct = total > 0 ? Math.round((yesCount/total)*100) : 50;
+    if (yesBar) yesBar.style.width = yPct + '%';
+    if (yesLbl) yesLbl.textContent = yesCount + ' believer' + (yesCount !== 1 ? 's' : '');
+    if (noLbl) noLbl.textContent = noCount + ' doubter' + (noCount !== 1 ? 's' : '');
+  }
+
+  const feed = document.getElementById('guestMsgFeed');
+  if (!feed) return;
+  const visible = guestMessages.filter(m => m.type !== 'bet' || true);
+  if (!guestMessages.length) {
+    feed.innerHTML = '<div class="empty"><div class="big">💬</div><p style="font-size:13px">No messages yet — be the first!</p></div>';
+    return;
+  }
+  const toneBg = {support:'var(--gp)',trash:'#fff0f0',doubt:'#fce7f3',wisdom:'#eff6ff',bet:'#fef9c3',roast:'#f5f3ff'};
+  const toneBorder = {support:'rgba(74,140,92,.2)',trash:'rgba(239,68,68,.2)',doubt:'rgba(219,39,119,.2)',wisdom:'rgba(59,130,246,.2)',bet:'rgba(234,179,8,.2)',roast:'rgba(124,58,237,.2)'};
+  feed.innerHTML = [...guestMessages].reverse().slice(0, 15).map(m => {
+    const bg = toneBg[m.tone || m.type] || 'var(--gp)';
+    const border = toneBorder[m.tone || m.type] || 'rgba(74,140,92,.2)';
+    const toneIcon = TONES[m.tone] || (m.type === 'reaction' ? m.emoji : m.type === 'roast' ? '🎡' : '💬');
+    return `<div class="msg-card" style="background:${bg};border-color:${border}">
+      <div class="msg-from">${toneIcon} ${escHtml(m.from)}</div>
+      <div class="msg-text">${escHtml(m.text)}</div>
+      <div class="msg-date">${m.date}</div>
+    </div>`;
+  }).join('');
+}
+
+function submitGuestMessage() {
+  const from = (document.getElementById('guestName')?.value || '').trim();
+  const text = (document.getElementById('guestMsg')?.value || '').trim();
+  const tone = document.getElementById('guestTone')?.value || 'support';
+  const status = document.getElementById('guestMsgStatus');
+  if (!from) { alert('Please enter your name.'); return; }
+  if (!text) { alert('Please write a message.'); return; }
+
+  guestMessages.push({
+    id: Date.now(), from, text, tone, type: 'message',
+    date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'}),
+    read: false,
+  });
+  saveToBin();
+  document.getElementById('guestMsg').value = '';
+  if (status) { status.style.display = 'block'; status.textContent = '✓ Delivered! Drew will see this when he logs in.'; }
+  renderGuestView();
+}
+
+function renderDrewMessages() {
+  const card = document.getElementById('drewMsgCard');
+  const list = document.getElementById('drewMsgList');
+  const count = document.getElementById('drewMsgCount');
+  if (!card || !list) return;
+
+  const nonBet = guestMessages.filter(m => m.type !== 'bet' || m.type === 'bet');
+  if (!guestMessages.length) { card.style.display = 'none'; return; }
+
+  const unread = guestMessages.filter(m => !m.read).length;
+  const bets = guestMessages.filter(m => m.type === 'bet');
+  const believers = bets.filter(m => m.bet === 'yes').length;
+  const doubters = bets.filter(m => m.bet === 'no').length;
+
+  card.style.display = 'block';
+  count.textContent = `${guestMessages.length} total · ${believers} believers · ${doubters} doubters${unread > 0 ? ` · ${unread} unread 🟡` : ''}`;
+
+  const toneBg = {support:'var(--gp)',trash:'#fff0f0',doubt:'#fce7f3',wisdom:'#eff6ff',bet:'#fef9c3',roast:'#f5f3ff',reaction:'#f0fdf4'};
+  const toneBorder = {support:'rgba(74,140,92,.2)',trash:'rgba(239,68,68,.2)',doubt:'rgba(219,39,119,.2)',wisdom:'rgba(59,130,246,.2)',bet:'rgba(234,179,8,.2)',roast:'rgba(124,58,237,.2)',reaction:'rgba(74,140,92,.2)'};
+
+  list.innerHTML = [...guestMessages].reverse().map(m => {
+    const bg = toneBg[m.tone || m.type] || 'var(--gp)';
+    const border = toneBorder[m.tone || m.type] || 'rgba(74,140,92,.2)';
+    const toneIcon = TONES[m.tone] || (m.type === 'reaction' ? m.emoji : m.type === 'roast' ? '🎡' : m.type === 'bet' ? '🎲' : '💬');
+    return `<div class="msg-card" style="background:${bg};border-color:${border}">
+      ${!m.read ? '<div class="msg-unread"></div>' : ''}
+      <div class="msg-from">${toneIcon} ${escHtml(m.from)}</div>
+      <div class="msg-text">${escHtml(m.text)}</div>
+      <div class="msg-date">${m.date} &nbsp;·&nbsp; <a href="#" onclick="deleteGuestMsg(${m.id});return false;" style="color:var(--tl);font-size:10px">delete</a></div>
+    </div>`;
+  }).join('');
+
+  if (unread > 0) {
+    guestMessages.forEach(m => m.read = true);
+    saveToBin();
+  }
+}
+
+function deleteGuestMsg(id) {
+  guestMessages = guestMessages.filter(m => m.id !== id);
+  saveToBin();
+  renderDrewMessages();
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+
 let currentUser = null; // 'drew' | 'steve'
 
+const BIRTHDAY = new Date('2027-09-04T00:00:00');
+
+// Weekly motivational quotes — rotate every Monday
+const WEEKLY_QUOTES = [
+  "Every expert was once a beginner. Every pro was once an amateur. Every icon was once an unknown.",
+  "The secret of getting ahead is getting started. — Mark Twain",
+  "Don't watch the clock; do what it does. Keep going. — Sam Levenson",
+  "You don't have to be great to start, but you have to start to be great.",
+  "Success is the sum of small efforts, repeated day in and day out. — Robert Collier",
+  "The harder the battle, the sweeter the victory. — Les Brown",
+  "Golf is deceptively simple and endlessly complicated. — Arnold Palmer",
+  "The most important shot in golf is the next one. — Ben Hogan",
+  "It's not about perfect. It's about effort. And when you bring that effort every single day, that's where transformation happens.",
+  "Believe you can and you're halfway there. — Theodore Roosevelt",
+  "Champions keep playing until they get it right. — Billie Jean King",
+  "The only way to prove you are a good sport is to lose. — Ernie Banks",
+  "Pain is temporary. Quitting lasts forever. — Lance Armstrong",
+  "A dream doesn't become reality through magic; it takes sweat, determination and hard work. — Colin Powell",
+  "Golf is a game of inches. The most important are the six inches between your ears. — Arnold Palmer",
+  "You've got to keep grinding. Every single round is a new opportunity.",
+  "The difference between the impossible and the possible lies in a person's determination. — Tommy Lasorda",
+  "Pressure is a privilege — it only comes to those who earn it. — Billie Jean King",
+  "It ain't over till it's over. — Yogi Berra",
+  "Do not go where the path may lead; go instead where there is no path and leave a trail. — Emerson",
+  "The man who moves a mountain begins by carrying away small stones. — Confucius",
+  "Success is not final, failure is not fatal: it is the courage to continue that counts. — Churchill",
+  "You are never really playing an opponent. You are playing yourself. — Bobby Jones",
+  "Golf is about how well you accept, respond to, and score with your misses much more than it is a game of perfect shots. — Dr. Bob Rotella",
+  "What you get by achieving your goals is not as important as what you become by achieving them. — Thoreau",
+  "Hard work beats talent when talent doesn't work hard. — Tim Notke",
+  "You miss 100% of the shots you don't take. — Wayne Gretzky",
+  "The only place where success comes before work is in the dictionary. — Vidal Sassoon",
+  "Fall seven times, stand up eight. — Japanese Proverb",
+  "It always seems impossible until it's done. — Nelson Mandela",
+  "50 is just a number. Breaking 80 is a statement.",
+  "Every round is a lesson. Every lesson gets you closer.",
+  "The clock is ticking. Make every practice session count.",
+  "Between now and your 50th birthday, you have the chance to become someone different on the golf course.",
+  "Commitment is doing the thing you said you'd do long after the mood you said it in has left.",
+  "Sweat now, celebrate on your birthday.",
+  "One stroke at a time. One round at a time. That's how mountains are moved.",
+  "Your best round is still ahead of you.",
+  "Hard greens, tight fairways, no excuses. Let's go.",
+  "The goal is 80. The deadline is 50. The time is now.",
+  "Steve believes in you. Now you need to believe in yourself.",
+  "Every 3-putt is a lesson. Every par is progress. Every birdie is proof.",
+  "You started at 104. That's not your ceiling — it's your starting line.",
+  "Two years. One goal. Countless reasons to keep going.",
+  "The best time to break 80 was last year. The second best time is your next round.",
+  "Progress is rarely linear. Show up anyway.",
+  "Your birthday is a finish line, not a deadline.",
+  "The only bad round is the one you didn't learn from.",
+  "Stay the course. Every great golfer had a worst round.",
+  "Breaking 80 isn't about perfection. It's about limiting damage and taking your chances.",
+  "You have more rounds left than you think. Use every single one.",
+  "Fifty years of living. Two years to break 80. You've got this.",
+];
+
+function getWeeklyQuote() {
+  // Consistent quote per calendar week — resets every Monday
+  const now = new Date();
+  // Get Monday of current week
+  const day = now.getDay(); // 0=Sun, 1=Mon...
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+  monday.setHours(0, 0, 0, 0);
+  // Week number since an epoch Monday (Jan 6, 2025 was a Monday)
+  const epoch = new Date('2025-01-06T00:00:00');
+  const weekNum = Math.floor((monday - epoch) / (7 * 24 * 60 * 60 * 1000));
+  return WEEKLY_QUOTES[((weekNum % WEEKLY_QUOTES.length) + WEEKLY_QUOTES.length) % WEEKLY_QUOTES.length];
+}
+
+let _countdownTimer = null;
+
+function startCountdownClock() {
+  if (_countdownTimer) clearInterval(_countdownTimer);
+  function tick() {
+    const now = new Date();
+    const diff = BIRTHDAY - now;
+    if (diff <= 0) {
+      ['splashDays','splashHours','splashMins','splashSecs','ovDays','ovHours','ovMins','ovSecs']
+        .forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '0'; });
+      clearInterval(_countdownTimer);
+      return;
+    }
+    const days  = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const mins  = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const secs  = Math.floor((diff % (1000*60)) / 1000);
+    const weeks = Math.floor(days / 7);
+    const pad = n => String(n).padStart(2, '0');
+
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('splashDays',  days.toLocaleString());
+    set('splashHours', pad(hours));
+    set('splashMins',  pad(mins));
+    set('splashSecs',  pad(secs));
+    set('ovDays',  days.toLocaleString());
+    set('ovHours', pad(hours));
+    set('ovMins',  pad(mins));
+    set('ovSecs',  pad(secs));
+    set('ovWeeks', weeks.toLocaleString());
+  }
+  tick();
+  _countdownTimer = setInterval(tick, 1000);
+
+  // Set weekly quote
+  const quote = getWeeklyQuote();
+  const sqEl = document.getElementById('splashQuote');
+  const oqEl = document.getElementById('ovQuote');
+  if (sqEl) sqEl.textContent = '"' + quote + '"';
+  if (oqEl) oqEl.textContent = '"' + quote + '"';
+}
+
+function updateCountdownElements() {
+  startCountdownClock();
+}
+
 function updateSplashStats() {
-  // called before cloud load using whatever we have locally
   const local = JSON.parse(localStorage.getItem('b80_rounds') || '[]');
   const allR = rounds.length ? rounds : local;
+  const baseline = 104;
+
+  startCountdownClock();
+
   if (allR.length) {
-    const best = Math.min(...allR.map(r=>r.score));
-    const avg  = Math.round(allR.reduce((a,r)=>a+r.score,0)/allR.length);
-    document.getElementById('splashBest').textContent = best;
-    document.getElementById('splashAvg').textContent  = avg;
-    document.getElementById('splashRounds').textContent = allR.length;
-    document.getElementById('splashCurrent').textContent = avg;
-    const pct = Math.min(100, Math.max(0, ((95-avg)/15)*100));
-    document.getElementById('splashFill').style.width = pct + '%';
+    const best = Math.min(...allR.map(r => r.score));
+    const avg = allR.reduce((a, r) => a + r.score, 0) / allR.length;
+    const hcap = Math.max(0, ((avg - 72) * 0.96)).toFixed(1);
+
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('splashBest',    best);
+    set('splashRounds',  allR.length);
+    set('splashHcap',    hcap);
+    set('splashCurrent', best);
+    set('ovHcap',        hcap);
+
+    const fillEl = document.getElementById('splashFill');
+    if (fillEl) {
+      const pct = Math.min(100, Math.max(0, ((baseline - best) / (baseline - 80)) * 100));
+      fillEl.style.width = pct + '%';
+    }
   }
 }
 
 function login(user) {
   currentUser = user;
   document.getElementById('splash').style.display = 'none';
-  if (user === 'steve') {
+
+  // Clear any active sections left over from page load
+  document.querySelectorAll('.sec').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(x => x.classList.remove('active'));
+
+  // Push a splash entry first so back button returns here
+  history.replaceState({ sec: 'splash' }, '', '#');
+
+  if (user === 'guest') {
+    document.body.classList.remove('coach-mode');
+    history.pushState({ sec: 'guest', scView: 'start', hole: 0 }, '', '#guest');
+    applyNavState({ sec: 'guest', scView: 'start', hole: 0 }, false);
+  } else if (user === 'steve') {
     document.body.classList.add('coach-mode');
-    document.getElementById('headerAvatar').textContent = '📋';
-    document.getElementById('headerUser').textContent = 'Steve';
-    // Steve sees Coach Board first
-    navPush('mycoach', 'start', 0);
+    history.pushState({ sec: 'mycoach', scView: 'start', hole: 0 }, '', '#coach-board');
+    applyNavState({ sec: 'mycoach', scView: 'start', hole: 0 }, false);
   } else {
     document.body.classList.remove('coach-mode');
-    document.getElementById('headerAvatar').textContent = '🏌️';
-    document.getElementById('headerUser').textContent = 'Drew';
-    navPush('overview', 'start', 0);
+    history.pushState({ sec: 'overview', scView: 'start', hole: 0 }, '', '#overview');
+    applyNavState({ sec: 'overview', scView: 'start', hole: 0 }, false);
+    updateSplashStats();
   }
 }
 

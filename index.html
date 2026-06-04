@@ -1043,9 +1043,53 @@ body.guest-mode .main{padding-top:8px}
 
   <!-- Progress bar -->
   <div class="card">
-    <div style="font-size:10px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Progress: 104 → 80</div>
-    <div style="height:9px;background:var(--gp);border-radius:5px;overflow:hidden;margin-bottom:7px"><div id="guestProgress" style="height:100%;background:linear-gradient(90deg,var(--gm),var(--gl));border-radius:5px;width:0%;transition:width 1s ease"></div></div>
-    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tl)"><span>104</span><span id="guestCurrent" style="font-weight:600;color:var(--gm)">Current: —</span><span>Goal: 80</span></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div style="font-size:10px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.4px">Progress: 104 → 80</div>
+      <button onclick="toggleGuestScores()" id="guestScoresBtn"
+        style="background:var(--gm);border:none;border-radius:20px;padding:4px 12px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;color:#fff;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:4px">
+        📊 View scores
+      </button>
+    </div>
+    <div style="height:9px;background:var(--gp);border-radius:5px;overflow:hidden;margin-bottom:7px">
+      <div id="guestProgress" style="height:100%;background:linear-gradient(90deg,var(--gm),var(--gl));border-radius:5px;width:0%;transition:width 1s ease"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tl)">
+      <span>104</span><span id="guestCurrent" style="font-weight:600;color:var(--gm)">Current: —</span><span>Goal: 80</span>
+    </div>
+
+    <!-- Collapsible round history -->
+    <div id="guestScoresPanel" style="display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:12px">
+      <div style="font-size:10px;font-weight:700;color:var(--tl);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">📋 Round history — read only</div>
+      <div id="guestRoundsList"></div>
+
+      <!-- Read-only round detail panel -->
+      <div id="guestRoundDetail" style="display:none;margin-top:12px;border-top:1px solid var(--border);padding-top:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div style="font-size:10px;font-weight:700;color:var(--tl);text-transform:uppercase;letter-spacing:.4px" id="grdTitle">Round detail</div>
+          <button onclick="closeGuestRoundDetail()" style="background:none;border:none;font-size:18px;color:var(--tl);cursor:pointer;line-height:1">×</button>
+        </div>
+        <!-- Header stats -->
+        <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:11px;padding:14px;color:#fff;margin-bottom:10px">
+          <div style="font-size:10px;color:rgba(255,255,255,.45);margin-bottom:2px" id="grdCourse"></div>
+          <div style="font-size:11px;color:var(--goldl);margin-bottom:10px" id="grdDate"></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center">
+            <div><div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;line-height:1" id="grdScore">—</div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px">Score</div></div>
+            <div><div style="font-family:'DM Serif Display',serif;font-size:24px;line-height:1" id="grdVsPar">—</div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px">vs Par</div></div>
+            <div><div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;line-height:1" id="grdPutts">—</div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px">Putts</div></div>
+            <div><div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;line-height:1" id="grdGirs">—</div><div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px">GIRs</div></div>
+          </div>
+        </div>
+        <!-- Scoring pills -->
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px" id="grdPills"></div>
+        <!-- Hole-by-hole table -->
+        <div style="overflow-x:auto">
+          <table class="sc-tbl" id="grdTable">
+            <thead><tr><th>H</th><th>Par</th><th>Score</th><th>+/-</th><th>Putts</th><th>FIR</th><th>GIR</th></tr></thead>
+            <tbody id="grdBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ══ STICKY NAME FIELD ══ -->
@@ -2587,7 +2631,119 @@ function submitGuestMessage(){
   sendEmailNotification(from,'\ud83d\udcac New message',text);
 }
 
-// ══ PLEDGE SYSTEM ══
+// ══ GUEST READ-ONLY SCORES ══
+function toggleGuestScores() {
+  const panel = document.getElementById('guestScoresPanel');
+  const btn = document.getElementById('guestScoresBtn');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  btn.textContent = isOpen ? '📊 View scores' : '📊 Hide scores';
+  if (!isOpen) renderGuestRoundsList();
+}
+
+function renderGuestRoundsList() {
+  const list = document.getElementById('guestRoundsList');
+  if (!list) return;
+  if (!rounds.length) {
+    list.innerHTML = '<div class="empty"><div class="big">⛳</div><p style="font-size:12px">No rounds logged yet.</p></div>';
+    return;
+  }
+  list.innerHTML = [...rounds].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(r => {
+    const vp = r.score - 72;
+    const sign = vp > 0 ? '+' : '';
+    const vpCls = vp >= 20 ? '#dc2626' : vp <= 12 ? '#059669' : '#d97706';
+    const date = new Date(r.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    const extras = [r.putts!=null?r.putts+'p':null, r.fairways!=null?r.fairways+' FIR':null, r.girs!=null?r.girs+' GIR':null].filter(Boolean).join(' · ');
+    return `<div onclick="showGuestRoundDetail(${r.id})"
+      style="display:flex;align-items:center;justify-content:space-between;padding:9px 10px;border-radius:9px;cursor:pointer;transition:var(--tr);margin-bottom:5px;border:1px solid var(--border);background:#fff"
+      onmouseover="this.style.background='var(--gp)'" onmouseout="this.style.background='#fff'">
+      <div>
+        <div style="font-size:12px;font-weight:500;color:var(--td)">${r.course}</div>
+        <div style="font-size:10px;color:var(--tl);margin-top:1px">${date}${extras?' · '+extras:''}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--td)">${r.score}</span>
+        <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:${vp<=12?'#d1fae5':vp<=18?'#fef3c7':'#fee2e2'};color:${vpCls}">${sign}${vp}</span>
+        <span style="font-size:11px;color:var(--tl)">›</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showGuestRoundDetail(id) {
+  const r = rounds.find(x => x.id === id);
+  if (!r) return;
+
+  const detail = document.getElementById('guestRoundDetail');
+  detail.style.display = 'block';
+  detail.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+  const vp = r.score - 72;
+  const set = (elId, v) => { const el = document.getElementById(elId); if (el) el.textContent = v; };
+  set('grdTitle', 'Round detail');
+  set('grdCourse', r.course);
+  set('grdDate', new Date(r.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}));
+  set('grdScore', r.score);
+  const vpEl = document.getElementById('grdVsPar');
+  if (vpEl) { vpEl.textContent = vp === 0 ? 'E' : (vp > 0 ? '+' : '') + vp; vpEl.style.color = vp < 0 ? '#86efac' : vp > 0 ? '#fca5a5' : '#fff'; }
+  set('grdPutts', r.putts != null ? r.putts : '—');
+  set('grdGirs', r.girs != null ? r.girs : '—');
+
+  // Scoring pills
+  const hs = r.holeScores || [];
+  let eagles=0, birdies=0, pars=0, bogeys=0, doubles=0, triples=0;
+  hs.forEach((s,i) => {
+    if (s === null) return;
+    const d = s - (HOLES[i]?.par || 4);
+    if (d <= -2) eagles++; else if (d === -1) birdies++; else if (d === 0) pars++;
+    else if (d === 1) bogeys++; else if (d === 2) doubles++; else triples++;
+  });
+  const pillDefs = [
+    {l:'Eagle 🦅',c:eagles,bg:'#fdf4d4',col:'#7a5a00',br:'rgba(201,168,76,.4)'},
+    {l:'Birdie 🐦',c:birdies,bg:'#d1fae5',col:'#065f46',br:'#6ee7b7'},
+    {l:'Par ✓',c:pars,bg:'#f0f9ff',col:'#0369a1',br:'#bae6fd'},
+    {l:'Bogey',c:bogeys,bg:'#fef9c3',col:'#713f12',br:'#fde047'},
+    {l:'Double',c:doubles,bg:'#fee2e2',col:'#991b1b',br:'#fca5a5'},
+    {l:'Triple+',c:triples,bg:'#fce7f3',col:'#9d174d',br:'#f9a8d4'},
+  ];
+  const pillsEl = document.getElementById('grdPills');
+  if (pillsEl) pillsEl.innerHTML = pillDefs.filter(p=>p.c>0).map(p =>
+    `<div style="background:${p.bg};border:1.5px solid ${p.br};border-radius:20px;padding:3px 11px;display:flex;align-items:center;gap:5px">
+      <span style="font-size:15px;font-family:'DM Serif Display',serif;color:${p.col}">${p.c}</span>
+      <span style="font-size:10px;font-weight:600;color:${p.col}">${p.l}</span>
+    </div>`
+  ).join('');
+
+  // Hole table
+  const tbody = document.getElementById('grdBody');
+  if (!tbody) return;
+  const hp = r.holePutts || [], hf = r.holeFairways || [], hg = r.holeGIRs || [];
+  tbody.innerHTML = HOLES.map((h, i) => {
+    const s = hs[i] ?? null, p = hp[i] ?? null, fw = hf[i] ?? null, gir = hg[i] ?? null;
+    const d = s !== null ? s - h.par : null;
+    const dt = d === null ? '' : d === 0 ? 'E' : (d > 0 ? '+' : '') + d;
+    const dc = d < 0 ? '#059669' : d > 0 ? '#dc2626' : 'var(--tl)';
+    let rowBg = '';
+    if (d !== null) { if (d <= -2) rowBg = '#fdf8e1'; else if (d === -1) rowBg = '#f0fdf4'; else if (d === 1) rowBg = '#fefce8'; else if (d === 2) rowBg = '#fff1f2'; else if (d >= 3) rowBg = '#fdf2f8'; }
+    const fwI = h.par === 3 ? '—' : fw === true ? '<span style="color:#059669">✓</span>' : fw === false ? '<span style="color:#dc2626">✗</span>' : '—';
+    const girI = gir === true ? '<span style="color:#2563eb">✓</span>' : gir === false ? '<span style="color:#d97706">✗</span>' : '—';
+    return `<tr style="${rowBg?'background:'+rowBg:''}">
+      <td style="font-weight:600">${h.n}</td>
+      <td class="${h.par===3?'par3':h.par===5?'par5':'par4'}">${h.par}</td>
+      <td style="font-family:'DM Serif Display',serif;font-size:14px">${s !== null ? s : '—'}</td>
+      <td style="font-size:10px;font-weight:700;color:${dc}">${dt}</td>
+      <td style="color:${p===1?'#059669':p>=3?'#dc2626':'var(--td)'}">${p !== null ? p : '—'}</td>
+      <td>${fwI}</td><td>${girI}</td>
+    </tr>`;
+  }).join('');
+}
+
+function closeGuestRoundDetail() {
+  const detail = document.getElementById('guestRoundDetail');
+  if (detail) detail.style.display = 'none';
+}
+
+
 let pledgeType = 'stroke';
 let pledgeAmount = 0;
 

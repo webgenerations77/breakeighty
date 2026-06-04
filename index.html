@@ -219,6 +219,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .vote-btn.voted-up{background:#d1fae5;border-color:#059669;color:#065f46}
 .vote-btn.voted-down{background:#fee2e2;border-color:#dc2626;color:#991b1b}
 .vote-btn.disabled{opacity:.4;cursor:default}
+/* PLEDGE */
+.pledge-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#fef3c7,#fde68a);border:1.5px solid var(--gold);border-radius:20px;padding:3px 10px;font-size:9px;font-weight:700;color:#78350f;text-transform:uppercase;letter-spacing:.6px}
+.pledge-card{background:linear-gradient(135deg,#fffbeb,#fef9e7);border:2px solid rgba(201,168,76,.4);border-radius:14px;padding:18px;margin-bottom:12px}
+.pledge-amount-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px}
+.pledge-amt{background:#fff;border:2px solid var(--border);border-radius:9px;padding:10px 4px;text-align:center;cursor:pointer;transition:var(--tr);font-family:'DM Serif Display',serif;font-size:18px;color:var(--td)}
+.pledge-amt:hover{border-color:var(--gold);background:var(--goldp)}
+.pledge-amt.selected{border-color:var(--gold);background:var(--goldp);color:#78350f}
+.pledge-amt small{display:block;font-family:'DM Sans',sans-serif;font-size:9px;color:var(--tl);margin-top:1px;font-weight:500}
+.pledge-list-item{background:#fff;border-radius:10px;padding:11px 13px;border:1px solid rgba(201,168,76,.2);margin-bottom:7px;display:flex;align-items:center;justify-content:space-between}
+.pledge-list-item .pl-name{font-size:12px;font-weight:600;color:var(--td)}
+.pledge-list-item .pl-amt{font-family:'DM Serif Display',serif;font-size:18px;color:var(--gold)}
+.pledge-list-item .pl-type{font-size:9px;color:var(--tl);margin-top:1px}
 
 /* ── COACH BOARD ── */
 .coach-note{background:#fff;border-radius:11px;padding:14px;border:1px solid var(--border);margin-bottom:10px}
@@ -327,6 +339,14 @@ body.coach-mode .hdr::after{background:#4a8ab0}
 body.coach-mode .club-strip{background:rgba(74,138,176,.08);border-color:rgba(74,138,176,.14);color:rgba(200,220,240,.7)}
 body.coach-mode .club-strip span{color:#7ab8d4}
 body.coach-mode .nav{background:#1a2a3a}
+/* Drew-only nav items — hidden for coach and guest */
+body.coach-mode .nb.drew-only,
+body.guest-mode .nb.drew-only { display: none !important; }
+body.guest-mode .hdr,
+body.guest-mode .club-strip,
+body.guest-mode .nav,
+body.guest-mode #syncBar{display:none!important}
+body.guest-mode .main{padding-top:8px}
 
 /* ── ANIMATIONS ── */
 @keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -384,7 +404,7 @@ body.coach-mode .nav{background:#1a2a3a}
 
   <!-- Guest first, then Drew + Steve -->
   <button class="login-btn-guest" onclick="login('guest')">
-    👥 Friend / Guest — Cheer, Troll, Vote
+    👥 Cheer · Troll · Pledge · Vote
   </button>
   <div class="login-row">
     <!-- RAIDERS: Drew -->
@@ -427,6 +447,10 @@ body.coach-mode .nav{background:#1a2a3a}
       <button class="pin-key" onclick="pinPress('0')">0</button>
       <button class="pin-key" onclick="pinDel()" style="font-size:14px">⌫</button>
     </div>
+    <!-- Hidden input to capture keyboard on desktop -->
+    <input id="pinKeyboardTrap" type="tel" inputmode="numeric" maxlength="1"
+      style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none;top:0;left:0"
+      autocomplete="off">
   </div>
 </div>
 
@@ -473,7 +497,7 @@ body.coach-mode .nav{background:#1a2a3a}
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-in">
-    <button class="nb active" data-sec="overview">⛳ Overview</button>
+    <button class="nb" data-sec="overview">⛳ Overview</button>
     <button class="nb" data-sec="messages">💬 Messages<span class="nb-badge" id="msgBadge"></span></button>
     <button class="nb" data-sec="scorecard">📋 Scorecard</button>
     <button class="nb" data-sec="rounds">🏅 My Rounds</button>
@@ -482,6 +506,7 @@ body.coach-mode .nav{background:#1a2a3a}
     <button class="nb" data-sec="drills">🏋️ Drills</button>
     <button class="nb" data-sec="strategy">🧠 Course IQ</button>
     <button class="nb" data-sec="progress">📈 Progress</button>
+    <button class="nb drew-only" data-sec="pledges">🏆 Pledges</button>
   </div>
 </nav>
 
@@ -519,6 +544,41 @@ body.coach-mode .nav{background:#1a2a3a}
     <button onclick="navPush('messages','start',0)" class="btn-outline" style="margin-top:10px;width:100%">View all messages →</button>
   </div>
 
+  <!-- Notification setup -->
+  <div class="card" id="notifCard" style="background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1px solid rgba(59,130,246,.2)">
+    <div class="ch"><div class="ci" style="background:#dbeafe;font-size:17px">🔔</div><div><div class="ct">Get notified when friends post</div><div class="cs">Set up alerts so you never miss a roast</div></div></div>
+    <div style="font-size:12px;color:var(--tm);line-height:1.7;margin-bottom:12px">
+      <strong>Email notifications via EmailJS</strong> — free, no server needed. When a guest posts anything, you get an email instantly.
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="fg"><label>Your email address</label><input type="email" id="notifEmail" placeholder="drew@example.com" style="border:1.5px solid rgba(59,130,246,.3)"></div>
+      <div style="background:#fff;border-radius:9px;padding:12px;border:1px solid rgba(59,130,246,.15);font-size:11px;color:var(--tl);line-height:1.8">
+        <strong style="color:var(--td)">Quick setup (2 min, free):</strong><br>
+        1. Go to <a href="https://emailjs.com" target="_blank" style="color:#2563eb">emailjs.com</a> → Sign up free<br>
+        2. Add an Email Service (Gmail works great)<br>
+        3. Create a Template with variables: <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{from_name}}</code>, <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{message}}</code>, <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{to_email}}</code><br>
+        4. Paste your Service ID, Template ID, and Public Key below
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="fg"><label>EmailJS Service ID</label><input type="text" id="ejsServiceId" placeholder="service_xxxxxxx" style="font-size:11px"></div>
+        <div class="fg"><label>Template ID</label><input type="text" id="ejsTemplateId" placeholder="template_xxxxxxx" style="font-size:11px"></div>
+      </div>
+      <div class="fg"><label>Public Key</label><input type="text" id="ejsPublicKey" placeholder="Your EmailJS public key" style="font-size:11px"></div>
+      <button onclick="saveNotifSettings()" class="btn" style="background:#2563eb">💾 Save notification settings</button>
+      <button onclick="testNotif()" class="btn-outline" style="border-color:#2563eb;color:#2563eb">📧 Send test email</button>
+    </div>
+    <div id="notifStatus" style="margin-top:8px;font-size:11px;display:none"></div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(59,130,246,.15);font-size:10px;color:var(--tl)">
+      💡 <strong>Alternative — Browser push notifications:</strong> On iOS, add this page to your Home Screen (Share → Add to Home Screen). Then enable notifications in Settings. Works like a native app.
+    </div>
+  </div>
+
+  <!-- Pledge admin card — Drew only -->
+  <div class="card" id="drewPledgeCard" style="display:none;border:2px solid rgba(201,168,76,.3);background:var(--goldp)">
+    <div class="ch"><div class="ci ci-gold" style="font-size:17px">🏆</div><div><div class="ct">Pledges</div><div class="cs" id="drewPledgeSummary">—</div></div></div>
+    <div id="drewPledgeList"></div>
+  </div>
+
   <div class="card">
     <div class="ch"><div class="ci ci-g">⚠️</div><div><div class="ct">Current focus: Head lift</div><div class="cs">Coach-identified issue — see Coach Board for homework</div></div></div>
     <ul class="tl-list">
@@ -545,11 +605,12 @@ body.coach-mode .nav{background:#1a2a3a}
 <div class="sec" id="sec-messages">
   <div class="card">
     <div class="ch"><div class="ci" style="background:#f5f3ff;font-size:17px">💬</div><div><div class="ct">The Wall</div><div class="cs" id="msgTabCount">All messages from the crew</div></div>
-    <div style="display:flex;gap:6px;margin-left:auto">
+    <div style="display:flex;gap:6px;margin-left:auto;flex-wrap:wrap">
       <button onclick="filterMsgs('all')" class="btn-sm" id="mf-all" style="background:var(--gm)">All</button>
       <button onclick="filterMsgs('trash')" class="btn-sm" id="mf-trash" style="background:#e5e7eb;color:var(--td)">🔥 Roasts</button>
       <button onclick="filterMsgs('support')" class="btn-sm" id="mf-support" style="background:#e5e7eb;color:var(--td)">💚 Support</button>
       <button onclick="filterMsgs('bet')" class="btn-sm" id="mf-bet" style="background:#e5e7eb;color:var(--td)">🎲 Bets</button>
+      <button onclick="resetAllVotes()" class="btn-sm" id="mf-reset" style="background:#fee2e2;color:#991b1b;display:none" title="Reset the Will he break 80 bet tally">↺ Reset bet tally</button>
     </div>
     </div>
     <!-- Bet tally -->
@@ -879,11 +940,100 @@ body.coach-mode .nav{background:#1a2a3a}
   </div>
 </div>
 
+<!-- ══ PLEDGES TAB ══ -->
+<div class="sec" id="sec-pledges">
+
+  <!-- Summary tiles -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+    <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:12px;padding:14px 10px;text-align:center;border:1px solid rgba(201,168,76,.25)">
+      <div style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--gold);line-height:1" id="ptTotalPledgers">0</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Pledgers</div>
+    </div>
+    <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:12px;padding:14px 10px;text-align:center;border:1px solid rgba(201,168,76,.25)">
+      <div style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--gold);line-height:1" id="ptTotalAmt">$0</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Total committed</div>
+    </div>
+    <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:12px;padding:14px 10px;text-align:center;border:1px solid rgba(201,168,76,.25)">
+      <div style="font-family:'DM Serif Display',serif;font-size:28px;color:#34d399;line-height:1" id="ptCollected">$0</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-top:3px">Collected</div>
+    </div>
+  </div>
+
+  <!-- Breakdown card -->
+  <div class="card" style="margin-bottom:12px">
+    <div class="ch"><div class="ci ci-gold">📊</div><div><div class="ct">Pledge breakdown</div><div class="cs" id="ptBreakdownSub">No pledges yet</div></div></div>
+
+    <!-- Per-stroke -->
+    <div id="ptStrokeSection" style="display:none;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">⛳ Per stroke under 90</div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
+        <div style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--td)" id="ptPerStroke">$0<span style="font-size:14px;color:var(--tl)">/stroke</span></div>
+        <div style="font-size:12px;color:var(--tl)">from <span id="ptStrokeCount" style="font-weight:600;color:var(--td)">0</span> pledger(s)</div>
+      </div>
+      <div style="background:var(--gp);border-radius:9px;padding:10px 12px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+          <div><div style="font-size:10px;color:var(--tl);margin-bottom:2px">If Drew shoots 85</div><div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--gm)" id="ptAt85">—</div></div>
+          <div><div style="font-size:10px;color:var(--tl);margin-bottom:2px">If Drew shoots 82</div><div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--gm)" id="ptAt82">—</div></div>
+          <div><div style="font-size:10px;color:var(--tl);margin-bottom:2px">If Drew shoots 80</div><div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--gold);font-weight:700" id="ptAt80">—</div></div>
+        </div>
+        <div style="font-size:9px;color:var(--tl);margin-top:6px;text-align:center">Per-stroke pledges pay out based on how many strokes under 90 Drew shoots</div>
+      </div>
+    </div>
+
+    <!-- Flat -->
+    <div id="ptFlatSection" style="display:none;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">💰 Flat amount pledges</div>
+      <div style="display:flex;align-items:baseline;gap:8px">
+        <div style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--td)" id="ptFlatAmt">$0</div>
+        <div style="font-size:12px;color:var(--tl)">from <span id="ptFlatCount" style="font-weight:600;color:var(--td)">0</span> pledger(s) — paid win or lose</div>
+      </div>
+    </div>
+
+    <!-- Brag -->
+    <div id="ptBragSection" style="display:none">
+      <div style="font-size:10px;font-weight:700;color:var(--gm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🎤 Bragging rights</div>
+      <div style="font-size:13px;color:var(--tm)"><span id="ptBragCount" style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--td)">0</span> people pledging bragging rights only</div>
+    </div>
+
+    <!-- Empty state -->
+    <div id="ptEmptyState" style="text-align:center;padding:20px 0">
+      <div style="font-size:36px;margin-bottom:8px">🏆</div>
+      <div style="font-size:13px;color:var(--tl)">No pledges yet — share the app with friends!</div>
+    </div>
+  </div>
+
+  <!-- Collected progress -->
+  <div class="card" id="ptProgressCard" style="display:none;margin-bottom:12px">
+    <div class="ch"><div class="ci" style="background:#d1fae5;font-size:17px">💵</div><div><div class="ct">Collection progress</div><div class="cs" id="ptProgressSub">—</div></div></div>
+    <div style="height:10px;background:var(--gp);border-radius:5px;overflow:hidden;margin-bottom:6px">
+      <div id="ptProgressBar" style="height:100%;background:linear-gradient(90deg,#059669,#34d399);border-radius:5px;width:0%;transition:width .8s ease"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600">
+      <span style="color:#059669" id="ptCollectedLbl">$0 collected</span>
+      <span style="color:var(--tl)" id="ptOutstandingLbl">$0 outstanding</span>
+    </div>
+  </div>
+
+  <!-- Individual pledge cards -->
+  <div class="card">
+    <div class="ch"><div class="ci ci-gold">👥</div><div><div class="ct">Individual pledges</div><div class="cs" id="ptIndivSub">Tap to mark collected or remove</div></div>
+      <button onclick="exportPledges()" class="btn-sm" style="margin-left:auto;font-size:10px" title="Copy pledge data to clipboard">📋 Export</button>
+    </div>
+    <div id="ptPledgeCards"></div>
+  </div>
+
+  <!-- Town Cats reminder -->
+  <div style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-top:4px">
+    <span style="font-size:24px">🐱</span>
+    <div><div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:2px">Pledge proceeds benefit Town Cats</div><div style="font-size:10px;color:var(--tl);line-height:1.5">A portion of all pledges collected will be donated to Town Cats, a local organization dedicated to the rescue and care of community cats.</div></div>
+  </div>
+</div>
+
 <!-- ══ GUEST VIEW ══ -->
 <div class="sec" id="sec-guest">
   <div class="guest-hero">
     <h2>Drew's Break 80 Challenge</h2>
-    <p>Cheer him on · Roast him · Vote · Or just watch him suffer 😈</p>
+    <p>Cheer · Roast · Pledge · Vote · Watch him suffer 😈</p>
     <div class="guest-stat-row">
       <div class="guest-stat"><div class="guest-stat-val" id="guestBest">—</div><div class="guest-stat-lbl">Best round</div></div>
       <div class="guest-stat"><div class="guest-stat-val" id="guestRounds">—</div><div class="guest-stat-lbl">Rounds</div></div>
@@ -891,35 +1041,55 @@ body.coach-mode .nav{background:#1a2a3a}
     </div>
   </div>
 
-  <!-- Progress -->
+  <!-- Progress bar -->
   <div class="card">
     <div style="font-size:10px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Progress: 104 → 80</div>
     <div style="height:9px;background:var(--gp);border-radius:5px;overflow:hidden;margin-bottom:7px"><div id="guestProgress" style="height:100%;background:linear-gradient(90deg,var(--gm),var(--gl));border-radius:5px;width:0%;transition:width 1s ease"></div></div>
     <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tl)"><span>104</span><span id="guestCurrent" style="font-weight:600;color:var(--gm)">Current: —</span><span>Goal: 80</span></div>
   </div>
 
-  <!-- Will he make it -->
+  <!-- ══ STICKY NAME FIELD ══ -->
+  <div class="card" style="border:2px solid rgba(201,168,76,.4);background:var(--goldp);position:sticky;top:48px;z-index:50">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="font-size:22px">👤</div>
+      <div style="flex:1">
+        <div style="font-size:10px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Your name — shows on everything you send</div>
+        <input type="text" id="guestName" placeholder="Enter your name first..." maxlength="40"
+          style="width:100%;padding:9px 12px;border:1.5px solid rgba(201,168,76,.5);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--td);background:#fff;outline:none;transition:var(--tr)"
+          oninput="syncGuestName(this.value)"
+          onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(201,168,76,.5)'">
+      </div>
+    </div>
+    <div id="guestNameHint" style="font-size:10px;color:#92400e;margin-top:5px;padding-left:32px;display:none">✓ Your name will appear on everything you send</div>
+  </div>
+
+  <!-- ══ WILL HE MAKE IT — THE BET ══ -->
   <div class="card">
-    <div class="ch"><div class="ci" style="background:#fef9c3;font-size:17px">🎲</div><div><div class="ct">Will Drew break 80?</div><div class="cs">Cast your vote — he sees the tally</div></div></div>
+    <div class="ch"><div class="ci" style="background:#fef9c3;font-size:17px">🎲</div><div><div class="ct">Will Drew break 80?</div><div class="cs">Cast your vote — results are live</div></div></div>
     <div class="bet-row">
       <button class="bet-btn bet-yes" onclick="castBet('yes')">✅ He's got this!</button>
       <button class="bet-btn bet-no" onclick="castBet('no')">💀 No chance</button>
     </div>
-    <div id="guestBetTally" style="display:none;margin-top:10px">
-      <div style="height:8px;background:#fee2e2;border-radius:4px;overflow:hidden;margin-bottom:5px"><div id="gBetYesBar" style="height:100%;background:#059669;border-radius:4px;width:50%"></div></div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600"><span style="color:#059669" id="gBetYes">0 believers</span><span style="color:#dc2626" id="gBetNo">0 doubters</span></div>
+    <div id="guestBetTally" style="margin-top:12px">
+      <div style="height:10px;background:#fee2e2;border-radius:5px;overflow:hidden;margin-bottom:6px"><div id="gBetYesBar" style="height:100%;background:linear-gradient(90deg,#059669,#34d399);border-radius:5px;width:50%;transition:width .6s ease"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600">
+        <span style="color:#059669" id="gBetYes">0 believers</span>
+        <span id="gBetPct" style="color:var(--tl);font-size:10px">no votes yet</span>
+        <span style="color:#dc2626" id="gBetNo">0 doubters</span>
+      </div>
     </div>
   </div>
 
-  <!-- Wheel of Doom -->
+  <!-- ══ WHEEL OF DOOM ══ -->
   <div class="card">
-    <div class="ch"><div class="ci" style="background:#f5f3ff;font-size:17px">🎡</div><div><div class="ct">Spin the Wheel of Doom</div><div class="cs">Generate a custom roast — adults only, nothing held back</div></div></div>
+    <div class="ch"><div class="ci" style="background:#f5f3ff;font-size:17px">🎡</div><div><div class="ct">Spin the Wheel of Doom</div><div class="cs">Gen X/Millennial roasts — nothing held back</div></div></div>
     <button class="wheel-btn" onclick="spinWheel()">🎰 Spin for a roast</button>
     <div class="wheel-result" id="wheelResult">
       <div style="font-size:44px;margin-bottom:7px" id="wrEmoji"></div>
       <div style="font-size:13px;color:#4c1d95;font-style:italic;line-height:1.6;font-weight:500" id="wrText"></div>
-      <!-- Round association for roast -->
-      <div class="fg" style="margin-top:10px;text-align:left"><label>Link to a round (optional)</label><select id="roastRoundLink" style="width:100%;font-size:12px;padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;outline:none"><option value="">— General roast —</option></select></div>
+      <div class="fg" style="margin-top:10px;text-align:left"><label>Link to a round (optional)</label>
+        <select id="roastRoundLink" style="width:100%;font-size:12px;padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;outline:none"><option value="">— General roast —</option></select>
+      </div>
       <div style="display:flex;gap:7px;margin-top:10px">
         <button onclick="spinWheel()" style="flex:1;background:rgba(124,58,237,.1);border:1.5px solid #a78bfa;border-radius:8px;padding:8px;font-family:'DM Sans',sans-serif;font-size:11px;color:#7c3aed;cursor:pointer">🔄 Spin again</button>
         <button onclick="sendWheelRoast()" style="flex:1;background:#7c3aed;border:none;border-radius:8px;padding:8px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#fff;cursor:pointer">📨 Send to Drew</button>
@@ -927,9 +1097,9 @@ body.coach-mode .nav{background:#1a2a3a}
     </div>
   </div>
 
-  <!-- Reactions -->
+  <!-- ══ REACTIONS ══ -->
   <div class="card">
-    <div class="ch"><div class="ci" style="background:#fff0f0;font-size:17px">🎭</div><div><div class="ct">Send a reaction</div><div class="cs">One-tap responses</div></div></div>
+    <div class="ch"><div class="ci" style="background:#fff0f0;font-size:17px">🎭</div><div><div class="ct">Send a reaction</div><div class="cs">One-tap — name at top required</div></div></div>
     <div class="reaction-grid">
       <button class="reaction-btn" onclick="sendReaction('🤣','Laughing')"><span class="re">🤣</span>Laughing</button>
       <button class="reaction-btn" onclick="sendReaction('😬','Yikes')"><span class="re">😬</span>Yikes</button>
@@ -937,28 +1107,114 @@ body.coach-mode .nav{background:#1a2a3a}
       <button class="reaction-btn" onclick="sendReaction('💀','RIP')"><span class="re">💀</span>RIP</button>
       <button class="reaction-btn" onclick="sendReaction('🔥','On fire!')"><span class="re">🔥</span>On fire!</button>
       <button class="reaction-btn" onclick="sendReaction('🐔','Chicken')"><span class="re">🐔</span>Chicken</button>
-      <button class="reaction-btn" onclick="sendReaction('🤌',"Chef's kiss")"><span class="re">🤌</span>Chef's kiss</button>
-      <button class="reaction-btn" onclick="sendReaction('🎉',"Let's go!")"><span class="re">🎉</span>Let's go!</button>
+      <button class="reaction-btn" onclick="sendReaction('🤌','Chef\'s kiss')"><span class="re">🤌</span>Chef's kiss</button>
+      <button class="reaction-btn" onclick="sendReaction('🎉','Let\'s go!')"><span class="re">🎉</span>Let's go!</button>
+    </div>
+    <div class="fg" style="margin-top:10px"><label>Link reaction to a round (optional)</label>
+      <select id="reactionRoundLink"><option value="">— General reaction —</option></select>
     </div>
     <div id="reactionStatus" style="margin-top:7px;font-size:10px;color:var(--gm);text-align:center;display:none"></div>
   </div>
 
-  <!-- Leave a message -->
+  <!-- ══ LEAVE A MESSAGE ══ -->
   <div class="card">
     <div class="ch"><div class="ci ci-gold">💬</div><div><div class="ct">Leave Drew a message</div><div class="cs">He'll see it when he logs in</div></div></div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      <div class="fg"><label>Your name</label><input type="text" id="guestName" placeholder="e.g. Mike, Sarah, The Boys..." maxlength="40"></div>
       <div class="fg"><label>Message</label><textarea id="guestMsg" placeholder="Let him have it... or be kind. Your call." maxlength="280"></textarea></div>
       <div class="fg"><label>Link to a round (optional)</label><select id="msgRoundLink"><option value="">— General comment —</option></select></div>
       <div class="fg"><label>Tone</label>
-        <select id="guestTone"><option value="support">💚 Supportive</option><option value="trash">🔥 Trash talk</option><option value="doubt">💀 Total disbelief</option><option value="wisdom">🧠 Golf wisdom</option><option value="bet">🎲 I bet you can't</option></select>
+        <select id="guestTone">
+          <option value="support">💚 Supportive</option>
+          <option value="trash">🔥 Trash talk</option>
+          <option value="doubt">💀 Total disbelief</option>
+          <option value="wisdom">🧠 Golf wisdom</option>
+          <option value="bet">🎲 I bet you can't</option>
+        </select>
       </div>
       <button class="btn" onclick="submitGuestMessage()">📨 Send to Drew</button>
     </div>
     <div id="guestMsgStatus" style="margin-top:8px;font-size:11px;color:var(--gm);display:none"></div>
   </div>
 
-  <div style="text-align:center;padding:8px 0"><button onclick="showSplash()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:7px 18px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--tl);cursor:pointer">← Back to login</button></div>
+  <!-- ══ PLEDGE FORM — BETA (bottom) ══ -->
+  <div class="pledge-card" id="pledgeSection">
+    <div class="ch" style="margin-bottom:14px">
+      <div class="ci" style="background:var(--goldp);font-size:17px">🏆</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="ct">Make a Pledge</div>
+          <span class="pledge-badge">Beta</span>
+        </div>
+        <div class="cs">Support Drew's journey — pledge per stroke under 90, flat amount, or bragging rights</div>
+      </div>
+    </div>
+
+    <!-- Pledge type toggle -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:14px">
+      <button onclick="setPledgeType('stroke')" id="pt-stroke" class="fw-btn" style="padding:10px 6px;font-size:11px;text-align:center;border-color:var(--gold);background:var(--goldp);color:#78350f">⛳ Per stroke<br><span style="font-size:9px;opacity:.7">under 90</span></button>
+      <button onclick="setPledgeType('flat')" id="pt-flat" class="fw-btn" style="padding:10px 6px;font-size:11px;text-align:center">💰 Flat amount<br><span style="font-size:9px;opacity:.7">win or lose</span></button>
+      <button onclick="setPledgeType('brag')" id="pt-brag" class="fw-btn" style="padding:10px 6px;font-size:11px;text-align:center">🎤 Bragging rights<br><span style="font-size:9px;opacity:.7">free 😄</span></button>
+    </div>
+
+    <!-- Amount picker (hidden for brag) -->
+    <div id="pledgeAmtSection">
+      <div style="font-size:10px;font-weight:600;color:var(--tl);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px" id="pledgeAmtLabel">Amount per stroke under 90</div>
+      <div class="pledge-amount-grid">
+        <div class="pledge-amt" onclick="selectPledgeAmt(1)"><span>$1</span><small>per stroke</small></div>
+        <div class="pledge-amt" onclick="selectPledgeAmt(2)"><span>$2</span><small>per stroke</small></div>
+        <div class="pledge-amt" onclick="selectPledgeAmt(5)"><span>$5</span><small>per stroke</small></div>
+        <div class="pledge-amt" onclick="selectPledgeAmt(10)"><span>$10</span><small>per stroke</small></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span style="font-size:12px;font-weight:600;color:var(--td)">$ custom:</span>
+        <input type="number" id="pledgeCustomAmt" min="1" max="1000" placeholder="other amount"
+          style="flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none"
+          oninput="selectPledgeAmt(this.value, true)">
+      </div>
+    </div>
+
+    <!-- Pledge details form -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="fg"><label>First name</label><input type="text" id="pledgeFirst" placeholder="First" maxlength="30"></div>
+        <div class="fg"><label>Last name</label><input type="text" id="pledgeLast" placeholder="Last" maxlength="30"></div>
+      </div>
+      <div class="fg"><label>Email <span style="color:var(--tl);font-weight:400">(so Drew can contact you)</span></label><input type="email" id="pledgeEmail" placeholder="your@email.com"></div>
+      <div class="fg"><label>Phone <span style="color:var(--tl);font-weight:400">(optional)</span></label><input type="tel" id="pledgePhone" placeholder="(555) 555-5555"></div>
+      <div class="fg"><label>Note to Drew <span style="color:var(--tl);font-weight:400">(optional)</span></label>
+        <input type="text" id="pledgeNote" placeholder="e.g. Don't blow it on the back nine..." maxlength="120">
+      </div>
+    </div>
+
+    <!-- Pledge summary -->
+    <div id="pledgeSummary" style="background:#fff;border:1.5px solid rgba(201,168,76,.3);border-radius:10px;padding:12px;margin:12px 0;display:none">
+      <div style="font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Your pledge</div>
+      <div style="font-size:14px;font-weight:600;color:var(--td)" id="pledgeSummaryText"></div>
+      <div style="font-size:10px;color:var(--tl);margin-top:4px" id="pledgeSummaryMax"></div>
+    </div>
+
+    <button onclick="submitPledge()" class="btn" style="background:var(--gold);color:#78350f;font-weight:700;font-size:14px;padding:13px">🏆 Submit my pledge</button>
+    <div id="pledgeStatus" style="margin-top:8px;font-size:11px;display:none"></div>
+
+    <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(201,168,76,.2);font-size:10px;color:var(--tl);line-height:1.7">
+      <div style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:9px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:18px">🐱</span>
+        <div><strong style="color:#78350f;font-size:11px">Pledge proceeds benefit Town Cats</strong><br><span style="font-size:10px;color:#92400e">A portion of all pledges collected will be donated to Town Cats, a local organization dedicated to the rescue and care of community cats.</span></div>
+      </div>
+      <strong style="color:var(--td)">Beta notice:</strong> This is an honor system pledge. No payment is collected now. Drew will reach out after he breaks 80 (he will 💪). By pledging you're committing to pay when he succeeds. Bragging rights pledges are welcome and free.
+    </div>
+
+    <!-- Pledge leaderboard -->
+    <div id="pledgeLeaderboard" style="margin-top:14px;display:none">
+      <div style="font-size:10px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">🏅 Pledge board</div>
+      <div id="pledgeList"></div>
+      <div style="font-size:10px;color:var(--tl);margin-top:8px;text-align:center" id="pledgeTotalLine"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:8px 0">
+    <button onclick="showSplash()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:7px 18px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--tl);cursor:pointer">← Back to login</button>
+  </div>
 </div>
 
 </main>
@@ -1455,34 +1711,40 @@ const TIPS = {
   ],
 };
 
-// ══ ADULT ROASTS ══
+// ══ ADULT ROASTS — Gen X / Millennial Edition ══
 const ROASTS = [
-  {e:'💀',t:"104 strokes. Jesus fucking Christ, Drew. My grandfather shot 92 at 83 years old. With one eye. And a hip replacement. From the forward tees? No. From the tips. Think about that."},
-  {e:'🤡',t:"Hey buddy, just wanted to say I believe in you. I also believe in the tooth fairy, so take that however you want, you beautiful disaster."},
-  {e:'🔥',t:"Your handicap is so high it needs its own therapist. I'm not joking. The number itself has abandonment issues."},
-  {e:'🐌',t:"At your rate of improvement, you'll break 80 sometime between your 50th birthday and the heat death of the universe. I've run the math. It's closer to the second one."},
-  {e:'🏌️',t:"I looked up your last round. Genuinely thought it was a typo. Turns out no, you just played golf like a golden retriever who found a stick."},
-  {e:'⛳',t:"Ocean Resorts Golf Club called. They're considering renaming the water hazards after you. The bunkers too. Basically anything that ruins a round."},
-  {e:'🤦',t:"Bro. 9 on hole 11. NINE. That's not golf. That's punishment. What did that hole ever do to you? What did any of us do to deserve watching that?"},
-  {e:'😂',t:"Your scorecard looks like someone typed a random number generator into Excel and called it a round. Truly avant-garde. Very artistic. Very bad."},
-  {e:'🪦',t:"Here lies Drew's handicap. It lived a long, fat, embarrassing life. It will not be missed. It asks only that you stop playing golf near its memory."},
-  {e:'🎪',t:"I showed your swing video to three PGA Tour pros. One retired. One converted to yoga. The third just quietly handed me a business card for a therapist. His therapist."},
-  {e:'🤯',t:"29 putts is actually impressive. You somehow found a way to fuck up the rest of it so badly that 29 putts looks like the only competent part of your day. Talent."},
-  {e:'🍺',t:"Here's my theory: you play better when you drink. This is not encouragement to drink. This is a formal request to figure out what's wrong with you sober."},
-  {e:'🔭',t:"Scientists used the James Webb Space Telescope to look for your ball on hole 15. They found it. It was in a different dimension. Still counted as a stroke."},
-  {e:'📉',t:"Drew's scorecard walking into the round: 'This is the day.' Drew's scorecard walking off: 'I need to call my mother.' Classic arc. Really compelling character development."},
-  {e:'🤌',t:"I've seen bad golf. I've played bad golf. But what you did out there transcended bad golf. It became abstract art. An experience. A journey. Still a 104 though."},
-  {e:'😤',t:"You know what, screw it. I believe you can do this. I genuinely believe that. I'm also absolutely betting against you with everyone I know. Both things are true."},
-  {e:'🧠',t:"Golf is 90% mental, they say. That's bad news for you specifically. I'm not explaining why. You already know. We all know. The course knows."},
-  {e:'🏆',t:"Congrats on completing 18 holes without anyone calling the authorities. Genuinely. That level of audacity deserves some kind of award. A small one. Participation, maybe."},
-  {e:'🐔',t:"I've watched chickens figure out golf faster than this. They don't have opposable thumbs. You do. You're losing to theoretical chicken golfers, Drew."},
-  {e:'💪',t:"The good news: you've nowhere to go but up. The bad news: 'up' is still 104. And 'up' from there is 103. You need to go up approximately 24 more times. Godspeed."},
-  {e:'🎯',t:"Your approach shots are like guided missiles — if the missile was programmed by a drunk intern, aimed by someone in a moving vehicle, and the target was a different planet."},
-  {e:'🌊',t:"Hole 6, bro. HOLE 6. The water doesn't even have the decency to look surprised anymore. That pond has your name memorized. It waits for you. It's not malicious. Just patient."},
-  {e:'📸',t:"I took a screenshot of your scorecard and sent it to my golf group chat. We haven't stopped laughing. One guy spit his coffee out. Full mug. On his laptop. Totally worth it."},
-  {e:'🎲',t:"I'd bet money you can break 90 before your birthday. I won't say whose money. Let's just say the odds are 'colorful' and your friends are all suddenly very wealthy from this information."},
-  {e:'🛠️',t:"Breaking 80 is totally achievable. You just need to fix your driver, your irons, your short game, your putting, your course management, your mental game, and your fundamental understanding of the sport. Easy stuff."},
+  {e:'💀',t:"Bro, you shot 104. That's not golf. That's a cry for help wrapped in khaki pants. My guy, even Space Jam was made with less disappointment than this scorecard."},
+  {e:'🤡',t:"104 strokes and you still posted it. The audacity. The absolute unhinged slay of logging this round like it's content. Respect the delusion, honestly."},
+  {e:'🔥',t:"Your handicap is so high it's giving main character energy. Tragically miscast main character, but still. You walked out there like Tiger and drove it like someone who just downloaded a golf app."},
+  {e:'🐌',t:"At your current rate of improvement you'll break 80 around the same time everyone gets their student loans forgiven. So... never? But also somehow still possible? Very Millennial of you."},
+  {e:'🏌️',t:"Dude you're out here playing golf like it's a Call of Duty lobby and you just respawned with no idea where you are. Hole 6 water hazard said 'skill issue' and you said 'hold my beer' and obliged."},
+  {e:'⛳',t:"Ocean Resorts Golf Club called. They're retiring your number. Not like Jordan retiring a number — more like 'please stop coming here' retiring a number. There's a plaque. It's not flattering."},
+  {e:'🤦',t:"A NINE on hole 11. Nine. That hole has an index of 2 meaning it's supposed to be hard but not 'this guy found three different zip codes with one tee shot' hard. Absolutely unhinged behavior."},
+  {e:'😂',t:"Your scorecard goes 6, 6, 3, 6, 7, 6, 6, 5, 9... bro that's not golf that's the Fibonacci sequence after a few drinks at TGI Fridays. Mathematically interesting. Golfistically a crime."},
+  {e:'🪦',t:"Here lies Drew's handicap, aged ~28. It never made sense. It never improved. It once caused a grown man to put his rangefinder away and just guess. We do not mourn its loss."},
+  {e:'🎪',t:"You're out here playing golf like it's a Nickelback concert — everyone's a little embarrassed to admit they're watching but nobody can actually look away. It's a trainwreck with polo shirts."},
+  {e:'🤯',t:"29 putts sounds impressive until you realize the other 75 strokes were NOT putts. Where did those come from, Drew? The woods? The water? A neighboring farm? Asking for literally everyone."},
+  {e:'🍺',t:"My working theory is that you're actually playing a different sport and just haven't told anyone. Like you're playing a personal game of 'how many ecosystems can one round touch' and you're CRUSHING it."},
+  {e:'🔭',t:"I tracked your ball flight on hole 15 using Google Earth, three witnesses, and a ham radio operator in Delaware. Still no definitive answer. The NTSB has been contacted."},
+  {e:'📉',t:"Your golf journey has the same energy as someone who bought Bitcoin in 2021 and still calls themselves an investor. Deeply committed. Fundamentally misunderstanding the situation. Oddly inspiring."},
+  {e:'🤌',t:"What you did on hole 9 transcended bad golf. It entered performance art territory. Very 'avant-garde.' Very 'statement piece.' Very 'that'll be $4 in water balls please.' Chefs kiss ironically."},
+  {e:'😤',t:"I genuinely believe you can do this. I also genuinely believed The Matrix sequels were going to be good, that Blockbuster would figure it out, and that my lower back pain was temporary. I have a history."},
+  {e:'🧠',t:"Golf is 90% mental. Your brain has left the chat, turned off read receipts, and is currently watching Netflix in another room. It's not ghosting you — it's just protecting itself, honestly."},
+  {e:'🏆',t:"Congrats on posting the round. That took guts. Or delusion. Or both — which, fun fact, is the exact blend required to keep playing golf after a 104. You're basically a hero. A confusing, frustrating hero."},
+  {e:'🐔',t:"My 8-year-old niece played mini-golf last weekend and shot a 56. I'm not saying anything. I'm just saying the windmill hole gave her trouble and she still posted a lower number than you. Allegedly."},
+  {e:'💪',t:"Here's the thing about 104 to 80 — it's 24 shots. That's it. Just 24 fewer shots spread over 18 holes. That's like 1.3 shots per hole. You've definitely wasted more than that on a single par 3. You've got this."},
+  {e:'🎯',t:"Your approach shots have the accuracy of a 3am Domino's order — you're aiming at something specific but where it actually lands is anybody's guess and nobody is happy about it including you."},
+  {e:'🌊',t:"Hole 6 water hazard. Again. Buddy the pond isn't the problem — you are the pond's entire personality at this point. It has a framed photo of you. It names new ducks after you. It's a whole thing."},
+  {e:'📸',t:"I screenshotted your scorecard and sent it to the group chat titled 'Motivation.' Within minutes three people signed up for lessons, one guy quit and took up pickleball, and someone started a prayer chain."},
+  {e:'🎲',t:"I'd bet on you breaking 80 but my therapist says I need to practice 'realistic optimism' now. So I'm optimistic that you'll have fun, and realistic that the scoreboard won't reflect that. Healthy balance."},
+  {e:'🛠️',t:"To break 80 you just need to fix: your grip, your stance, your backswing, your downswing, your follow-through, your club selection, your course management, your mental game, and the part where you play golf. Simple."},
+  {e:'🎸',t:"Your golf game is giving late 90s pop punk energy — technically a mess, weirdly earnest, everyone kind of loves it despite themselves, and there's a surprising amount of yelling near water. Peak nostalgia honestly."},
+  {e:'📺',t:"Watching your round is like watching Lost — compelling, confusing, full of unexpected detours, and by hole 9 you've completely forgotten what the original plan was. Unlike Lost though, this might actually have a satisfying ending."},
+  {e:'🎮',t:"You're playing golf on Easy mode and still activating the wrong power-ups. Dude picked 'aggressive driver on a water hole' like it was a dialogue option in an RPG and then seemed shocked by the outcome. Classic speedrun fail."},
+  {e:'☕',t:"This round has the same energy as a Monday morning meeting that could've been an email. So much effort. So much setup. And at the end everyone's just tired and a little sad. You're the meeting, Drew. Be the email."},
+  {e:'🦕',t:"As a fellow elder Millennial/Gen Xer I say this with love: you're out here playing golf like you're still running dial-up. The hardware is fine. The software needs a serious update. Maybe defrag something. Steve, help him defrag."},
 ];
+
 
 // ══ STATE ══
 let rounds = [], coachNotes = [], hwItems = [], guestMessages = [];
@@ -1529,7 +1791,7 @@ async function loadFromBin() {
     synced = true;
     setSyncStatus('ok',`Synced — ${rounds.length} rounds`);
     updateHeaderBest(); renderRounds();
-    if(currentUser==='drew') { renderDrewMessages(); updateBadges(); }
+    if(currentUser==='drew') { renderDrewMessages(); updateBadges(); renderPledgesForDrew(); renderPledgesTab(); }
     if(currentUser==='guest') renderGuestView();
   } catch(e) {
     setSyncStatus('err',`Sync failed — ${e.message}`);
@@ -1559,6 +1821,8 @@ function showPin(user) {
   document.getElementById('pinTitle').textContent=user==='drew'?'Welcome back, Drew':'Hey Coach Steve';
   updatePinDots();
   const overlay=document.getElementById('pinOverlay'); overlay.style.display='flex';
+  // Focus a hidden input so keyboard works on mobile too
+  setTimeout(()=>document.getElementById('pinKeyboardTrap')?.focus(),100);
 }
 function closePin(){document.getElementById('pinOverlay').style.display='none'; pinTarget=null; pinEntry='';}
 function pinPress(d){if(pinEntry.length>=4)return; pinEntry+=d; updatePinDots(); if(pinEntry.length===4)setTimeout(checkPin,150);}
@@ -1586,6 +1850,15 @@ function showLockout(){
   lockoutTimer=setInterval(()=>{secs--; const el=document.getElementById('lockoutTimer'); if(el)el.textContent=secs; if(secs<=0){clearInterval(lockoutTimer);document.getElementById('lockoutBack').style.display='block';}},1000);
 }
 function resetLockout(){document.getElementById('lockoutScreen').style.display='none'; pinAttempts=0; pinEntry=''; clearInterval(lockoutTimer);}
+
+// Keyboard support for PIN
+document.addEventListener('keydown', e => {
+  const overlay = document.getElementById('pinOverlay');
+  if (!overlay || overlay.style.display === 'none') return;
+  if (e.key >= '0' && e.key <= '9') { pinPress(e.key); e.preventDefault(); }
+  else if (e.key === 'Backspace') { pinDel(); e.preventDefault(); }
+  else if (e.key === 'Escape') { closePin(); e.preventDefault(); }
+});
 
 // ══ COUNTDOWN ══
 function startCountdownClock(){
@@ -1643,7 +1916,8 @@ function applyNavState(state,isPopState){
   if(secEl) secEl.classList.add('active');
   if(sec==='progress') updateProgress();
   if(sec==='mycoach') renderCoachBoard();
-  if(sec==='overview'){renderDrewMessages(); updateSplashStats();}
+  if(sec==='pledges') renderPledgesTab();
+  if(sec==='overview'){renderDrewMessages(); updateSplashStats(); renderPledgesForDrew();}
   if(sec==='messages'){renderMessagesTab();}
   if(sec==='guest') renderGuestView();
   if(sec==='rounds'){
@@ -1677,6 +1951,7 @@ function login(user){
   history.replaceState({sec:'splash'},'','#');
   if(user==='guest'){
     document.body.classList.remove('coach-mode');
+    document.body.classList.add('guest-mode');
     history.pushState({sec:'guest',scView:'start',hole:0},'','#guest');
     applyNavState({sec:'guest',scView:'start',hole:0},false);
   } else if(user==='steve'){
@@ -1688,9 +1963,13 @@ function login(user){
     history.pushState({sec:'overview',scView:'start',hole:0},'','#overview');
     applyNavState({sec:'overview',scView:'start',hole:0},false);
     updateSplashStats();
+    // Show Drew-only controls
+    const resetBtn = document.getElementById('mf-reset');
+    if (resetBtn) resetBtn.style.display = 'block';
+    loadNotifSettings();
   }
 }
-function showSplash(){currentUser=null; updateSplashStats(); document.getElementById('splash').style.display='flex';}
+function showSplash(){currentUser=null; document.body.classList.remove('guest-mode','coach-mode'); updateSplashStats(); document.getElementById('splash').style.display='flex';}
 
 // ══ BADGE SYSTEM ══
 function updateBadges(){
@@ -2121,7 +2400,13 @@ function renderMessagesTab(){
   if(count)count.textContent=`${guestMessages.length} total · ${believers} believers · ${doubters} doubters`;
   // Bet tally
   const betSum=document.getElementById('betSummary');
-  if(betSum&&bets.length){betSum.style.display='block';const yPct=bets.length>0?Math.round(believers/bets.length*100):50;const yb=document.getElementById('betYesBar');if(yb)yb.style.width=yPct+'%';const yl=document.getElementById('betYesLbl');if(yl)yl.textContent=believers+' believer'+(believers!==1?'s':'');const nl=document.getElementById('betNoLbl');if(nl)nl.textContent=doubters+' doubter'+(doubters!==1?'s':'');}
+  if(betSum){
+    betSum.style.display='block';
+    const yPct=bets.length>0?Math.round(believers/bets.length*100):50;
+    const yb=document.getElementById('betYesBar');if(yb)yb.style.width=yPct+'%';
+    const yl=document.getElementById('betYesLbl');if(yl)yl.textContent=believers+' believer'+(believers!==1?'s':'');
+    const nl=document.getElementById('betNoLbl');if(nl)nl.textContent=doubters+' doubter'+(doubters!==1?'s':'');
+  }
   // Filter
   let msgs=guestMessages;
   if(msgFilter==='trash')msgs=msgs.filter(m=>m.tone==='trash'||m.type==='roast');
@@ -2172,6 +2457,55 @@ function renderDrewMessages(){
   if(unread>0){guestMessages.forEach(m=>m.read=true); saveToBin();}
 }
 
+// ══ GUEST NAME SYNC ══
+function syncGuestName(val){const h=document.getElementById('guestNameHint');if(h)h.style.display=val.trim()?'block':'none';}
+
+// ══ NOTIFICATION SETTINGS ══
+function saveNotifSettings(){
+  const email=document.getElementById('notifEmail')?.value.trim();
+  const svc=document.getElementById('ejsServiceId')?.value.trim();
+  const tmpl=document.getElementById('ejsTemplateId')?.value.trim();
+  const key=document.getElementById('ejsPublicKey')?.value.trim();
+  if(!email){alert('Enter your email address.');return;}
+  localStorage.setItem('b80_notif_email',email);
+  localStorage.setItem('b80_notif_svc',svc||'');
+  localStorage.setItem('b80_notif_tmpl',tmpl||'');
+  localStorage.setItem('b80_notif_key',key||'');
+  const st=document.getElementById('notifStatus');
+  if(st){st.style.display='block';st.style.color='#059669';st.textContent='\u2713 Settings saved! You\'ll be notified when friends post.';}
+}
+function loadNotifSettings(){
+  const ids=[['notifEmail','b80_notif_email'],['ejsServiceId','b80_notif_svc'],['ejsTemplateId','b80_notif_tmpl'],['ejsPublicKey','b80_notif_key']];
+  ids.forEach(([id,key])=>{const v=localStorage.getItem(key);const el=document.getElementById(id);if(v&&el)el.value=v;});
+}
+async function sendEmailNotification(fromName,msgType,msgText){
+  const email=localStorage.getItem('b80_notif_email'),svc=localStorage.getItem('b80_notif_svc'),tmpl=localStorage.getItem('b80_notif_tmpl'),key=localStorage.getItem('b80_notif_key');
+  if(!email||!svc||!tmpl||!key)return;
+  try{
+    if(!window.emailjs){
+      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+      window.emailjs.init({publicKey:key});
+    }
+    await window.emailjs.send(svc,tmpl,{to_email:email,from_name:fromName||'A friend',message_type:msgType,message:msgText.slice(0,200),app_name:'Break 80'});
+  }catch(e){console.log('Email notification failed:',e);}
+}
+async function testNotif(){
+  const st=document.getElementById('notifStatus');
+  if(st){st.style.display='block';st.style.color='#2563eb';st.textContent='Sending test email...';}
+  await sendEmailNotification('Test User','\ud83e\uddea Test','This is a test notification from your Break 80 app!');
+  if(st){st.style.color='#059669';st.textContent='\u2713 Test sent! Check your inbox (and spam folder).';}
+}
+
+// ══ RESET VOTES ══
+function resetAllVotes(){
+  if(!confirm('Reset the "Will he break 80?" bet tally back to zero? This cannot be undone.'))return;
+  guestMessages=guestMessages.filter(m=>m.type!=='bet');
+  saveToBin();
+  renderMessagesTab();
+  renderDrewMessages();
+  alert('Bet tally has been reset to zero.');
+}
+
 // ══ GUEST VIEW ══
 let currentRoast=null;
 
@@ -2185,56 +2519,57 @@ function renderGuestView(){
     const pct=Math.min(100,Math.max(0,((104-best)/24)*100));
     const pg=document.getElementById('guestProgress');if(pg)pg.style.width=pct+'%';
   }
-  // Populate round dropdowns
-  ['msgRoundLink','roastRoundLink'].forEach(selId=>{
-    const sel=document.getElementById(selId); if(!sel)return;
-    const cur=sel.value; sel.innerHTML='<option value="">— General comment —</option>';
+  ['msgRoundLink','roastRoundLink','reactionRoundLink'].forEach(selId=>{
+    const sel=document.getElementById(selId);if(!sel)return;
+    const cur=sel.value;sel.innerHTML='<option value="">\u2014 General comment \u2014</option>';
     [...rounds].sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(r=>{
       const vp=r.score-72,sign=vp>0?'+':'';
       const d=new Date(r.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-      const o=document.createElement('option');o.value=r.id;o.textContent=`${d} · ${r.course} · ${r.score}(${sign}${vp})`;sel.appendChild(o);
+      const o=document.createElement('option');o.value=r.id;o.textContent=`${d} \u00b7 ${r.course} \u00b7 ${r.score}(${sign}${vp})`;sel.appendChild(o);
     });
     sel.value=cur;
   });
-  // Bet tally
   const bets=guestMessages.filter(m=>m.type==='bet');
-  if(bets.length){
-    const yes=bets.filter(m=>m.bet==='yes').length,no=bets.filter(m=>m.bet==='no').length,tot=bets.length;
-    const tally=document.getElementById('guestBetTally');if(tally)tally.style.display='block';
-    const yb=document.getElementById('gBetYesBar');if(yb)yb.style.width=Math.round(yes/tot*100)+'%';
-    const yl=document.getElementById('gBetYes');if(yl)yl.textContent=yes+' believer'+(yes!==1?'s':'');
-    const nl=document.getElementById('gBetNo');if(nl)nl.textContent=no+' doubter'+(no!==1?'s':'');
-  }
+  const yes=bets.filter(m=>m.bet==='yes').length,no=bets.filter(m=>m.bet==='no').length,tot=bets.length;
+  const yPct=tot>0?Math.round(yes/tot*100):50;
+  const yb=document.getElementById('gBetYesBar');if(yb)yb.style.width=yPct+'%';
+  const yl=document.getElementById('gBetYes');if(yl)yl.textContent=yes+' believer'+(yes!==1?'s':'');
+  const nl=document.getElementById('gBetNo');if(nl)nl.textContent=no+' doubter'+(no!==1?'s':'');
+  const pl=document.getElementById('gBetPct');if(pl)pl.textContent=tot>0?`${yPct}% say yes (${tot} votes)`:'no votes yet';
+  renderPledgeLeaderboard();
 }
-
 function spinWheel(){
-  const r=ROASTS[Math.floor(Math.random()*ROASTS.length)]; currentRoast=r;
-  document.getElementById('wrEmoji').textContent=r.e; document.getElementById('wrText').textContent=r.t;
-  const res=document.getElementById('wheelResult'); res.style.display='block';
+  const r=ROASTS[Math.floor(Math.random()*ROASTS.length)];currentRoast=r;
+  document.getElementById('wrEmoji').textContent=r.e;document.getElementById('wrText').textContent=r.t;
+  document.getElementById('wheelResult').style.display='block';
 }
 function sendWheelRoast(){
   if(!currentRoast)return;
   const name=(document.getElementById('guestName')?.value||'').trim();
-  if(!name){alert('Enter your name first so Drew knows who to blame! 😈');document.getElementById('guestName')?.focus();return;}
+  if(!name){alert('Enter your name at the top first! \ud83d\ude08');return;}
   const roundId=document.getElementById('roastRoundLink')?.value||null;
-  guestMessages.push({id:Date.now(),from:name,text:currentRoast.t,emoji:currentRoast.e,type:'roast',tone:'trash',roundId:roundId?parseInt(roundId):null,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}),read:false,votes:{up:0,down:0}});
-  saveToBin(); renderGuestView();
+  const msg={id:Date.now(),from:name,text:currentRoast.t,emoji:currentRoast.e,type:'roast',tone:'trash',roundId:roundId?parseInt(roundId):null,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}),read:false,votes:{up:0,down:0}};
+  guestMessages.push(msg);saveToBin();renderGuestView();updateBadges();
+  sendEmailNotification(name,'\ud83c\udfa1 Wheel of Doom Roast',currentRoast.t);
   const res=document.getElementById('wheelResult');
-  res.innerHTML='<div style="text-align:center;padding:8px"><div style="font-size:28px">📨</div><div style="font-size:12px;color:#7c3aed;font-weight:600;margin-top:5px">Roast delivered. Drew suffers shortly.</div></div>';
-  setTimeout(()=>{res.style.display='none'; currentRoast=null;},2500);
+  res.innerHTML='<div style="text-align:center;padding:8px"><div style="font-size:28px">\ud83d\udce8</div><div style="font-size:12px;color:#7c3aed;font-weight:600;margin-top:5px">Roast delivered. Drew suffers shortly.</div></div>';
+  setTimeout(()=>{res.style.display='none';currentRoast=null;},2500);
 }
 function sendReaction(emoji,label){
   const name=(document.getElementById('guestName')?.value||'').trim()||'A friend';
-  guestMessages.push({id:Date.now(),from:name,text:emoji+' '+label,emoji,type:'reaction',tone:'support',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}),read:false,votes:{up:0,down:0}});
+  const roundId=document.getElementById('reactionRoundLink')?.value||null;
+  guestMessages.push({id:Date.now(),from:name,text:emoji+' '+label,emoji,type:'reaction',tone:'support',roundId:roundId?parseInt(roundId):null,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}),read:false,votes:{up:0,down:0}});
   saveToBin();
   const s=document.getElementById('reactionStatus');if(s){s.style.display='block';s.textContent=emoji+' Sent to Drew!';setTimeout(()=>s.style.display='none',2000);}
-  renderGuestView();
+  renderGuestView();updateBadges();
+  sendEmailNotification(name,emoji+' Reaction',label);
 }
 function castBet(vote){
   const name=(document.getElementById('guestName')?.value||'').trim()||'Anonymous';
-  const text=vote==='yes'?`${name} believes Drew WILL break 80. ✅`:`${name} thinks Drew has absolutely no chance. 💀`;
+  const text=vote==='yes'?`${name} believes Drew WILL break 80. \u2705`:`${name} thinks Drew has absolutely no chance. \ud83d\udc80`;
   guestMessages.push({id:Date.now(),from:name,text,type:'bet',bet:vote,tone:vote==='yes'?'support':'doubt',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),read:false,votes:{up:0,down:0}});
-  saveToBin(); renderGuestView();
+  saveToBin();renderGuestView();updateBadges();
+  sendEmailNotification(name,'\ud83c\udfb2 New Bet',text);
 }
 function submitGuestMessage(){
   const from=(document.getElementById('guestName')?.value||'').trim();
@@ -2242,16 +2577,424 @@ function submitGuestMessage(){
   const tone=document.getElementById('guestTone')?.value||'support';
   const roundId=document.getElementById('msgRoundLink')?.value||null;
   const status=document.getElementById('guestMsgStatus');
-  if(!from){alert('Please enter your name.');return;}
+  if(!from){alert('Please enter your name at the top of the page.');return;}
   if(!text){alert('Please write a message.');return;}
   guestMessages.push({id:Date.now(),from,text,tone,type:'message',roundId:roundId?parseInt(roundId):null,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}),read:false,votes:{up:0,down:0}});
   saveToBin();
   if(document.getElementById('guestMsg'))document.getElementById('guestMsg').value='';
-  if(status){status.style.display='block';status.textContent='✓ Delivered! Drew will see it when he logs in.';}
-  renderGuestView(); updateBadges();
+  if(status){status.style.display='block';status.textContent='\u2713 Delivered!';}
+  renderGuestView();updateBadges();
+  sendEmailNotification(from,'\ud83d\udcac New message',text);
 }
 
-function escHtml(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+// ══ PLEDGE SYSTEM ══
+let pledgeType = 'stroke';
+let pledgeAmount = 0;
+
+function setPledgeType(type) {
+  pledgeType = type;
+  ['stroke','flat','brag'].forEach(t => {
+    const btn = document.getElementById('pt-'+t);
+    if (!btn) return;
+    const isSelected = t === type;
+    btn.style.borderColor = isSelected ? 'var(--gold)' : 'var(--border)';
+    btn.style.background = isSelected ? 'var(--goldp)' : '#fff';
+    btn.style.color = isSelected ? '#78350f' : 'var(--tm)';
+  });
+  const amtSec = document.getElementById('pledgeAmtSection');
+  const amtLbl = document.getElementById('pledgeAmtLabel');
+  if (amtSec) amtSec.style.display = type === 'brag' ? 'none' : 'block';
+  if (amtLbl) amtLbl.textContent = type === 'stroke' ? 'Amount per stroke under 90' : 'Flat donation amount';
+  // Update amount buttons label
+  document.querySelectorAll('.pledge-amt small').forEach((el, i) => {
+    el.textContent = type === 'stroke' ? 'per stroke' : 'total';
+  });
+  updatePledgeSummary();
+}
+
+function selectPledgeAmt(val, isCustom) {
+  pledgeAmount = parseFloat(val) || 0;
+  document.querySelectorAll('.pledge-amt').forEach(el => el.classList.remove('selected'));
+  if (!isCustom) {
+    const amts = [1,2,5,10];
+    const idx = amts.indexOf(pledgeAmount);
+    if (idx >= 0) document.querySelectorAll('.pledge-amt')[idx]?.classList.add('selected');
+    const customInp = document.getElementById('pledgeCustomAmt');
+    if (customInp) customInp.value = '';
+  }
+  updatePledgeSummary();
+}
+
+function updatePledgeSummary() {
+  const summary = document.getElementById('pledgeSummary');
+  const text = document.getElementById('pledgeSummaryText');
+  const maxLine = document.getElementById('pledgeSummaryMax');
+  const name = (document.getElementById('guestName')?.value || '').trim() || 'You';
+  if (!summary || !text) return;
+
+  if (pledgeType === 'brag') {
+    summary.style.display = 'block';
+    text.textContent = `${name} pledges bragging rights if Drew breaks 80 🏆`;
+    maxLine.textContent = 'Free — but the bragging is priceless.';
+    return;
+  }
+  if (!pledgeAmount || pledgeAmount <= 0) { summary.style.display = 'none'; return; }
+  summary.style.display = 'block';
+  if (pledgeType === 'stroke') {
+    text.textContent = `${name} pledges $${pledgeAmount} per stroke under 90`;
+    // If Drew shoots 80, that's 10 strokes under 90
+    const maxPay = pledgeAmount * 10;
+    maxLine.textContent = `Max possible payout: $${maxPay} (if Drew shoots 80 — 10 strokes under 90)`;
+  } else {
+    text.textContent = `${name} pledges $${pledgeAmount} flat (win or lose — honor system)`;
+    maxLine.textContent = 'Paid regardless of Drew\'s final score.';
+  }
+}
+
+function submitPledge() {
+  const firstName = (document.getElementById('pledgeFirst')?.value || '').trim();
+  const lastName = (document.getElementById('pledgeLast')?.value || '').trim();
+  const email = (document.getElementById('pledgeEmail')?.value || '').trim();
+  const phone = (document.getElementById('pledgePhone')?.value || '').trim();
+  const note = (document.getElementById('pledgeNote')?.value || '').trim();
+  const guestNameVal = (document.getElementById('guestName')?.value || '').trim();
+  const status = document.getElementById('pledgeStatus');
+
+  if (!firstName || !lastName) { alert('Please enter your first and last name.'); return; }
+  if (pledgeType !== 'brag' && (!pledgeAmount || pledgeAmount <= 0)) { alert('Please select or enter an amount.'); return; }
+  if (!email && !phone) { alert('Please provide at least an email or phone so Drew can reach you.'); return; }
+
+  const pledge = {
+    id: Date.now(),
+    firstName, lastName,
+    email, phone,
+    type: pledgeType,
+    amount: pledgeType === 'brag' ? 0 : pledgeAmount,
+    note,
+    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    status: 'pending',
+  };
+
+  if (!window._pledges) window._pledges = [];
+  // Store in guestMessages with a special type so it saves to JSONbin
+  const pledgeMsg = {
+    id: Date.now(),
+    from: `${firstName} ${lastName}`,
+    text: pledgeType === 'brag'
+      ? `🏆 ${firstName} ${lastName} pledged bragging rights!${note ? ' "'+note+'"' : ''}`
+      : pledgeType === 'stroke'
+        ? `🏆 ${firstName} ${lastName} pledged $${pledgeAmount}/stroke under 90 (max $${pledgeAmount*10})${note ? ' — "'+note+'"' : ''}`
+        : `🏆 ${firstName} ${lastName} pledged $${pledgeAmount} flat${note ? ' — "'+note+'"' : ''}`,
+    type: 'pledge',
+    tone: 'support',
+    pledgeData: pledge,
+    date: pledge.date,
+    read: false,
+    votes: { up: 0, down: 0 },
+  };
+  guestMessages.push(pledgeMsg);
+  saveToBin(); updateBadges();
+
+  // Auto-fill guest name if not set
+  if (!guestNameVal) {
+    const nameEl = document.getElementById('guestName');
+    if (nameEl) { nameEl.value = `${firstName} ${lastName}`; syncGuestName(`${firstName} ${lastName}`); }
+  }
+
+  // Clear form
+  ['pledgeFirst','pledgeLast','pledgeEmail','pledgePhone','pledgeNote','pledgeCustomAmt'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.querySelectorAll('.pledge-amt').forEach(el => el.classList.remove('selected'));
+  pledgeAmount = 0;
+  document.getElementById('pledgeSummary').style.display = 'none';
+
+  if (status) {
+    status.style.display = 'block';
+    status.style.color = '#059669';
+    status.textContent = `✓ Pledge recorded! Drew will reach out to collect when he breaks 80. Thank you, ${firstName}! 🎉`;
+  }
+  renderGuestView(); renderPledgeLeaderboard();
+  sendEmailNotification(`${firstName} ${lastName}`, '🏆 New Pledge!', pledgeMsg.text);
+}
+
+function renderPledgeLeaderboard() {
+  const pledges = guestMessages.filter(m => m.type === 'pledge');
+  const board = document.getElementById('pledgeLeaderboard');
+  const list = document.getElementById('pledgeList');
+  const totalLine = document.getElementById('pledgeTotalLine');
+  if (!board || !list) return;
+  if (!pledges.length) { board.style.display = 'none'; return; }
+  board.style.display = 'block';
+  let totalFlat = 0, totalPerStroke = 0, bragCount = 0;
+  pledges.forEach(m => {
+    const pd = m.pledgeData || {};
+    if (pd.type === 'flat') totalFlat += pd.amount || 0;
+    else if (pd.type === 'stroke') totalPerStroke += pd.amount || 0;
+    else bragCount++;
+  });
+  list.innerHTML = pledges.map(m => {
+    const pd = m.pledgeData || {};
+    const typeStr = pd.type === 'brag' ? 'Bragging rights 🎤'
+      : pd.type === 'stroke' ? `$${pd.amount}/stroke under 90`
+      : `$${pd.amount} flat`;
+    return `<div class="pledge-list-item">
+      <div><div class="pl-name">${escHtml(m.from)}</div><div class="pl-type">${typeStr}${pd.note ? ' · "'+escHtml(pd.note)+'"' : ''} · ${m.date}</div></div>
+      <div class="pl-amt">${pd.type === 'brag' ? '🎤' : '$'+pd.amount}</div>
+    </div>`;
+  }).join('');
+  const parts = [];
+  if (totalFlat > 0) parts.push(`$${totalFlat} flat`);
+  if (totalPerStroke > 0) parts.push(`$${totalPerStroke}/stroke (up to $${totalPerStroke * 10} if Drew shoots 80)`);
+  if (bragCount > 0) parts.push(`${bragCount} bragging rights pledge${bragCount !== 1 ? 's' : ''}`);
+  if (totalLine) totalLine.textContent = 'Total pledged: ' + (parts.length ? parts.join(' + ') : 'nothing yet');
+}
+
+// ══ DREW'S PLEDGE ADMIN VIEW ══
+function renderPledgesForDrew() {
+  const pledges = guestMessages.filter(m => m.type === 'pledge');
+  const container = document.getElementById('drewPledgeList');
+  if (!container) return;
+  const card = document.getElementById('drewPledgeCard');
+
+  if (!pledges.length) { if (card) card.style.display = 'none'; return; }
+  if (card) card.style.display = 'block';
+
+  let totalFlat = 0, totalPerStroke = 0, bragCount = 0;
+  pledges.forEach(m => {
+    const pd = m.pledgeData || {};
+    if (pd.type === 'flat') totalFlat += pd.amount || 0;
+    else if (pd.type === 'stroke') totalPerStroke += pd.amount || 0;
+    else bragCount++;
+  });
+
+  const summaryEl = document.getElementById('drewPledgeSummary');
+  if (summaryEl) {
+    summaryEl.textContent = `${pledges.length} pledge${pledges.length !== 1 ? 's' : ''} · `
+      + (totalFlat ? `$${totalFlat} flat · ` : '')
+      + (totalPerStroke ? `$${totalPerStroke}/stroke · ` : '')
+      + (bragCount ? `${bragCount} bragging` : '');
+  }
+
+  container.innerHTML = pledges.map((m, i) => {
+    const pd = m.pledgeData || {};
+    const typeStr = pd.type === 'brag' ? 'Bragging rights'
+      : pd.type === 'stroke' ? `$${pd.amount}/stroke under 90 (max $${pd.amount * 10})`
+      : `$${pd.amount} flat`;
+    return `<div style="background:#fff;border-radius:10px;padding:12px;border:1px solid var(--border);margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--td)">${escHtml(m.from)}</div>
+          <div style="font-size:10px;font-weight:600;color:var(--gold)">${typeStr}</div>
+          ${pd.note ? `<div style="font-size:11px;color:var(--tl);font-style:italic;margin-top:2px">"${escHtml(pd.note)}"</div>` : ''}
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:9px;color:var(--tl)">${m.date}</div>
+          <span style="font-size:9px;padding:2px 7px;border-radius:20px;background:${pd.status==='collected'?'#d1fae5':'#fef3c7'};color:${pd.status==='collected'?'#065f46':'#78350f'};font-weight:600">${pd.status==='collected'?'✓ Collected':'Pending'}</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:10px;color:var(--tl)">
+        ${pd.email ? `<div>📧 <a href="mailto:${escHtml(pd.email)}" style="color:var(--gm)">${escHtml(pd.email)}</a></div>` : ''}
+        ${pd.phone ? `<div>📱 ${escHtml(pd.phone)}</div>` : ''}
+      </div>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button onclick="markPledgeCollected(${m.id})" class="btn-sm" style="flex:1;${pd.status==='collected'?'background:#d1fae5;color:#065f46':''}">
+          ${pd.status === 'collected' ? '✓ Collected' : 'Mark collected'}
+        </button>
+        <button onclick="deletePledge(${m.id})" class="btn-sm" style="background:#fee2e2;color:#991b1b">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function markPledgeCollected(msgId) {
+  const m = guestMessages.find(x => x.id === msgId);
+  if (m && m.pledgeData) { m.pledgeData.status = m.pledgeData.status === 'collected' ? 'pending' : 'collected'; }
+  saveToBin(); renderPledgesForDrew(); renderPledgesTab();
+}
+function deletePledge(msgId) {
+  if (!confirm('Remove this pledge?')) return;
+  guestMessages = guestMessages.filter(m => m.id !== msgId);
+  saveToBin(); renderPledgesForDrew(); renderPledgesTab();
+}
+
+
+
+// ══ PLEDGES TAB ══
+function renderPledgesTab() {
+  const pledges = guestMessages.filter(m => m.type === 'pledge');
+
+  // Helper
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  const show = (id, visible) => { const el = document.getElementById(id); if (el) el.style.display = visible ? 'block' : 'none'; };
+
+  // Segment by type
+  const strokePledges = pledges.filter(m => m.pledgeData?.type === 'stroke');
+  const flatPledges   = pledges.filter(m => m.pledgeData?.type === 'flat');
+  const bragPledges   = pledges.filter(m => m.pledgeData?.type === 'brag');
+
+  const totalPerStroke = strokePledges.reduce((a, m) => a + (m.pledgeData?.amount || 0), 0);
+  const totalFlat      = flatPledges.reduce((a, m) => a + (m.pledgeData?.amount || 0), 0);
+
+  // Collected amounts
+  const collectedStroke = strokePledges.filter(m => m.pledgeData?.status === 'collected').reduce((a, m) => a + (m.pledgeData?.amount || 0) * 10, 0);
+  const collectedFlat   = flatPledges.filter(m => m.pledgeData?.status === 'collected').reduce((a, m) => a + (m.pledgeData?.amount || 0), 0);
+  const totalCollected  = collectedStroke + collectedFlat;
+
+  // Max potential (assuming Drew shoots exactly 80 = 10 strokes under 90)
+  const maxStroke = totalPerStroke * 10;
+  const maxTotal  = maxStroke + totalFlat;
+
+  // Summary tiles
+  set('ptTotalPledgers', pledges.length);
+  set('ptTotalAmt', maxTotal > 0 ? '$' + maxTotal : pledges.length ? '🎤' : '$0');
+  set('ptCollected', '$' + totalCollected);
+
+  // Breakdown sub
+  const parts = [];
+  if (strokePledges.length) parts.push(`${strokePledges.length} per-stroke`);
+  if (flatPledges.length) parts.push(`${flatPledges.length} flat`);
+  if (bragPledges.length) parts.push(`${bragPledges.length} bragging rights`);
+  set('ptBreakdownSub', parts.length ? parts.join(' · ') : 'No pledges yet');
+
+  show('ptEmptyState', pledges.length === 0);
+
+  // Per-stroke section
+  show('ptStrokeSection', strokePledges.length > 0);
+  if (strokePledges.length) {
+    set('ptPerStroke', '$' + totalPerStroke);
+    set('ptStrokeCount', strokePledges.length);
+    set('ptAt85', '$' + (totalPerStroke * 5));   // 5 strokes under 90
+    set('ptAt82', '$' + (totalPerStroke * 8));   // 8 strokes under 90
+    set('ptAt80', '$' + (totalPerStroke * 10));  // 10 strokes under 90
+  }
+
+  // Flat section
+  show('ptFlatSection', flatPledges.length > 0);
+  if (flatPledges.length) {
+    set('ptFlatAmt', '$' + totalFlat);
+    set('ptFlatCount', flatPledges.length);
+  }
+
+  // Brag section
+  show('ptBragSection', bragPledges.length > 0);
+  if (bragPledges.length) set('ptBragCount', bragPledges.length);
+
+  // Collection progress
+  const progressCard = document.getElementById('ptProgressCard');
+  if (progressCard) progressCard.style.display = maxTotal > 0 ? 'block' : 'none';
+  if (maxTotal > 0) {
+    const pct = Math.round((totalCollected / maxTotal) * 100);
+    const bar = document.getElementById('ptProgressBar'); if (bar) bar.style.width = pct + '%';
+    set('ptProgressSub', `${pct}% collected of $${maxTotal} committed`);
+    set('ptCollectedLbl', '$' + totalCollected + ' collected');
+    set('ptOutstandingLbl', '$' + (maxTotal - totalCollected) + ' outstanding');
+  }
+
+  // Individual pledge cards
+  const container = document.getElementById('ptPledgeCards');
+  const indivSub = document.getElementById('ptIndivSub');
+  if (!container) return;
+
+  if (!pledges.length) {
+    container.innerHTML = '<div class="empty" style="padding:16px 0"><div class="big">🏆</div><p>No pledges yet</p></div>';
+    if (indivSub) indivSub.textContent = 'No pledges yet';
+    return;
+  }
+
+  if (indivSub) indivSub.textContent = `${pledges.length} pledge${pledges.length !== 1 ? 's' : ''} · tap to manage`;
+
+  container.innerHTML = pledges.map(m => {
+    const pd = m.pledgeData || {};
+    const isCollected = pd.status === 'collected';
+    const typeColor = pd.type === 'stroke' ? '#059669' : pd.type === 'flat' ? '#2563eb' : '#7c3aed';
+    const typeBg    = pd.type === 'stroke' ? '#d1fae5' : pd.type === 'flat' ? '#dbeafe' : '#f5f3ff';
+    const typeLabel = pd.type === 'stroke'
+      ? `$${pd.amount}/stroke under 90 (max $${pd.amount * 10})`
+      : pd.type === 'flat' ? `$${pd.amount} flat`
+      : 'Bragging rights 🎤';
+    const amtDisplay = pd.type === 'brag' ? '🎤' : pd.type === 'stroke' ? `$${pd.amount}<small style="font-size:10px">/stroke</small>` : `$${pd.amount}`;
+
+    return `<div style="background:${isCollected ? '#f0fdf4' : '#fff'};border:1.5px solid ${isCollected ? '#6ee7b7' : 'var(--border)'};border-radius:12px;padding:14px;margin-bottom:9px;transition:var(--tr)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px">
+            <div style="font-size:15px;font-weight:700;color:var(--td)">${escHtml(m.from)}</div>
+            ${isCollected ? '<span style="font-size:9px;background:#d1fae5;color:#065f46;border-radius:20px;padding:2px 8px;font-weight:700">✓ COLLECTED</span>' : '<span style="font-size:9px;background:#fef3c7;color:#78350f;border-radius:20px;padding:2px 8px;font-weight:700">PENDING</span>'}
+          </div>
+          <span style="font-size:10px;font-weight:600;color:${typeColor};background:${typeBg};border-radius:20px;padding:2px 9px;display:inline-block">${typeLabel}</span>
+          ${pd.note ? `<div style="font-size:11px;color:var(--tl);font-style:italic;margin-top:5px">"${escHtml(pd.note)}"</div>` : ''}
+        </div>
+        <div style="text-align:center;min-width:52px;padding-left:10px">
+          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:${typeColor};line-height:1">${amtDisplay}</div>
+          <div style="font-size:8px;color:var(--tl);margin-top:1px">${m.date}</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:var(--tl);margin-bottom:10px">
+        ${pd.email ? `<div style="display:flex;align-items:center;gap:4px">📧 <a href="mailto:${escHtml(pd.email)}" style="color:var(--gm);font-weight:500">${escHtml(pd.email)}</a></div>` : '<div></div>'}
+        ${pd.phone ? `<div style="display:flex;align-items:center;gap:4px">📱 <a href="tel:${escHtml(pd.phone)}" style="color:var(--gm);font-weight:500">${escHtml(pd.phone)}</a></div>` : '<div></div>'}
+      </div>
+      <div style="display:flex;gap:7px">
+        <button onclick="togglePledgeCollected(${m.id})" class="btn-sm" style="flex:1;background:${isCollected ? '#d1fae5' : 'var(--gm)'};color:${isCollected ? '#065f46' : '#fff'};font-size:11px">
+          ${isCollected ? '↩ Mark pending' : '✓ Mark collected'}
+        </button>
+        <button onclick="deletePledgeTab(${m.id})" class="btn-sm" style="background:#fee2e2;color:#991b1b;font-size:11px">🗑 Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function togglePledgeCollected(msgId) {
+  const m = guestMessages.find(x => x.id === msgId);
+  if (m && m.pledgeData) {
+    m.pledgeData.status = m.pledgeData.status === 'collected' ? 'pending' : 'collected';
+  }
+  saveToBin();
+  renderPledgesTab();
+  renderPledgesForDrew();
+}
+
+function deletePledgeTab(msgId) {
+  if (!confirm('Remove this pledge permanently?')) return;
+  guestMessages = guestMessages.filter(m => m.id !== msgId);
+  saveToBin();
+  renderPledgesTab();
+  renderPledgesForDrew();
+}
+
+function exportPledges() {
+  const pledges = guestMessages.filter(m => m.type === 'pledge');
+  if (!pledges.length) { alert('No pledges to export yet.'); return; }
+  const lines = ['Name,Type,Amount,Email,Phone,Note,Date,Status'];
+  pledges.forEach(m => {
+    const pd = m.pledgeData || {};
+    const amt = pd.type === 'brag' ? 'Bragging rights' : pd.type === 'stroke' ? `$${pd.amount}/stroke (max $${pd.amount * 10})` : `$${pd.amount} flat`;
+    lines.push([
+      `"${(m.from || '').replace(/"/g, '""')}"`,
+      pd.type || '',
+      amt,
+      `"${(pd.email || '').replace(/"/g, '""')}"`,
+      `"${(pd.phone || '').replace(/"/g, '""')}"`,
+      `"${(pd.note || '').replace(/"/g, '""')}"`,
+      m.date || '',
+      pd.status || 'pending',
+    ].join(','));
+  });
+  const csv = lines.join('\n');
+  try {
+    navigator.clipboard.writeText(csv);
+    alert(`✓ ${pledges.length} pledge${pledges.length !== 1 ? 's' : ''} copied to clipboard as CSV. Paste into Excel or Google Sheets.`);
+  } catch(e) {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = csv; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert(`✓ Copied to clipboard!`);
+  }
+}
+
+
 
 // ══ INIT ══
 document.getElementById('noteDate').valueAsDate=new Date();

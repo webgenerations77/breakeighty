@@ -80,6 +80,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .brand p{font-size:10px;color:var(--goldl);font-weight:300;margin-top:2px}
 .hdr-right{display:flex;gap:8px;align-items:stretch;flex-wrap:wrap}
 .hdr-badge{background:rgba(201,168,76,.13);border:1px solid rgba(201,168,76,.3);border-radius:10px;padding:7px 12px;text-align:center;min-width:70px}
+.hdr-badge[onclick]:hover,.hdr-badge[id="hdrBestBadge"]:hover{background:rgba(201,168,76,.25);border-color:rgba(201,168,76,.55);transform:translateY(-1px)}
 .hdr-badge .lbl{font-size:8px;color:var(--goldl);letter-spacing:.8px;text-transform:uppercase;font-weight:500}
 .hdr-badge .val{font-family:'DM Serif Display',serif;font-size:22px;color:var(--gold);line-height:1;margin-top:1px}
 .hdr-badge .sub{font-size:8px;color:rgba(255,255,255,.3);margin-top:1px}
@@ -486,7 +487,9 @@ body.guest-mode .main{padding-top:8px}
       <div class="brand"><h1>Break 80</h1><p>Your personal golf improvement coach</p></div>
     </div>
     <div class="hdr-right">
-      <div class="hdr-badge"><div class="lbl">Best Round</div><div class="val" id="hdrBest">—</div><div class="sub" id="hdrBestDate">Ocean Resorts</div></div>
+      <div class="hdr-badge" id="hdrBestBadge" style="cursor:pointer;transition:var(--tr)" title="View best round" onclick="openBestRound()">
+        <div class="lbl">Best Round</div><div class="val" id="hdrBest">—</div><div class="sub" id="hdrBestDate">Ocean Resorts</div>
+      </div>
       <div class="hdr-badge"><div class="lbl">Last Round</div><div class="val" id="hdrLast">—</div><div class="sub" id="hdrLastDate">—</div></div>
       <div class="hdr-badge"><div class="lbl">Handicap</div><div class="val" id="hdrHcap">~23</div><div class="sub">estimated</div></div>
     </div>
@@ -1755,39 +1758,40 @@ const TIPS = {
   ],
 };
 
-// ══ ADULT ROASTS — Gen X / Millennial Edition ══
+// ══ ADULT ROASTS — Savage Edition ══
 const ROASTS = [
-  {e:'💀',t:"Bro, you shot 104. That's not golf. That's a cry for help wrapped in khaki pants. My guy, even Space Jam was made with less disappointment than this scorecard."},
-  {e:'🤡',t:"104 strokes and you still posted it. The audacity. The absolute unhinged slay of logging this round like it's content. Respect the delusion, honestly."},
-  {e:'🔥',t:"Your handicap is so high it's giving main character energy. Tragically miscast main character, but still. You walked out there like Tiger and drove it like someone who just downloaded a golf app."},
-  {e:'🐌',t:"At your current rate of improvement you'll break 80 around the same time everyone gets their student loans forgiven. So... never? But also somehow still possible? Very Millennial of you."},
-  {e:'🏌️',t:"Dude you're out here playing golf like it's a Call of Duty lobby and you just respawned with no idea where you are. Hole 6 water hazard said 'skill issue' and you said 'hold my beer' and obliged."},
-  {e:'⛳',t:"Ocean Resorts Golf Club called. They're retiring your number. Not like Jordan retiring a number — more like 'please stop coming here' retiring a number. There's a plaque. It's not flattering."},
-  {e:'🤦',t:"A NINE on hole 11. Nine. That hole has an index of 2 meaning it's supposed to be hard but not 'this guy found three different zip codes with one tee shot' hard. Absolutely unhinged behavior."},
-  {e:'😂',t:"Your scorecard goes 6, 6, 3, 6, 7, 6, 6, 5, 9... bro that's not golf that's the Fibonacci sequence after a few drinks at TGI Fridays. Mathematically interesting. Golfistically a crime."},
-  {e:'🪦',t:"Here lies Drew's handicap, aged ~28. It never made sense. It never improved. It once caused a grown man to put his rangefinder away and just guess. We do not mourn its loss."},
-  {e:'🎪',t:"You're out here playing golf like it's a Nickelback concert — everyone's a little embarrassed to admit they're watching but nobody can actually look away. It's a trainwreck with polo shirts."},
-  {e:'🤯',t:"29 putts sounds impressive until you realize the other 75 strokes were NOT putts. Where did those come from, Drew? The woods? The water? A neighboring farm? Asking for literally everyone."},
-  {e:'🍺',t:"My working theory is that you're actually playing a different sport and just haven't told anyone. Like you're playing a personal game of 'how many ecosystems can one round touch' and you're CRUSHING it."},
-  {e:'🔭',t:"I tracked your ball flight on hole 15 using Google Earth, three witnesses, and a ham radio operator in Delaware. Still no definitive answer. The NTSB has been contacted."},
-  {e:'📉',t:"Your golf journey has the same energy as someone who bought Bitcoin in 2021 and still calls themselves an investor. Deeply committed. Fundamentally misunderstanding the situation. Oddly inspiring."},
-  {e:'🤌',t:"What you did on hole 9 transcended bad golf. It entered performance art territory. Very 'avant-garde.' Very 'statement piece.' Very 'that'll be $4 in water balls please.' Chefs kiss ironically."},
-  {e:'😤',t:"I genuinely believe you can do this. I also genuinely believed The Matrix sequels were going to be good, that Blockbuster would figure it out, and that my lower back pain was temporary. I have a history."},
-  {e:'🧠',t:"Golf is 90% mental. Your brain has left the chat, turned off read receipts, and is currently watching Netflix in another room. It's not ghosting you — it's just protecting itself, honestly."},
-  {e:'🏆',t:"Congrats on posting the round. That took guts. Or delusion. Or both — which, fun fact, is the exact blend required to keep playing golf after a 104. You're basically a hero. A confusing, frustrating hero."},
-  {e:'🐔',t:"My 8-year-old niece played mini-golf last weekend and shot a 56. I'm not saying anything. I'm just saying the windmill hole gave her trouble and she still posted a lower number than you. Allegedly."},
-  {e:'💪',t:"Here's the thing about 104 to 80 — it's 24 shots. That's it. Just 24 fewer shots spread over 18 holes. That's like 1.3 shots per hole. You've definitely wasted more than that on a single par 3. You've got this."},
-  {e:'🎯',t:"Your approach shots have the accuracy of a 3am Domino's order — you're aiming at something specific but where it actually lands is anybody's guess and nobody is happy about it including you."},
-  {e:'🌊',t:"Hole 6 water hazard. Again. Buddy the pond isn't the problem — you are the pond's entire personality at this point. It has a framed photo of you. It names new ducks after you. It's a whole thing."},
-  {e:'📸',t:"I screenshotted your scorecard and sent it to the group chat titled 'Motivation.' Within minutes three people signed up for lessons, one guy quit and took up pickleball, and someone started a prayer chain."},
-  {e:'🎲',t:"I'd bet on you breaking 80 but my therapist says I need to practice 'realistic optimism' now. So I'm optimistic that you'll have fun, and realistic that the scoreboard won't reflect that. Healthy balance."},
-  {e:'🛠️',t:"To break 80 you just need to fix: your grip, your stance, your backswing, your downswing, your follow-through, your club selection, your course management, your mental game, and the part where you play golf. Simple."},
-  {e:'🎸',t:"Your golf game is giving late 90s pop punk energy — technically a mess, weirdly earnest, everyone kind of loves it despite themselves, and there's a surprising amount of yelling near water. Peak nostalgia honestly."},
-  {e:'📺',t:"Watching your round is like watching Lost — compelling, confusing, full of unexpected detours, and by hole 9 you've completely forgotten what the original plan was. Unlike Lost though, this might actually have a satisfying ending."},
-  {e:'🎮',t:"You're playing golf on Easy mode and still activating the wrong power-ups. Dude picked 'aggressive driver on a water hole' like it was a dialogue option in an RPG and then seemed shocked by the outcome. Classic speedrun fail."},
-  {e:'☕',t:"This round has the same energy as a Monday morning meeting that could've been an email. So much effort. So much setup. And at the end everyone's just tired and a little sad. You're the meeting, Drew. Be the email."},
-  {e:'🦕',t:"As a fellow elder Millennial/Gen Xer I say this with love: you're out here playing golf like you're still running dial-up. The hardware is fine. The software needs a serious update. Maybe defrag something. Steve, help him defrag."},
+  {e:'💀',t:"104. One hundred and four. That's not a golf score, Drew. That's a Denny's order for a table of six. My guy went out there and personally offended the sport of golf. The USGA has filed a restraining order."},
+  {e:'🤡',t:"I've seen people have mental breakdowns with more structure than your back nine. Hole 11 was a 9. A NINE. That's not golf, that's an interpretive dance about suffering, performed exclusively for the water hazard."},
+  {e:'🔥',t:"Your handicap is so astronomically high that when you entered it into the GHIN system, the server laughed, crashed, and then filed for early retirement. The IT guy cried. He had two weeks left."},
+  {e:'🎯',t:"You drive like you're trying to hit every zip code on the Eastern Shore in one round. The ball doesn't slice, Drew — it's fleeing. It heard you were the one who hit it and made a calculated escape."},
+  {e:'🪦',t:"Bro posted a 104 and immediately started talking about breaking 80. That's the most unhinged optimism since the guy on the Titanic said 'at least we stopped.' Love the delusion. Truly. It's the only thing keeping this app alive."},
+  {e:'😤',t:"Your swing has been described by witnesses as 'a man fighting a garden hose' and by one golf pro as 'the most aggressive miss I've ever seen.' He then took a sabbatical. You did that to him, Drew. That's on you."},
+  {e:'🤯',t:"I ran your round through an AI golf analyzer. It flagged your scorecard as 'corrupted data,' then when I clarified it was accurate, it replied 'I'm so sorry' and ended the session. The robot had feelings about your round."},
+  {e:'🐌',t:"At your current improvement rate — and I did the math, don't @ me — you will break 80 approximately never. But the 95-year-old version of you might shoot an 81 by accident, so there's a legacy outcome here if you're patient."},
+  {e:'🏌️',t:"I want you to know I believe in you. I also want you to know that statement has absolutely no basis in what I've seen from your scorecard. One of those sentences is true. I'll let you figure out which one, since decision-making is clearly a strength."},
+  {e:'⛳',t:"Ocean Resorts Golf Club has quietly added your name to their water hazard maintenance budget. Not as a sponsor — as a contributing cause. You are functionally a volunteer ball donor. The fish thank you for your service."},
+  {e:'🤦',t:"Nine strokes on hole 11. Steve looked at that number and started stress-eating. The hole has a stroke index of 2, meaning it's supposed to be hard for normal people — not an existential experience for the guy paying for lessons."},
+  {e:'😂',t:"Your scorecard reads like a Choose Your Own Adventure where every choice leads to the water. 'Go left?' Water. 'Lay up?' Still somehow water. 'Hit a perfect shot?' Somehow, water. The pond is sentient and it has chosen you specifically."},
+  {e:'🎪',t:"Three friends watched your round last week. One took up pickleball. One is now sober. The third just stares at the wall and whispers 'the nine on eleven' over and over. You owe that man therapy. Possibly several years of it."},
+  {e:'💥',t:"I showed your round to a statistician friend. He went quiet for a long time, then said 'the variance alone is impressive.' That's the nicest way a math person has ever told someone they play golf like a malfunctioning carnival ride."},
+  {e:'🧠',t:"Golf is 90% mental. Which means, statistically, your brain is responsible for approximately 93.6 of those 104 strokes. The other 10.4 were wind, bad lies, and what I can only describe as divine intervention working against you specifically."},
+  {e:'🎸',t:"Your golf journey has the energy of a guy who bought a guitar in 2009, learned Wonderwall, and genuinely believed he'd be gigging by summer. It's been 16 years, Drew. The guitar is in a closet. But you're still out here on the course. Respect. Delusional, beautiful respect."},
+  {e:'📺',t:"I've watched every episode of your golf journey and I have notes: the pacing is slow, the protagonist keeps making the same mistakes, there's a recurring bit with water hazards that stopped being funny around hole 6, and I cannot stop watching. 10/10 would recommend."},
+  {e:'🍺',t:"Here's my honest hot take: your pre-shot routine takes longer than my entire commute, and whatever you're thinking about during it is definitely not golf. I've seen you on the tee box. You look like a man mentally rewriting a text he sent in 2017. Focus, my guy."},
+  {e:'🦕',t:"You are playing golf the same way our generation handled our 401ks in our 20s — with aggressive confidence, zero strategy, and an almost impressive refusal to look at the numbers. The difference is you can't blame compound interest for hole 15."},
+  {e:'🎮',t:"Watching you manage a golf course is like watching someone play Dark Souls and keep running directly into the boss. Every time. Same spot. Same outcome. Full confidence each attempt. Deeply painful to watch. Cannot. Look. Away."},
+  {e:'💔',t:"Your irons have feelings, Drew. They didn't sign up for this. They went through the manufacturing process, got fitted, got purchased, and then got introduced to your swing. There's a look they have now. A thousand-yard stare. They've seen things."},
+  {e:'🌊',t:"Hole 6 water hazard: 'Hey, he's back.' Hole 9 water hazard: 'I know, I heard.' Hole 18 water hazard: 'Does he ever actually aim away from us?' All three water hazards: '...no.' *sad pond noises* They've bonded over you, Drew. You've created a community."},
+  {e:'📱',t:"You know what, I respect the commitment to logging every round in this app. Most people would delete the evidence. You're out here creating a permanent, cloud-synced, JSONbin-stored record of every 104 for posterity. That's not delusion — that's documentation. You're basically a war correspondent, but for mid-handicap suffering."},
+  {e:'🏆',t:"Breaking 80 is a beautiful goal. Really. And I want you to achieve it. I want that for you. I want it the way you want something for a friend who keeps making the same mistake but is so earnest about it that you can't bring yourself to say the thing. You know the thing. Steve knows the thing. The water hazard on hole 6 knows the thing."},
+  {e:'🤌',t:"Your post-round analysis from the AI coach said 'great effort and course management.' I've never seen an AI lie so diplomatically to protect someone's feelings. It's basically therapist-coding for 'buddy, we need to talk about the back nine, but I don't want you to spiral.'"},
+  {e:'🧲',t:"Physics question: if Drew hits a driver with a 15° slice, and the water hazard is 40 yards left of the fairway, at what point does the ball stop being a mistake and start being a heat-seeking missile? Answer: hole 4. The answer is always hole 4."},
+  {e:'👻',t:"Your golf balls don't go out of bounds. They transcend. They leave this plane of existence. They become one with the pines. Course marshals have stopped looking. The wildlife has started a collection. Somewhere in those woods is an ecosystem sustained entirely by your ProV1s."},
+  {e:'🔬',t:"Scientists at Johns Hopkins are studying your scorecard as a case study in 'optimism divorced from outcome.' The paper is titled 'I'll Get It Next Time: A Longitudinal Study in Self-Delusion and Handicap Inflation.' You're cited 47 times. You're basically published."},
+  {e:'☎️',t:"I called your 7-iron to ask how it's doing. It didn't pick up. Left a voicemail. It has not returned my call. Sources close to the 7-iron say it's 'taking space' and 'processing some things.' I think you know what things. The things are all the par 4s, Drew."},
+  {e:'🚑',t:"After your last round, the course ranger drove past you three times on hole 14 — not to check pace of play, but because he was genuinely concerned. He's filed an incident report. It's categorized under 'man vs. course.' The course is winning by a substantial margin."},
 ];
+
 
 
 // ══ STATE ══
@@ -1836,7 +1840,7 @@ async function loadFromBin() {
     setSyncStatus('ok',`Synced — ${rounds.length} rounds`);
     updateHeaderBest(); renderRounds();
     if(currentUser==='drew') { renderDrewMessages(); updateBadges(); renderPledgesForDrew(); renderPledgesTab(); }
-    if(currentUser==='guest') renderGuestView();
+    if(currentUser==='guest') { renderGuestView(); }
   } catch(e) {
     setSyncStatus('err',`Sync failed — ${e.message}`);
   }
@@ -2035,10 +2039,13 @@ function selArea(el){
 }
 
 // ══ HEADER BEST ══
+let _bestRoundId = null;
+
 function updateHeaderBest(){
   if(!rounds.length){document.getElementById('hdrBest').textContent='—'; document.getElementById('hdrLast').textContent='—'; document.getElementById('hdrLastDate').textContent='—'; updateHcap(23); return;}
   const best=Math.min(...rounds.map(r=>r.score));
   const bestR=rounds.find(r=>r.score===best);
+  _bestRoundId = bestR ? bestR.id : null;
   document.getElementById('hdrBest').textContent=best;
   if(bestR){const bd=new Date(bestR.date+'T12:00:00');document.getElementById('hdrBestDate').textContent=`${bd.getMonth()+1}/${bd.getDate()}/${String(bd.getFullYear()).slice(2)}`;}
   const sorted=[...rounds].sort((a,b)=>new Date(b.date)-new Date(a.date));
@@ -2048,6 +2055,16 @@ function updateHeaderBest(){
   document.getElementById('hdrLastDate').textContent=`${ld.getMonth()+1}/${ld.getDate()}/${String(ld.getFullYear()).slice(2)}`;
   const avg=rounds.reduce((a,r)=>a+r.score,0)/rounds.length;
   updateHcap(Math.max(0,(avg-72)*0.96));
+  // Visual hint that best badge is clickable
+  const badge=document.getElementById('hdrBestBadge');
+  if(badge&&_bestRoundId){badge.title='Tap to view your best round';}
+}
+
+function openBestRound(){
+  if(!_bestRoundId) return;
+  navPush('rounds','start',0);
+  // Small delay to let the rounds section render before opening detail
+  setTimeout(()=>openRoundDetail(_bestRoundId), 80);
 }
 function updateHcap(h){
   const v=typeof h==='number'&&h!==23?h.toFixed(1):'~'+Math.round(h);

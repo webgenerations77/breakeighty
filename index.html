@@ -403,6 +403,20 @@ body.guest-mode .main{padding-top:8px}
     </div>
   </div>
 
+  <!-- Total Pledged Banner -->
+  <div style="background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.5);border-radius:14px;padding:14px 18px;width:100%;max-width:360px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">💰 Total Pledged</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--goldl);line-height:1" id="splashTotalPledged">$0</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.35);margin-top:3px">max if Drew breaks 80</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Pledgers</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:28px;color:#fff;line-height:1" id="splashTotalPledgers">0</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.35);margin-top:3px">and counting</div>
+    </div>
+  </div>
+
   <!-- Guest first, then Drew + Steve -->
   <button class="login-btn-guest" onclick="login('guest')">
     <span>👥 Cheer · Troll · Pledge · Vote</span>
@@ -428,6 +442,9 @@ body.guest-mode .main{padding-top:8px}
       <span class="role">Coach Login</span>
     </button>
   </div>
+
+  <!-- Version -->
+  <div style="position:absolute;bottom:12px;right:16px;font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.8px;font-weight:600">v1.0</div>
 
   <!-- Powered by — single line -->
   <div style="margin-top:24px;display:flex;align-items:center;justify-content:center;gap:8px;opacity:.9">
@@ -1111,20 +1128,6 @@ body.guest-mode .main{padding-top:8px}
           </table>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- ══ TOTAL PLEDGED BANNER ══ -->
-  <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:14px;padding:16px 18px;margin-bottom:12px;border:1px solid rgba(201,168,76,.35);display:flex;align-items:center;justify-content:space-between">
-    <div>
-      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">💰 Total Pledged</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);line-height:1" id="guestTotalPledged">$0</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px">max potential if Drew breaks 80</div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Pledgers</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:30px;color:#fff;line-height:1" id="guestTotalPledgers">0</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px">and counting</div>
     </div>
   </div>
 
@@ -3061,6 +3064,8 @@ function renderPledgesTab() {
   set('ptTotalAmt', maxTotal > 0 ? '$' + maxTotal : pledges.length ? '🎤' : '$0');
   set('guestTotalPledged', maxTotal > 0 ? '$' + maxTotal : pledges.length ? '🎤' : '$0');
   set('guestTotalPledgers', pledges.length);
+  set('splashTotalPledged', maxTotal > 0 ? '$' + maxTotal : pledges.length ? '🎤' : '$0');
+  set('splashTotalPledgers', pledges.length);
   set('ptCollected', '$' + totalCollected);
 
   // Breakdown sub

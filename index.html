@@ -451,17 +451,17 @@ body.guest-mode .main{padding-top:8px}
       </div>
       <div class="splash-quote" id="splashQuote"></div>
     </div>
-  </div>
 
-  <!-- ══ TOTAL PLEDGED BANNER (splash) ══ -->
-  <div style="background:linear-gradient(135deg,rgba(8,22,14,.7),rgba(12,32,20,.7));border:1px solid rgba(201,168,76,.35);border-radius:12px;padding:12px 16px;margin:10px 0 6px;display:flex;align-items:center;justify-content:space-between;width:100%;max-width:340px">
-    <div>
-      <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px">💰 Total Pledged</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--gold);line-height:1" id="splashTotalPledged">$0</div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px">Pledgers</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;line-height:1" id="splashTotalPledgers">0</div>
+    <!-- ══ PLEDGE TOTALS (inside status card) ══ -->
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:space-between">
+      <div style="text-align:left">
+        <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">💰 Total Pledged</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--gold);line-height:1" id="splashTotalPledged">$0</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Pledgers</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:#fff;line-height:1" id="splashTotalPledgers">0</div>
+      </div>
     </div>
   </div>
 
@@ -1180,20 +1180,6 @@ body.guest-mode .main{padding-top:8px}
     </div>
   </div>
 
-  <!-- ══ TOTAL PLEDGED BANNER ══ -->
-  <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:14px;padding:16px 18px;margin-bottom:12px;border:1px solid rgba(201,168,76,.35);display:flex;align-items:center;justify-content:space-between">
-    <div>
-      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">💰 Total Pledged</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);line-height:1" id="guestTotalPledged">$0</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px">max potential if Drew breaks 80</div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Pledgers</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:30px;color:#fff;line-height:1" id="guestTotalPledgers">0</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px">and counting</div>
-    </div>
-  </div>
-
   <!-- ══ STICKY NAME FIELD ══ -->
   <div class="card" style="border:2px solid rgba(201,168,76,.4);background:var(--goldp);position:sticky;top:48px;z-index:50">
     <div style="display:flex;align-items:center;gap:10px">
@@ -1280,6 +1266,20 @@ body.guest-mode .main{padding-top:8px}
       <button class="btn" onclick="submitGuestMessage()">📨 Send to Drew</button>
     </div>
     <div id="guestMsgStatus" style="margin-top:8px;font-size:11px;color:var(--gm);display:none"></div>
+  </div>
+
+  <!-- ══ TOTAL PLEDGED BANNER ══ -->
+  <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:14px;padding:16px 18px;margin-bottom:12px;border:1px solid rgba(201,168,76,.35);display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">💰 Total Pledged</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);line-height:1" id="guestTotalPledged">$0</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px">max potential if Drew breaks 80</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Pledgers</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:30px;color:#fff;line-height:1" id="guestTotalPledgers">0</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px">and counting</div>
+    </div>
   </div>
 
   <!-- ══ PLEDGE FORM — BETA (bottom) ══ -->

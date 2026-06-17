@@ -2048,6 +2048,17 @@ function renderGuestLive(liveRound){
 }
 
 let _guestLiveTimer = null;
+async function fetchLiveRoundOnly(){
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`,{
+      headers:{'X-Master-Key':JSONBIN_KEY,'X-Bin-Meta':'false'}
+    });
+    if(!res.ok) return;
+    const data = await res.json();
+    renderGuestLive(data.liveRound||null);
+  } catch(e){}
+}
+
 function startGuestLivePolling(){
   stopGuestLivePolling();
   _guestLiveTimer = setInterval(async()=>{
@@ -2377,6 +2388,7 @@ function login(user){
     document.body.classList.add('guest-mode');
     history.pushState({sec:'guest',scView:'start',hole:0},'','#guest');
     applyNavState({sec:'guest',scView:'start',hole:0},false);
+    fetchLiveRoundOnly();
     startGuestLivePolling();
   } else if(user==='steve'){
     stopGuestLivePolling();

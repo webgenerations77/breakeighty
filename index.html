@@ -2003,20 +2003,11 @@ function clearLiveRoundLocal(){
   try { localStorage.removeItem('b80_live_round'); } catch(e){}
 }
 
+let _currentLiveRound = null;
+
 async function pushLiveRoundToBin(liveRound){
-  try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`,{
-      headers:{'X-Master-Key':JSONBIN_KEY,'X-Bin-Meta':'false'}
-    });
-    if(!res.ok) return;
-    const data = await res.json();
-    data.liveRound = liveRound;
-    await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`,{
-      method:'PUT',
-      headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
-      body: JSON.stringify(data)
-    });
-  } catch(e){}
+  _currentLiveRound = liveRound;
+  saveToBin();
 }
 
 function clearLiveRoundFromBin(){ pushLiveRoundToBin(null); }
@@ -2086,7 +2077,7 @@ async function saveToBin() {
     });
     const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`,{
       method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
-      body: JSON.stringify({rounds,coachNotes,hwItems,guestMessages:publicMessages})
+      body: JSON.stringify({rounds,coachNotes,hwItems,guestMessages:publicMessages,liveRound:_currentLiveRound})
     });
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
 

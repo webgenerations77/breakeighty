@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Rounds — Drew writes, everyone reads
+    match /rounds/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.email == '__DREW_EMAIL__';
+    }
+
+    // Guest messages (messages, bets, reactions, pledges, roasts) — anyone writes, Drew reads all
+    match /guestMessages/{doc} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if request.auth != null && request.auth.token.email == '__DREW_EMAIL__';
+    }
+
+    // Coach notes — Steve writes, Drew reads
+    match /coachNotes/{doc} {
+      allow read: if request.auth != null &&
+        (request.auth.token.email == '__DREW_EMAIL__' || request.auth.token.email == '__STEVE_EMAIL__');
+      allow write: if request.auth != null &&
+        (request.auth.token.email == '__STEVE_EMAIL__' || request.auth.token.email == '__DREW_EMAIL__');
+    }
+
+    // Homework items — same as coach notes
+    match /hwItems/{doc} {
+      allow read: if request.auth != null &&
+        (request.auth.token.email == '__DREW_EMAIL__' || request.auth.token.email == '__STEVE_EMAIL__');
+      allow write: if request.auth != null &&
+        (request.auth.token.email == '__STEVE_EMAIL__' || request.auth.token.email == '__DREW_EMAIL__');
+    }
+
+    // Pledge contacts (private: email/phone) — Drew only
+    match /pledgeContacts/{doc} {
+      allow read, write: if request.auth != null && request.auth.token.email == '__DREW_EMAIL__';
+    }
+
+    // Guest anonymous sessions — own document only
+    match /guestSessions/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}

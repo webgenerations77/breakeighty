@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Break 80 — JSONbin to Firestore Migration</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; background: #1a1a2e; color: #e0e0e0; }
+  h1 { color: #c9a84c; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #aaa; }
+  .field input { width: 100%; padding: 8px 12px; border: 1px solid #333; border-radius: 6px; background: #0d0d1a; color: #fff; font-size: 13px; box-sizing: border-box; }
+  button { background: #2d5a3d; color: #fff; border: none; border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+  button:hover { background: #4a8c5c; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  #log { margin-top: 20px; background: #0d0d1a; border: 1px solid #333; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; max-height: 400px; overflow-y: auto; white-space: pre-wrap; }
+  .ok { color: #4ade80; }
+  .err { color: #f87171; }
+  .info { color: #60a5fa; }
+  hr { border: none; border-top: 1px solid #333; margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<h1>Break 80 — Data Migration</h1>
+<p>Migrate existing JSONbin data to Firestore. Run this <strong>once</strong>.</p>
+
+<hr>
+<h3>Firebase Config</h3>
+<div class="field"><label>API Key</label><input id="fbApiKey"></div>
+<div class="field"><label>Auth Domain</label><input id="fbAuthDomain"></div>
+<div class="field"><label>Project ID</label><input id="fbProjectId"></div>
+<div class="field"><label>Storage Bucket</label><input id="fbStorageBucket"></div>
+<div class="field"><label>Messaging Sender ID</label><input id="fbMsgSenderId"></div>
+<div class="field"><label>App ID</label><input id="fbAppId"></div>
+
+<hr>
+<h3>JSONbin Credentials</h3>
+<div class="field"><label>Public Bin ID</label><input id="jbPubId" value="6a1dc936a5160c15fd97e3ad"></div>
+<div class="field"><label>Public Bin API Key</label><input id="jbPubKey" value="$2a$10$nVmjEwLhwXLRrL88.zZ1s.ZCCzZ4igJKpPymaesgglCrFHi8.pYNe"></div>
+<div class="field"><label>Private Bin ID</label><input id="jbPrivId" value="6a2828e5da38895dfea0e992"></div>
+<div class="field"><label>Private Bin API Key</label><input id="jbPrivKey" value="$2a$10$nVmjEwLhwXLRrL88.zZ1s.ZCCzZ4igJKpPymaesgglCrFHi8.pYNe"></div>
+
+<hr>
+<button id="startBtn" onclick="startMigration()">Start Migration</button>
+<div id="log"></div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, addDoc, setDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+function log(msg, cls) {
+  const el = document.getElementById('log');
+  const span = document.createElement('span');
+  span.className = cls || '';
+  span.textContent = msg + '\n';
+  el.appendChild(span);
+  el.scrollTop = el.scrollHeight;
+}
+
+window.startMigration = async function() {
+  const btn = document.getElementById('startBtn');
+  btn.disabled = true;
+  document.getElementById('log').innerHTML = '';
+
+  const fbConfig = {
+    apiKey: document.getElementById('fbApiKey').value.trim(),
+    authDomain: document.getElementById('fbAuthDomain').value.trim(),
+    projectId: document.getElementById('fbProjectId').value.trim(),
+    storageBucket: document.getElementById('fbStorageBucket').value.trim(),
+    messagingSenderId: document.getElementById('fbMsgSenderId').value.trim(),
+    appId: document.getElementById('fbAppId').value.trim()
+  };
+
+  if (!fbConfig.apiKey || !fbConfig.projectId) {
+    log('ERROR: Firebase API Key and Project ID are required.', 'err');
+    btn.disabled = false;
+    return;
+  }
+
+  const jbPubId = document.getElementById('jbPubId').value.trim();
+  const jbPubKey = document.getElementById('jbPubKey').value.trim();
+  const jbPrivId = document.getElementById('jbPrivId').value.trim();
+  const jbPrivKey = document.getElementById('jbPrivKey').value.trim();
+
+  log('Initializing Firebase...', 'info');
+  let db;
+  try {
+    const app = initializeApp(fbConfig);
+    db = getFirestore(app);
+    log('Firebase initialized.', 'ok');
+  } catch (e) {
+    log('Firebase init failed: ' + e.message, 'err');
+    btn.disabled = false;
+    return;
+  }
+
+  // Fetch public bin
+  log('Fetching public JSONbin...', 'info');
+  let pubData;
+  try {
+    const res = await fetch('https://api.jsonbin.io/v3/b/' + jbPubId + '/latest', {
+      headers: { 'X-Master-Key': jbPubKey }
+    });
+    const json = await res.json();
+    pubData = json.record;
+    log('Public bin loaded.', 'ok');
+  } catch (e) {
+    log('Failed to fetch public bin: ' + e.message, 'err');
+    btn.disabled = false;
+    return;
+  }
+
+  // Fetch private bin
+  log('Fetching private JSONbin...', 'info');
+  let privData = {};
+  try {
+    const res = await fetch('https://api.jsonbin.io/v3/b/' + jbPrivId + '/latest', {
+      headers: { 'X-Master-Key': jbPrivKey }
+    });
+    const json = await res.json();
+    privData = json.record || {};
+    log('Private bin loaded.', 'ok');
+  } catch (e) {
+    log('Warning: Failed to fetch private bin: ' + e.message, 'err');
+    log('Continuing without private data...', 'info');
+  }
+
+  const rounds = pubData.rounds || [];
+  const guestMessages = pubData.guestMessages || [];
+  const coachNotes = pubData.coachNotes || [];
+  const hwItems = pubData.hwItems || [];
+  const pledgeContacts = privData.pledgeContacts || {};
+
+  log('', '');
+  log('=== DATA SUMMARY ===', 'info');
+  log('Rounds: ' + rounds.length, 'info');
+  log('Guest messages: ' + guestMessages.length, 'info');
+  log('Coach notes: ' + coachNotes.length, 'info');
+  log('HW items: ' + hwItems.length, 'info');
+  log('Pledge contacts: ' + Object.keys(pledgeContacts).length, 'info');
+  log('', '');
+
+  // Write rounds
+  log('--- Writing rounds ---', 'info');
+  for (let i = 0; i < rounds.length; i++) {
+    try {
+      const ref = await addDoc(collection(db, 'rounds'), rounds[i]);
+      log('  Round ' + (i + 1) + '/' + rounds.length + ' written (id: ' + ref.id + ')', 'ok');
+    } catch (e) {
+      log('  Round ' + (i + 1) + ' FAILED: ' + e.message, 'err');
+    }
+  }
+
+  // Write guest messages (strip private contact info)
+  log('--- Writing guest messages ---', 'info');
+  for (let i = 0; i < guestMessages.length; i++) {
+    const m = { ...guestMessages[i] };
+    if (m.type === 'pledge' && m.pledgeData) {
+      const { email, phone, ...publicPledge } = m.pledgeData;
+      m.pledgeData = publicPledge;
+    }
+    try {
+      const ref = await addDoc(collection(db, 'guestMessages'), m);
+      log('  Message ' + (i + 1) + '/' + guestMessages.length + ' written (id: ' + ref.id + ')', 'ok');
+    } catch (e) {
+      log('  Message ' + (i + 1) + ' FAILED: ' + e.message, 'err');
+    }
+  }
+
+  // Write pledge contacts
+  log('--- Writing pledge contacts ---', 'info');
+  const pledgeMessages = guestMessages.filter(m => m.type === 'pledge');
+  for (const pm of pledgeMessages) {
+    const contact = pledgeContacts[String(pm.id)] ||
+      (pm.pledgeData ? { email: pm.pledgeData.email || '', phone: pm.pledgeData.phone || '' } : null);
+    if (contact && (contact.email || contact.phone)) {
+      try {
+        await setDoc(doc(db, 'pledgeContacts', String(pm.id)), contact);
+        log('  Contact for pledge ' + pm.id + ' written', 'ok');
+      } catch (e) {
+        log('  Contact for pledge ' + pm.id + ' FAILED: ' + e.message, 'err');
+      }
+    }
+  }
+
+  // Write coach notes
+  log('--- Writing coach notes ---', 'info');
+  for (let i = 0; i < coachNotes.length; i++) {
+    try {
+      const ref = await addDoc(collection(db, 'coachNotes'), coachNotes[i]);
+      log('  Note ' + (i + 1) + '/' + coachNotes.length + ' written (id: ' + ref.id + ')', 'ok');
+    } catch (e) {
+      log('  Note ' + (i + 1) + ' FAILED: ' + e.message, 'err');
+    }
+  }
+
+  // Write homework items
+  log('--- Writing homework items ---', 'info');
+  for (let i = 0; i < hwItems.length; i++) {
+    try {
+      const ref = await addDoc(collection(db, 'hwItems'), hwItems[i]);
+      log('  HW item ' + (i + 1) + '/' + hwItems.length + ' written (id: ' + ref.id + ')', 'ok');
+    } catch (e) {
+      log('  HW item ' + (i + 1) + ' FAILED: ' + e.message, 'err');
+    }
+  }
+
+  log('', '');
+  log('=== MIGRATION COMPLETE! ===', 'ok');
+  log('Verify the data in the Firebase console.', 'info');
+  btn.disabled = false;
+};
+</script>
+</body>
+</html>

@@ -202,6 +202,8 @@ body::before{content:'';position:fixed;inset:0;background:rgba(8,22,14,.72);poin
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.35}}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse-dot 1.4s ease-in-out infinite;margin-right:5px;flex-shrink:0}
 .guest-live-card{background:linear-gradient(160deg,var(--gd),var(--gm));border-radius:12px;padding:14px 16px 12px;margin-bottom:10px;border:1px solid rgba(201,168,76,.25);border-bottom:3px solid #22c55e}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 20px 6px rgba(34,197,94,.2)}}
+.splash-live-inner{background:linear-gradient(135deg,rgba(34,197,94,.2),rgba(34,197,94,.05));border:2px solid rgba(34,197,94,.5);border-radius:12px;padding:14px 16px;text-align:center;cursor:pointer;animation:livePulse 2s ease-in-out infinite}
 .qbtn{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--tm);cursor:pointer;transition:var(--tr)}
 .qbtn:hover,.qbtn.active-q{border-color:var(--gl);background:var(--gp)}
 .qbtn.active-q{background:var(--gm);border-color:var(--gm);color:#fff}
@@ -500,15 +502,20 @@ body.guest-mode .main{padding-top:8px}
       <div class="splash-quote" id="splashQuote"></div>
     </div>
 
-    <!-- ══ PLEDGE TOTALS (inside status card) ══ -->
-    <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:space-between">
-      <div style="text-align:left">
-        <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">💰 Total Pledged</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--gold);line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6)" id="splashTotalPledged">$0</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">Pledgers</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:#fff;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6)" id="splashTotalPledgers">0</div>
+    <!-- ══ LIVE ROUND BANNER (inside status card) ══ -->
+    <div id="splashLiveBanner" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(34,197,94,.4)">
+      <div class="splash-live-inner" onclick="loginAsGuest()">
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px">
+          <span class="live-dot" style="width:10px;height:10px"></span>
+          <span style="font-size:15px;font-weight:900;color:#22c55e;text-transform:uppercase;letter-spacing:1.2px">LIVE ROUND NOW!!!</span>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,.7);line-height:1.6" id="splashLiveCourse">Drew is on the course right now</div>
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:16px;margin-top:8px">
+          <div><div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;line-height:1" id="splashLiveHole">—</div><div style="font-size:8px;color:rgba(255,255,255,.35)">Hole</div></div>
+          <div><div style="font-family:'DM Serif Display',serif;font-size:24px;line-height:1" id="splashLiveVsPar">—</div><div style="font-size:8px;color:rgba(255,255,255,.35)">vs Par</div></div>
+          <div><div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;line-height:1" id="splashLiveThru">—</div><div style="font-size:8px;color:rgba(255,255,255,.35)">Thru</div></div>
+        </div>
+        <div style="font-size:10px;color:var(--gold);margin-top:8px;font-weight:600">Tap to watch live →</div>
       </div>
     </div>
   </div>
@@ -2136,6 +2143,39 @@ function stopCoachLivePolling(){
   if(_coachLiveUnsub){ _coachLiveUnsub(); _coachLiveUnsub=null; }
 }
 
+// ══ SPLASH LIVE ROUND ══
+let _splashLiveUnsub = null;
+function renderSplashLive(liveRound){
+  const banner = document.getElementById('splashLiveBanner');
+  if(!banner) return;
+  if(!liveRound || !liveRound.active){ banner.style.display='none'; return; }
+  banner.style.display='block';
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('splashLiveCourse', liveRound.course ? liveRound.course : 'Drew is on the course right now');
+  set('splashLiveHole', liveRound.hole != null ? liveRound.hole : '—');
+  set('splashLiveThru', liveRound.thru != null ? liveRound.thru : '—');
+  const vpEl = document.getElementById('splashLiveVsPar');
+  if(vpEl){
+    const vp = liveRound.totalVsPar;
+    vpEl.textContent = vp == null ? '—' : vp===0?'E':(vp>0?'+':'')+vp;
+    vpEl.style.color = vp==null?'#fff':vp<0?'#86efac':vp>0?'#fca5a5':'#fff';
+  }
+}
+function startSplashLivePolling(){
+  stopSplashLivePolling();
+  try {
+    const db = window._fbDb;
+    const { doc, onSnapshot } = window._fb;
+    if(!db) return;
+    _splashLiveUnsub = onSnapshot(doc(db, 'liveRound', 'current'), (snap) => {
+      renderSplashLive(snap.exists() ? snap.data() : null);
+    }, () => {});
+  } catch(e){}
+}
+function stopSplashLivePolling(){
+  if(_splashLiveUnsub){ _splashLiveUnsub(); _splashLiveUnsub=null; }
+}
+
 async function loadFromFirestore() {
   setSyncStatus('busy','Loading...');
   try {
@@ -2310,14 +2350,6 @@ function updateSplashStats(){
     const fill=document.getElementById('splashFill'); if(fill) fill.style.width=pct+'%';
     set('ovHcap',hcap);
   }
-  // Pledge totals — calculated independently so they show even before login
-  const pledges = guestMessages.filter(m => m.type === 'pledge');
-  const strokeTotal = pledges.filter(m => m.pledgeData?.type === 'stroke').reduce((a,m) => a + Number(m.pledgeData?.amount||0), 0);
-  const flatTotal   = pledges.filter(m => m.pledgeData?.type === 'flat').reduce((a,m) => a + Number(m.pledgeData?.amount||0), 0);
-  const maxTotal    = (strokeTotal * 10) + flatTotal;
-  const displayAmt  = maxTotal > 0 ? '$' + maxTotal : pledges.length ? '🎤' : '$0';
-  set('splashTotalPledged',  displayAmt);
-  set('splashTotalPledgers', pledges.length);
 }
 
 // ══ HISTORY / NAV ══
@@ -2406,6 +2438,7 @@ function logout() {
 // ══ LOGIN ══
 function login(user){
   currentUser=user;
+  stopSplashLivePolling();
   document.getElementById('splash').style.display='none';
   document.querySelectorAll('.sec').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(x=>x.classList.remove('active'));
@@ -2418,14 +2451,14 @@ function login(user){
     history.pushState({sec:'guest',scView:'start',hole:0},'','#guest');
     applyNavState({sec:'guest',scView:'start',hole:0},false);
     startGuestLivePolling();
-    loadFromFirestore();
+    loadFromFirestore().then(()=>{ fetchLiveRoundOnly(); });
   } else if(user==='steve'){
     stopGuestLivePolling();
     document.body.classList.add('coach-mode');
     history.pushState({sec:'mycoach',scView:'start',hole:0},'','#coach-board');
     applyNavState({sec:'mycoach',scView:'start',hole:0},false);
     startCoachLivePolling();
-    loadFromFirestore();
+    loadFromFirestore().then(()=>{ fetchLiveRoundOnly(); });
   } else {
     document.body.classList.remove('coach-mode');
     history.pushState({sec:'overview',scView:'start',hole:0},'','#overview');
@@ -2443,7 +2476,7 @@ function login(user){
     });
   }
 }
-function showSplash(){currentUser=null; stopGuestLivePolling(); stopCoachLivePolling(); document.body.classList.remove('guest-mode','coach-mode'); updateSplashStats(); document.getElementById('splash').style.display='flex'; const signOutBtn=document.getElementById('signOutBtn'); if(signOutBtn)signOutBtn.style.display='none';}
+function showSplash(){currentUser=null; stopGuestLivePolling(); stopCoachLivePolling(); document.body.classList.remove('guest-mode','coach-mode'); updateSplashStats(); document.getElementById('splash').style.display='flex'; const signOutBtn=document.getElementById('signOutBtn'); if(signOutBtn)signOutBtn.style.display='none'; startSplashLivePolling();}
 
 // ══ BADGE SYSTEM ══
 function updateBadges(){

@@ -515,7 +515,6 @@ body.guest-mode .main{padding-top:8px}
 
   <!-- Guest first, then Drew + Steve -->
   <button class="login-btn-guest" onclick="loginAsGuest()">
-    <span style="font-size:20px">👥</span>
     <span class="name">Continue as Guest</span>
     <span class="role">Cheer · Vote · Pledge · Roast</span>
   </button>
@@ -2307,8 +2306,8 @@ function updateSplashStats(){
   }
   // Pledge totals — calculated independently so they show even before login
   const pledges = guestMessages.filter(m => m.type === 'pledge');
-  const strokeTotal = pledges.filter(m => m.pledgeData?.type === 'stroke').reduce((a,m) => a + (m.pledgeData?.amount||0), 0);
-  const flatTotal   = pledges.filter(m => m.pledgeData?.type === 'flat').reduce((a,m) => a + (m.pledgeData?.amount||0), 0);
+  const strokeTotal = pledges.filter(m => m.pledgeData?.type === 'stroke').reduce((a,m) => a + Number(m.pledgeData?.amount||0), 0);
+  const flatTotal   = pledges.filter(m => m.pledgeData?.type === 'flat').reduce((a,m) => a + Number(m.pledgeData?.amount||0), 0);
   const maxTotal    = (strokeTotal * 10) + flatTotal;
   const displayAmt  = maxTotal > 0 ? '$' + maxTotal : pledges.length ? '🎤' : '$0';
   set('splashTotalPledged',  displayAmt);
@@ -2379,6 +2378,12 @@ function loginWithGoogle(hint) {
 
 function loginAsGuest() {
   window._guestLoginRequested = true;
+  const currentUser = window._fbAuth.currentUser;
+  if (currentUser && currentUser.isAnonymous) {
+    // Already signed in anonymously — just re-enter guest mode
+    login('guest');
+    return;
+  }
   window._fbSignInAnonymously(window._fbAuth)
     .catch(err => {
       console.error('Anonymous sign-in failed:', err);
@@ -2476,8 +2481,8 @@ function renderAll(){
 // ══ PLEDGE RIBBON ══
 function updatePledgeRibbon(){
   const pledges=guestMessages.filter(m=>m.type==='pledge');
-  const strokeTotal=pledges.filter(m=>m.pledgeData?.type==='stroke').reduce((a,m)=>a+(m.pledgeData?.amount||0),0);
-  const flatTotal=pledges.filter(m=>m.pledgeData?.type==='flat').reduce((a,m)=>a+(m.pledgeData?.amount||0),0);
+  const strokeTotal=pledges.filter(m=>m.pledgeData?.type==='stroke').reduce((a,m)=>a+Number(m.pledgeData?.amount||0),0);
+  const flatTotal=pledges.filter(m=>m.pledgeData?.type==='flat').reduce((a,m)=>a+Number(m.pledgeData?.amount||0),0);
   const maxTotal=(strokeTotal*10)+flatTotal;
   const el=id=>document.getElementById(id);
   if(el('ribbonTotal')) el('ribbonTotal').textContent=maxTotal>0?'$'+maxTotal:pledges.length?'💚':'$0';
@@ -3105,8 +3110,8 @@ function renderGuestView(){
 
   // Sync guest banner totals
   const pledges = guestMessages.filter(m => m.type === 'pledge');
-  const strokeTotal = pledges.filter(m => m.pledgeData?.type === 'stroke').reduce((a,m) => a + (m.pledgeData?.amount||0), 0);
-  const flatTotal   = pledges.filter(m => m.pledgeData?.type === 'flat').reduce((a,m) => a + (m.pledgeData?.amount||0), 0);
+  const strokeTotal = pledges.filter(m => m.pledgeData?.type === 'stroke').reduce((a,m) => a + Number(m.pledgeData?.amount||0), 0);
+  const flatTotal   = pledges.filter(m => m.pledgeData?.type === 'flat').reduce((a,m) => a + Number(m.pledgeData?.amount||0), 0);
   const maxTotal    = (strokeTotal * 10) + flatTotal;
   const setEl = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
   setEl('guestTotalPledged',  maxTotal > 0 ? '$' + maxTotal : pledges.length ? '🎤' : '$0');
@@ -3412,8 +3417,8 @@ function renderPledgeLeaderboard() {
   let totalFlat = 0, totalPerStroke = 0, bragCount = 0;
   pledges.forEach(m => {
     const pd = m.pledgeData || {};
-    if (pd.type === 'flat') totalFlat += pd.amount || 0;
-    else if (pd.type === 'stroke') totalPerStroke += pd.amount || 0;
+    if (pd.type === 'flat') totalFlat += Number(pd.amount) || 0;
+    else if (pd.type === 'stroke') totalPerStroke += Number(pd.amount) || 0;
     else bragCount++;
   });
   list.innerHTML = pledges.map(m => {
@@ -3446,8 +3451,8 @@ function renderPledgesForDrew() {
   let totalFlat = 0, totalPerStroke = 0, bragCount = 0;
   pledges.forEach(m => {
     const pd = m.pledgeData || {};
-    if (pd.type === 'flat') totalFlat += pd.amount || 0;
-    else if (pd.type === 'stroke') totalPerStroke += pd.amount || 0;
+    if (pd.type === 'flat') totalFlat += Number(pd.amount) || 0;
+    else if (pd.type === 'stroke') totalPerStroke += Number(pd.amount) || 0;
     else bragCount++;
   });
 

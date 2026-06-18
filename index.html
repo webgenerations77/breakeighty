@@ -439,6 +439,9 @@ body.guest-mode .main{padding-top:8px}
   const DREW_EMAIL = '__DREW_EMAIL__';
   const STEVE_EMAIL = '__STEVE_EMAIL__';
 
+  // Start splash live banner polling immediately (don't wait for auth)
+  try { if (typeof startSplashLivePolling === 'function') startSplashLivePolling(); } catch(e) {}
+
   onAuthStateChanged(window._fbAuth, (user) => {
     if (user) {
       if (!user.isAnonymous) {
@@ -1356,7 +1359,7 @@ body.guest-mode .main{padding-top:8px}
 
   <!-- Back to login -->
   <div style="text-align:center;padding:16px 0 8px;font-size:9px;color:var(--tl);opacity:.6">
-    <button onclick="showSplash()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:7px 18px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--tl);cursor:pointer;margin-bottom:6px">← Back to login</button>
+    <button onclick="logout()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:7px 18px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--tl);cursor:pointer;margin-bottom:6px">← Back to login</button>
   </div>
 </div>
 
@@ -2169,7 +2172,7 @@ function startSplashLivePolling(){
     if(!db) return;
     _splashLiveUnsub = onSnapshot(doc(db, 'liveRound', 'current'), (snap) => {
       renderSplashLive(snap.exists() ? snap.data() : null);
-    }, () => {});
+    }, (err) => { console.error('Splash live polling error:', err); });
   } catch(e){}
 }
 function stopSplashLivePolling(){
@@ -2460,7 +2463,7 @@ function login(user){
     startCoachLivePolling();
     loadFromFirestore().then(()=>{ fetchLiveRoundOnly(); });
   } else {
-    document.body.classList.remove('coach-mode');
+    document.body.classList.remove('guest-mode', 'coach-mode');
     history.pushState({sec:'overview',scView:'start',hole:0},'','#overview');
     applyNavState({sec:'overview',scView:'start',hole:0},false);
     updateSplashStats();

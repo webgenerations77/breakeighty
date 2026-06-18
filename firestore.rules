@@ -36,6 +36,12 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.token.email == '__DREW_EMAIL__';
     }
 
+    // Live round — Drew writes, everyone reads
+    match /liveRound/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.email == '__DREW_EMAIL__';
+    }
+
     // Guest anonymous sessions — own document only
     match /guestSessions/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;

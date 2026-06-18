@@ -449,6 +449,11 @@ body.guest-mode .main{padding-top:8px}
           alert('This Google account is not authorized. Please use the correct account.');
         }
       } else {
+        // Don't auto-login anonymous guests — require explicit click
+        if (!window._guestLoginRequested) {
+          signOut(window._fbAuth);
+          return;
+        }
         window._authReady('guest', user);
       }
     } else {
@@ -516,12 +521,10 @@ body.guest-mode .main{padding-top:8px}
   </button>
   <div class="login-row">
     <button class="login-btn login-btn-drew" onclick="loginWithGoogle('drew')">
-      <span class="avatar">🏌️</span>
       <span class="name">Drew</span>
       <span class="role">Sign in with Google</span>
     </button>
     <button class="login-btn login-btn-steve" onclick="loginWithGoogle('steve')">
-      <span class="avatar">🦅</span>
       <span class="name">Steve</span>
       <span class="role">Sign in with Google</span>
     </button>
@@ -600,6 +603,21 @@ body.guest-mode .main{padding-top:8px}
 
 <!-- ══ OVERVIEW ══ -->
 <div class="sec active" id="sec-overview">
+  <!-- Live round alert — shown when Drew has an active round -->
+  <div id="ovLiveAlert" style="display:none;background:linear-gradient(135deg,#065f46,#059669);border-radius:14px;padding:14px 18px;margin-bottom:12px;border:1px solid rgba(34,197,94,.4);cursor:pointer" onclick="navPush('scorecard','live',lvHole)">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="live-dot"></span>
+      <span style="font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.5px">Active round in progress</span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:14px;margin-top:8px">
+      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:#fff;line-height:1" id="ovLiveThru">—</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.6)">holes played</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:22px;line-height:1" id="ovLiveVsPar">—</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.6)">vs par</div>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:6px">Tap to continue round →</div>
+  </div>
+
   <!-- Mission deadline banner -->
   <div style="background:linear-gradient(135deg,var(--gd),var(--gm));border-radius:14px;padding:16px 18px;margin-bottom:12px;border:1px solid rgba(201,168,76,.22)">
     <div style="font-size:9px;font-weight:700;color:var(--goldl);text-transform:uppercase;letter-spacing:.9px;margin-bottom:10px">🎯 Mission deadline · Sept 4, 2027</div>
@@ -926,6 +944,22 @@ body.guest-mode .main{padding-top:8px}
 
 <!-- ══ COACH BOARD ══ -->
 <div class="sec" id="sec-mycoach">
+  <!-- Coach live round card -->
+  <div id="coachLiveCard" class="guest-live-card" style="display:none">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+      <span class="live-dot"></span>
+      <span style="font-size:11px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.6px">Drew is playing</span>
+      <span id="clcCourse" style="font-size:11px;color:rgba(255,255,255,.6);margin-left:4px"></span>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+      <div><div style="font-family:'DM Serif Display',serif;font-size:28px;color:#fff;line-height:1" id="clcHole">—</div><div style="font-size:9px;color:rgba(255,255,255,.35)">Hole</div></div>
+      <div><div style="font-family:'DM Serif Display',serif;font-size:28px;line-height:1" id="clcVsPar">—</div><div style="font-size:9px;color:rgba(255,255,255,.35)">vs Par</div></div>
+      <div><div style="font-family:'DM Serif Display',serif;font-size:28px;color:#fff;line-height:1" id="clcThru">—</div><div style="font-size:9px;color:rgba(255,255,255,.35)">Thru</div></div>
+    </div>
+    <div id="clcDots" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px"></div>
+    <div style="font-size:9px;color:rgba(255,255,255,.3);text-align:right">updates every 30s</div>
+  </div>
+
   <div style="background:linear-gradient(135deg,#f8fdf9,var(--gp));border:2px solid rgba(74,140,92,.2);border-radius:14px;padding:18px;margin-bottom:12px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
       <div style="width:46px;height:46px;border-radius:50%;background:var(--gm);display:flex;align-items:center;justify-content:center;font-size:20px;border:3px solid var(--gold)">📋</div>
@@ -1160,14 +1194,14 @@ body.guest-mode .main{padding-top:8px}
 
     <!-- Tab pills -->
     <div style="display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px" id="guestTabPills">
-      <button class="guest-pill active" onclick="switchGuestTab('message')" id="pill-message">💬 Message</button>
-      <button class="guest-pill" onclick="switchGuestTab('vote')" id="pill-vote">🎲 Vote</button>
+      <button class="guest-pill" onclick="switchGuestTab('message')" id="pill-message">💬 Message</button>
+      <button class="guest-pill active" onclick="switchGuestTab('vote')" id="pill-vote">🎲 Vote</button>
       <button class="guest-pill" onclick="switchGuestTab('pledge')" id="pill-pledge">🏆 Pledge</button>
       <button class="guest-pill" onclick="switchGuestTab('roast')" id="pill-roast">🎡 Roast</button>
     </div>
 
     <!-- Message tab -->
-    <div id="gtab-message" class="guest-tab-content">
+    <div id="gtab-message" class="guest-tab-content" style="display:none">
       <div class="fg" style="margin-bottom:8px">
         <input type="text" id="guestName" placeholder="Your name" oninput="syncGuestName(this.value)" style="width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px">
       </div>
@@ -1183,7 +1217,7 @@ body.guest-mode .main{padding-top:8px}
     </div>
 
     <!-- Vote tab -->
-    <div id="gtab-vote" class="guest-tab-content" style="display:none">
+    <div id="gtab-vote" class="guest-tab-content">
       <div class="fg" style="margin-bottom:8px">
         <input type="text" id="guestNameVote" placeholder="Your name" style="width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px">
       </div>
@@ -1901,6 +1935,7 @@ function persistLiveRound(){
     updatedAt: Date.now()
   };
   pushLiveRoundToBin(liveRound);
+  updateLiveRoundAlert();
 }
 
 function restoreLiveRound(){
@@ -1945,6 +1980,32 @@ async function pushLiveRoundToBin(liveRound){
 
 function clearLiveRoundFromBin(){ pushLiveRoundToBin(null); }
 
+async function fetchLiveRoundForDrew(){
+  try {
+    const db = window._fbDb;
+    const { doc, getDoc } = window._fb;
+    const snap = await getDoc(doc(db, 'liveRound', 'current'));
+    if(snap.exists()){
+      const lr = snap.data();
+      if(lr.active && lr.scores){
+        lvScores = lr.scores || Array(18).fill(null);
+        lvPutts = lr.putts || Array(18).fill(null);
+        lvFairways = lr.fairways || Array(18).fill(null);
+        lvGIRs = lr.girs || Array(18).fill(null);
+        lvHole = (lr.hole || 1) - 1;
+        if(lr.courseId && COURSES[lr.courseId]){
+          activeCourse = COURSES[lr.courseId];
+          HOLES = activeCourse.holes;
+        }
+        lvRoundActive = true;
+        buildScorecard();
+        checkResumeHint();
+        showLiveRoundAlert(lr);
+      }
+    }
+  } catch(e){ console.error('fetchLiveRoundForDrew error:', e); }
+}
+
 // ══ GUEST LIVE VIEW ══
 function renderGuestLive(liveRound){
   const card = document.getElementById('guestLiveCard');
@@ -1964,46 +2025,110 @@ function renderGuestLive(liveRound){
     vpEl.style.color = vp==null?'#fff':vp<0?'#86efac':vp>0?'#fca5a5':'#fff';
   }
   set('glcThru', liveRound.thru != null ? liveRound.thru : '—');
-  // Mini dot strip
+  // Hole score circles
   const dotsEl = document.getElementById('glcDots');
   if(dotsEl && Array.isArray(liveRound.scores)){
     dotsEl.innerHTML = liveRound.scores.map((s,i)=>{
-      let cls='hole-dot';
+      const par = (activeCourse && HOLES && HOLES[i]) ? HOLES[i].par : 4;
+      let bg='rgba(255,255,255,.12)', color='rgba(255,255,255,.3)', border='transparent';
       if(s!==null){
-        // We don't have HOLES par data here so use a rough default
-        const par = (activeCourse && HOLES && HOLES[i]) ? HOLES[i].par : 4;
         const d=s-par;
-        cls+=d<=-2?' dot-eagle':d===-1?' dot-birdie':d===0?' dot-done':d===1?' dot-bogey':d===2?' dot-double':' dot-triple';
+        if(d<=-2){bg='#f0d98a';color='#78350f';border='#c9a84c';}
+        else if(d===-1){bg='#86efac';color='#065f46';border='#059669';}
+        else if(d===0){bg='rgba(255,255,255,.55)';color='#1a3a2a';border='rgba(255,255,255,.3)';}
+        else if(d===1){bg='#fde68a';color='#78350f';border='#d97706';}
+        else if(d===2){bg='#fca5a5';color='#7f1d1d';border='#dc2626';}
+        else{bg='#f9a8d4';color='#831843';border='#db2777';}
       }
-      return `<div class="${cls}" style="width:10px;height:10px;cursor:default" title="Hole ${i+1}${s!=null?': '+s:''}"></div>`;
+      const putt = liveRound.putts && liveRound.putts[i] != null ? liveRound.putts[i] : '—';
+      const fir = liveRound.fairways && liveRound.fairways[i] != null ? (liveRound.fairways[i] ? '✓' : '✗') : '—';
+      const gir = liveRound.girs && liveRound.girs[i] != null ? (liveRound.girs[i] ? '✓' : '✗') : '—';
+      const tipPar = par === 3 ? 'Par 3' : par === 5 ? 'Par 5' : 'Par 4';
+      return `<div onclick="showHoleTip(this)" data-hole="${i+1}" data-par="${tipPar}" data-score="${s!=null?s:'—'}" data-putts="${putt}" data-fir="${fir}" data-gir="${gir}" style="width:26px;height:26px;border-radius:50%;background:${bg};border:1.5px solid ${border};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${color};cursor:pointer;flex-shrink:0;position:relative">${s!=null?s:''}</div>`;
     }).join('');
   }
 }
 
-let _guestLiveTimer = null;
+function showHoleTip(el){
+  document.querySelectorAll('.hole-tip').forEach(t=>t.remove());
+  const h=el.dataset.hole, par=el.dataset.par, score=el.dataset.score, putts=el.dataset.putts, fir=el.dataset.fir, gir=el.dataset.gir;
+  const tip=document.createElement('div');
+  tip.className='hole-tip';
+  tip.style.cssText='position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1a2a1f;border:1px solid rgba(201,168,76,.4);border-radius:8px;padding:8px 10px;font-size:10px;color:#fff;white-space:nowrap;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.4)';
+  tip.innerHTML=`<div style="font-weight:700;color:var(--gold);margin-bottom:3px">Hole ${h} · ${par}</div><div>Score: <b>${score}</b> · Putts: <b>${putts}</b></div><div>FIR: ${fir} · GIR: ${gir}</div>`;
+  el.style.position='relative';
+  el.appendChild(tip);
+  setTimeout(()=>tip.remove(),3000);
+  document.addEventListener('click',function rm(e){if(!el.contains(e.target)){tip.remove();document.removeEventListener('click',rm);}},{once:false});
+}
+
+let _guestLiveTimer = null, _coachLiveTimer = null;
 async function fetchLiveRoundOnly(){
   try {
     const db = window._fbDb;
     const { doc, getDoc } = window._fb;
     const snap = await getDoc(doc(db, 'liveRound', 'current'));
-    if (snap.exists()) {
-      renderGuestLive(snap.data());
-    } else {
-      renderGuestLive(null);
-    }
+    const data = snap.exists() ? snap.data() : null;
+    renderGuestLive(data);
+    renderCoachLive(data);
   } catch(e){}
+}
+
+function renderCoachLive(liveRound){
+  const card = document.getElementById('coachLiveCard');
+  if(!card) return;
+  if(!liveRound || !liveRound.active){card.style.display='none';return;}
+  card.style.display='block';
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('clcCourse', liveRound.course||'');
+  set('clcHole', liveRound.hole != null ? 'Hole '+liveRound.hole : '—');
+  const vp = liveRound.totalVsPar;
+  const vpEl = document.getElementById('clcVsPar');
+  if(vpEl){
+    vpEl.textContent = vp == null ? '—' : vp===0?'E':(vp>0?'+':'')+vp;
+    vpEl.style.color = vp==null?'#fff':vp<0?'#86efac':vp>0?'#fca5a5':'#fff';
+  }
+  set('clcThru', liveRound.thru != null ? liveRound.thru : '—');
+  const dotsEl = document.getElementById('clcDots');
+  if(dotsEl && Array.isArray(liveRound.scores)){
+    dotsEl.innerHTML = liveRound.scores.map((s,i)=>{
+      const par = (activeCourse && HOLES && HOLES[i]) ? HOLES[i].par : 4;
+      let bg='rgba(255,255,255,.12)', color='rgba(255,255,255,.3)', border='transparent';
+      if(s!==null){
+        const d=s-par;
+        if(d<=-2){bg='#f0d98a';color='#78350f';border='#c9a84c';}
+        else if(d===-1){bg='#86efac';color='#065f46';border='#059669';}
+        else if(d===0){bg='rgba(255,255,255,.55)';color='#1a3a2a';border='rgba(255,255,255,.3)';}
+        else if(d===1){bg='#fde68a';color='#78350f';border='#d97706';}
+        else if(d===2){bg='#fca5a5';color='#7f1d1d';border='#dc2626';}
+        else{bg='#f9a8d4';color='#831843';border='#db2777';}
+      }
+      const putt = liveRound.putts && liveRound.putts[i] != null ? liveRound.putts[i] : '—';
+      const fir = liveRound.fairways && liveRound.fairways[i] != null ? (liveRound.fairways[i] ? '✓' : '✗') : '—';
+      const gir = liveRound.girs && liveRound.girs[i] != null ? (liveRound.girs[i] ? '✓' : '✗') : '—';
+      const tipPar = par === 3 ? 'Par 3' : par === 5 ? 'Par 5' : 'Par 4';
+      return `<div onclick="showHoleTip(this)" data-hole="${i+1}" data-par="${tipPar}" data-score="${s!=null?s:'—'}" data-putts="${putt}" data-fir="${fir}" data-gir="${gir}" style="width:26px;height:26px;border-radius:50%;background:${bg};border:1.5px solid ${border};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${color};cursor:pointer;flex-shrink:0;position:relative">${s!=null?s:''}</div>`;
+    }).join('');
+  }
 }
 
 function startGuestLivePolling(){
   stopGuestLivePolling();
   _guestLiveTimer = setInterval(async()=>{
-    try {
-      await fetchLiveRoundOnly();
-    } catch(e){}
+    try { await fetchLiveRoundOnly(); } catch(e){}
   }, 30000);
 }
 function stopGuestLivePolling(){
   if(_guestLiveTimer){ clearInterval(_guestLiveTimer); _guestLiveTimer=null; }
+}
+function startCoachLivePolling(){
+  stopCoachLivePolling();
+  _coachLiveTimer = setInterval(async()=>{
+    try { await fetchLiveRoundOnly(); } catch(e){}
+  }, 30000);
+}
+function stopCoachLivePolling(){
+  if(_coachLiveTimer){ clearInterval(_coachLiveTimer); _coachLiveTimer=null; }
 }
 
 async function loadFromFirestore() {
@@ -2253,6 +2378,7 @@ function loginWithGoogle(hint) {
 }
 
 function loginAsGuest() {
+  window._guestLoginRequested = true;
   window._fbSignInAnonymously(window._fbAuth)
     .catch(err => {
       console.error('Anonymous sign-in failed:', err);
@@ -2289,7 +2415,10 @@ function login(user){
     document.body.classList.add('coach-mode');
     history.pushState({sec:'mycoach',scView:'start',hole:0},'','#coach-board');
     applyNavState({sec:'mycoach',scView:'start',hole:0},false);
-    loadFromFirestore();
+    loadFromFirestore().then(() => {
+      fetchLiveRoundOnly();
+      startCoachLivePolling();
+    });
   } else {
     document.body.classList.remove('coach-mode');
     history.pushState({sec:'overview',scView:'start',hole:0},'','#overview');
@@ -2299,10 +2428,15 @@ function login(user){
     const resetBtn = document.getElementById('mf-reset');
     if (resetBtn) resetBtn.style.display = 'block';
     loadNotifSettings();
-    loadFromFirestore();
+    loadFromFirestore().then(() => {
+      // Check Firestore for active live round (cross-device sync)
+      if (!lvRoundActive) {
+        fetchLiveRoundForDrew();
+      }
+    });
   }
 }
-function showSplash(){currentUser=null; stopGuestLivePolling(); document.body.classList.remove('guest-mode','coach-mode'); updateSplashStats(); document.getElementById('splash').style.display='flex'; const signOutBtn=document.getElementById('signOutBtn'); if(signOutBtn)signOutBtn.style.display='none';}
+function showSplash(){currentUser=null; stopGuestLivePolling(); stopCoachLivePolling(); document.body.classList.remove('guest-mode','coach-mode'); updateSplashStats(); document.getElementById('splash').style.display='flex'; const signOutBtn=document.getElementById('signOutBtn'); if(signOutBtn)signOutBtn.style.display='none';}
 
 // ══ BADGE SYSTEM ══
 function updateBadges(){
@@ -2325,14 +2459,16 @@ function updateBadges(){
 // ══ RENDER ALL ══
 function renderAll(){
   updateHeaderBest();
+  renderRounds();
   updateProgress();
   updateBadges();
   updateSplashStats();
   renderDrewMessages();
   renderPledgesForDrew();
   renderPledgeLeaderboard();
+  renderPledgesTab();
   updatePledgeRibbon();
-  if(currentUser==='drew'){renderCoachBoard();showNotifBar();}
+  if(currentUser==='drew'){renderCoachBoard();showNotifBar();updateLiveRoundAlert();}
   if(currentUser==='steve') renderCoachBoard();
   if(currentUser==='guest'){renderGuestView();}
 }
@@ -2378,6 +2514,33 @@ function dismissNotifBar(){
   const bar=document.getElementById('notifBar');
   if(bar) bar.style.display='none';
   sessionStorage.setItem('b80_notifDismissed','1');
+}
+
+// ══ LIVE ROUND ALERT ══
+function showLiveRoundAlert(liveRound){
+  const alert=document.getElementById('ovLiveAlert');
+  if(!alert) return;
+  if(!liveRound || !liveRound.active){alert.style.display='none';return;}
+  alert.style.display='block';
+  const thru=document.getElementById('ovLiveThru');
+  const vsPar=document.getElementById('ovLiveVsPar');
+  if(thru) thru.textContent=liveRound.thru||'0';
+  if(vsPar){
+    const vp=liveRound.totalVsPar;
+    vsPar.textContent=vp==null?'E':vp===0?'E':(vp>0?'+':'')+vp;
+    vsPar.style.color=vp==null?'#fff':vp<0?'#86efac':vp>0?'#fca5a5':'#fff';
+  }
+}
+function updateLiveRoundAlert(){
+  if(currentUser!=='drew') return;
+  if(lvRoundActive){
+    let cPar=0,cScore=0;
+    lvScores.forEach((s,i)=>{if(s!==null){cPar+=HOLES[i].par;cScore+=s;}});
+    const thru=lvScores.filter(s=>s!==null).length;
+    showLiveRoundAlert({active:true,thru,totalVsPar:thru>0?cScore-cPar:null});
+  } else {
+    showLiveRoundAlert(null);
+  }
 }
 
 // ══ OVERVIEW ══

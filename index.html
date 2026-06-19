@@ -653,31 +653,34 @@ body.guest-mode .main{padding-top:8px}
 
   <!-- Notification setup -->
   <div class="card" id="notifCard" style="background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1px solid rgba(59,130,246,.2)">
-    <div class="ch"><div class="ci" style="background:#dbeafe;font-size:17px">🔔</div><div><div class="ct">Get notified when friends post</div><div class="cs">Set up alerts so you never miss a roast</div></div></div>
-    <div style="font-size:12px;color:var(--tm);line-height:1.7;margin-bottom:12px">
-      <strong>Email notifications via EmailJS</strong> — free, no server needed. When a guest posts anything, you get an email instantly.
-    </div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div class="fg"><label>Your email address</label><input type="email" id="notifEmail" placeholder="drew@example.com" style="border:1.5px solid rgba(59,130,246,.3)"></div>
-      <div style="background:#fff;border-radius:9px;padding:12px;border:1px solid rgba(59,130,246,.15);font-size:11px;color:var(--tl);line-height:1.8">
-        <strong style="color:var(--td)">Quick setup (2 min, free):</strong><br>
-        1. Go to <a href="https://emailjs.com" target="_blank" style="color:#2563eb">emailjs.com</a> → Sign up free<br>
-        2. Add an Email Service (Gmail works great)<br>
-        3. Create a Template with variables: <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{from_name}}</code>, <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{message}}</code>, <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{to_email}}</code><br>
-        4. Paste your Service ID, Template ID, and Public Key below
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div class="fg"><label>EmailJS Service ID</label><input type="text" id="ejsServiceId" placeholder="service_xxxxxxx" style="font-size:11px"></div>
-        <div class="fg"><label>Template ID</label><input type="text" id="ejsTemplateId" placeholder="template_xxxxxxx" style="font-size:11px"></div>
-      </div>
-      <div class="fg"><label>Public Key</label><input type="text" id="ejsPublicKey" placeholder="Your EmailJS public key" style="font-size:11px"></div>
-      <button onclick="saveNotifSettings()" class="btn" style="background:#2563eb">💾 Save notification settings</button>
+    <div class="ch"><div class="ci" style="background:#dbeafe;font-size:17px">🔔</div><div><div class="ct">Get notified when friends post</div><div class="cs">Email alerts so you never miss a roast</div></div></div>
+    <div id="notifConfigured" style="display:none">
+      <div style="font-size:12px;color:#059669;font-weight:600;margin-bottom:8px">Email notifications are active</div>
       <button onclick="testNotif()" class="btn-outline" style="border-color:#2563eb;color:#2563eb">📧 Send test email</button>
     </div>
-    <div id="notifStatus" style="margin-top:8px;font-size:11px;display:none"></div>
-    <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(59,130,246,.15);font-size:10px;color:var(--tl)">
-      💡 <strong>Alternative — Browser push notifications:</strong> On iOS, add this page to your Home Screen (Share → Add to Home Screen). Then enable notifications in Settings. Works like a native app.
+    <div id="notifManualSetup">
+      <div style="font-size:12px;color:var(--tm);line-height:1.7;margin-bottom:12px">
+        <strong>Email notifications via EmailJS</strong> — free, no server needed. When a guest posts anything, you get an email instantly.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="fg"><label>Your email address</label><input type="email" id="notifEmail" placeholder="drew@example.com" style="border:1.5px solid rgba(59,130,246,.3)"></div>
+        <div style="background:#fff;border-radius:9px;padding:12px;border:1px solid rgba(59,130,246,.15);font-size:11px;color:var(--tl);line-height:1.8">
+          <strong style="color:var(--td)">Quick setup (2 min, free):</strong><br>
+          1. Go to <a href="https://emailjs.com" target="_blank" style="color:#2563eb">emailjs.com</a> → Sign up free<br>
+          2. Add an Email Service (Gmail works great)<br>
+          3. Create a Template with variables: <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{from_name}}</code>, <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{message}}</code>, <code style="background:#f1f5f9;padding:1px 4px;border-radius:3px">{{to_email}}</code><br>
+          4. Paste your Service ID, Template ID, and Public Key below
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="fg"><label>EmailJS Service ID</label><input type="text" id="ejsServiceId" placeholder="service_xxxxxxx" style="font-size:11px"></div>
+          <div class="fg"><label>Template ID</label><input type="text" id="ejsTemplateId" placeholder="template_xxxxxxx" style="font-size:11px"></div>
+        </div>
+        <div class="fg"><label>Public Key</label><input type="text" id="ejsPublicKey" placeholder="Your EmailJS public key" style="font-size:11px"></div>
+        <button onclick="saveNotifSettings()" class="btn" style="background:#2563eb">Save notification settings</button>
+        <button onclick="testNotif()" class="btn-outline" style="border-color:#2563eb;color:#2563eb">📧 Send test email</button>
+      </div>
     </div>
+    <div id="notifStatus" style="margin-top:8px;font-size:11px;display:none"></div>
   </div>
 
 
@@ -2121,11 +2124,15 @@ function startGuestLivePolling(){
   stopGuestLivePolling();
   try {
     const db = window._fbDb;
-    const { doc, onSnapshot } = window._fb;
+    const { doc, onSnapshot, getDoc } = window._fb;
+    if(!db){ console.warn('Guest live: no db'); return; }
     _guestLiveUnsub = onSnapshot(doc(db, 'liveRound', 'current'), (snap) => {
       const data = snap.exists() ? snap.data() : null;
       renderGuestLive(data);
     }, (err) => { console.error('Guest live listener error:', err); });
+    getDoc(doc(db, 'liveRound', 'current')).then(snap => {
+      renderGuestLive(snap.exists() ? snap.data() : null);
+    }).catch(e => console.warn('Guest live fetch fallback error:', e));
   } catch(e){ console.error('startGuestLivePolling error:', e); }
 }
 function stopGuestLivePolling(){
@@ -2168,12 +2175,15 @@ function startSplashLivePolling(){
   stopSplashLivePolling();
   try {
     const db = window._fbDb;
-    const { doc, onSnapshot } = window._fb;
-    if(!db) return;
+    const { doc, onSnapshot, getDoc } = window._fb;
+    if(!db){ console.warn('Splash live: no db'); return; }
     _splashLiveUnsub = onSnapshot(doc(db, 'liveRound', 'current'), (snap) => {
       renderSplashLive(snap.exists() ? snap.data() : null);
-    }, (err) => { console.error('Splash live polling error:', err); });
-  } catch(e){}
+    }, (err) => { console.error('Splash live listener error:', err); });
+    getDoc(doc(db, 'liveRound', 'current')).then(snap => {
+      renderSplashLive(snap.exists() ? snap.data() : null);
+    }).catch(e => console.warn('Splash live fetch fallback error:', e));
+  } catch(e){ console.error('startSplashLivePolling error:', e); }
 }
 function stopSplashLivePolling(){
   if(_splashLiveUnsub){ _splashLiveUnsub(); _splashLiveUnsub=null; }
@@ -2185,17 +2195,24 @@ async function loadFromFirestore() {
     const db = window._fbDb;
     const { collection, getDocs, query, orderBy } = window._fb;
 
-    const [roundsSnap, messagesSnap, notesSnap, hwSnap] = await Promise.all([
+    const [roundsSnap, messagesSnap] = await Promise.all([
       getDocs(query(collection(db, 'rounds'), orderBy('date', 'desc'))),
-      getDocs(collection(db, 'guestMessages')),
-      getDocs(collection(db, 'coachNotes')),
-      getDocs(collection(db, 'hwItems'))
+      getDocs(collection(db, 'guestMessages'))
     ]);
 
     rounds = roundsSnap.docs.map(d => ({ _docId: d.id, ...d.data() }));
     guestMessages = messagesSnap.docs.map(d => ({ _docId: d.id, ...d.data() }));
-    coachNotes = notesSnap.docs.map(d => ({ _docId: d.id, ...d.data() }));
-    hwItems = hwSnap.docs.map(d => ({ _docId: d.id, ...d.data() }));
+
+    if (currentUser === 'drew' || currentUser === 'steve') {
+      try {
+        const [notesSnap, hwSnap] = await Promise.all([
+          getDocs(collection(db, 'coachNotes')),
+          getDocs(collection(db, 'hwItems'))
+        ]);
+        coachNotes = notesSnap.docs.map(d => ({ _docId: d.id, ...d.data() }));
+        hwItems = hwSnap.docs.map(d => ({ _docId: d.id, ...d.data() }));
+      } catch(e) { console.warn('Coach collections not accessible:', e.message); }
+    }
 
     if (currentUser === 'drew') {
       const contactsSnap = await getDocs(collection(db, 'pledgeContacts'));
@@ -2454,7 +2471,8 @@ function login(user){
     history.pushState({sec:'guest',scView:'start',hole:0},'','#guest');
     applyNavState({sec:'guest',scView:'start',hole:0},false);
     startGuestLivePolling();
-    loadFromFirestore().then(()=>{ fetchLiveRoundOnly(); });
+    fetchLiveRoundOnly();
+    loadFromFirestore();
   } else if(user==='steve'){
     stopGuestLivePolling();
     document.body.classList.add('coach-mode');
@@ -3096,6 +3114,18 @@ function renderDrewMessages(){
 function syncGuestName(val){}
 
 // ══ NOTIFICATION SETTINGS ══
+const _ejsEnv = {
+  email: '__EMAILJS_NOTIF_EMAIL__',
+  svc: '__EMAILJS_SERVICE_ID__',
+  tmpl: '__EMAILJS_TEMPLATE_ID__',
+  key: '__EMAILJS_PUBLIC_KEY__'
+};
+function _ejsHasEnv(){ return _ejsEnv.email && !_ejsEnv.email.startsWith('__') && _ejsEnv.svc && !_ejsEnv.svc.startsWith('__'); }
+function _ejsGet(field){
+  if(_ejsHasEnv()) return _ejsEnv[field];
+  const keys={email:'b80_notif_email',svc:'b80_notif_svc',tmpl:'b80_notif_tmpl',key:'b80_notif_key'};
+  return localStorage.getItem(keys[field])||'';
+}
 function saveNotifSettings(){
   const email=document.getElementById('notifEmail')?.value.trim();
   const svc=document.getElementById('ejsServiceId')?.value.trim();
@@ -3110,11 +3140,18 @@ function saveNotifSettings(){
   if(st){st.style.display='block';st.style.color='#059669';st.textContent='\u2713 Settings saved! You\'ll be notified when friends post.';}
 }
 function loadNotifSettings(){
+  if(_ejsHasEnv()){
+    const c=document.getElementById('notifConfigured');
+    const m=document.getElementById('notifManualSetup');
+    if(c) c.style.display='block';
+    if(m) m.style.display='none';
+    return;
+  }
   const ids=[['notifEmail','b80_notif_email'],['ejsServiceId','b80_notif_svc'],['ejsTemplateId','b80_notif_tmpl'],['ejsPublicKey','b80_notif_key']];
   ids.forEach(([id,key])=>{const v=localStorage.getItem(key);const el=document.getElementById(id);if(v&&el)el.value=v;});
 }
 async function sendEmailNotification(fromName,msgType,msgText){
-  const email=localStorage.getItem('b80_notif_email'),svc=localStorage.getItem('b80_notif_svc'),tmpl=localStorage.getItem('b80_notif_tmpl'),key=localStorage.getItem('b80_notif_key');
+  const email=_ejsGet('email'),svc=_ejsGet('svc'),tmpl=_ejsGet('tmpl'),key=_ejsGet('key');
   if(!email||!svc||!tmpl||!key)return;
   try{
     if(!window.emailjs){

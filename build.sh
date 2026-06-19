@@ -9,6 +9,10 @@ sed -i "s|__FIREBASE_MESSAGING_SENDER_ID__|${FIREBASE_MESSAGING_SENDER_ID}|g" in
 sed -i "s|__FIREBASE_APP_ID__|${FIREBASE_APP_ID}|g" index.html
 sed -i "s|__DREW_EMAIL__|${DREW_EMAIL}|g" index.html
 sed -i "s|__STEVE_EMAIL__|${STEVE_EMAIL}|g" index.html
+sed -i "s|__EMAILJS_SERVICE_ID__|${EMAILJS_SERVICE_ID}|g" index.html
+sed -i "s|__EMAILJS_TEMPLATE_ID__|${EMAILJS_TEMPLATE_ID}|g" index.html
+sed -i "s|__EMAILJS_PUBLIC_KEY__|${EMAILJS_PUBLIC_KEY}|g" index.html
+sed -i "s|__EMAILJS_NOTIF_EMAIL__|${EMAILJS_NOTIF_EMAIL}|g" index.html
 
 # Also replace in firestore.rules if present
 if [ -f firestore.rules ]; then

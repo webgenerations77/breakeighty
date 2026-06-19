@@ -67,6 +67,10 @@ FIREBASE_MESSAGING_SENDER_ID= ← from Firebase config
 FIREBASE_APP_ID=          ← from Firebase config
 DREW_EMAIL=               ← Drew's Google account email
 STEVE_EMAIL=              ← Steve's Google account email
+EMAILJS_SERVICE_ID=       ← from EmailJS dashboard (optional)
+EMAILJS_TEMPLATE_ID=      ← from EmailJS dashboard (optional)
+EMAILJS_PUBLIC_KEY=       ← from EmailJS dashboard (optional)
+EMAILJS_NOTIF_EMAIL=      ← Drew's notification email (optional)
 ```
 
 ---

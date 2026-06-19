@@ -525,7 +525,12 @@ body.guest-mode .main{padding-top:8px}
           <div><div style="font-family:'DM Serif Display',serif;font-size:24px;line-height:1" id="splashLiveVsPar">—</div><div style="font-size:8px;color:rgba(255,255,255,.35)">vs Par</div></div>
           <div><div style="font-family:'DM Serif Display',serif;font-size:24px;color:#fff;line-height:1" id="splashLiveThru">—</div><div style="font-size:8px;color:rgba(255,255,255,.35)">Thru</div></div>
         </div>
-        <div style="font-size:10px;color:var(--gold);margin-top:8px;font-weight:600">Tap to watch live →</div>
+        <div id="splashLivePredRow" style="display:none;margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.1)">
+          <div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:4px">Expected score: <span id="splashLivePred" style="color:#fff;font-weight:700">—</span></div>
+          <div style="height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden"><div id="splashLiveProbBar" style="height:100%;width:50%;border-radius:3px;background:#22c55e;transition:width .6s ease,background .6s ease"></div></div>
+          <div style="font-size:9px;margin-top:3px;color:rgba(255,255,255,.4)"><span id="splashLiveProbTxt" style="font-weight:600;color:#22c55e">50%</span> chance of beating <span id="splashLivePred2">—</span></div>
+        </div>
+        <div style="font-size:10px;color:var(--gold);margin-top:8px;font-weight:600">Tap to watch &amp; vote →</div>
       </div>
     </div>
   </div>
@@ -1171,8 +1176,21 @@ body.guest-mode .main{padding-top:8px}
       <div><div style="font-family:'DM Serif Display',serif;font-size:28px;line-height:1" id="glcVsPar">—</div><div style="font-size:9px;color:rgba(255,255,255,.35)">vs Par</div></div>
       <div><div style="font-family:'DM Serif Display',serif;font-size:28px;color:#fff;line-height:1" id="glcThru">—</div><div style="font-size:9px;color:rgba(255,255,255,.35)">Thru</div></div>
     </div>
-    <div id="glcDots" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px"></div>
-    <div style="font-size:9px;color:rgba(255,255,255,.3);text-align:right">live updates</div>
+    <div id="glcDots" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px"></div>
+    <!-- Prediction + Over/Under -->
+    <div id="glcPredRow" style="display:none;padding-top:10px;border-top:1px solid rgba(255,255,255,.1)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div style="font-size:10px;color:rgba(255,255,255,.5)">Expected: <span id="glcPred" style="color:#fff;font-weight:700;font-size:13px">—</span></div>
+        <div style="font-size:10px"><span id="glcProbTxt" style="font-weight:700;color:#22c55e">50%</span> <span style="color:rgba(255,255,255,.35)">to beat</span></div>
+      </div>
+      <div style="height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-bottom:10px"><div id="glcProbBar" style="height:100%;width:50%;border-radius:3px;background:#22c55e;transition:width .6s ease,background .6s ease"></div></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap">Over/Under <span id="glcOUTarget">—</span>?</div>
+        <button onclick="castOverUnder('under')" style="flex:1;padding:7px 0;border:1.5px solid #22c55e;background:rgba(34,197,94,.1);color:#22c55e;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer">Under <span id="glcUnderCount" style="opacity:.6"></span></button>
+        <button onclick="castOverUnder('over')" style="flex:1;padding:7px 0;border:1.5px solid #ef4444;background:rgba(239,68,68,.1);color:#ef4444;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer">Over <span id="glcOverCount" style="opacity:.6"></span></button>
+      </div>
+    </div>
+    <div style="font-size:9px;color:rgba(255,255,255,.3);text-align:right;margin-top:6px">live updates</div>
   </div>
 
   <!-- Panel 1 — Hero Strip -->
@@ -1918,6 +1936,24 @@ let HOLES = activeCourse.holes;
 let lvHole = 0, lvScores = Array(18).fill(null), lvPutts = Array(18).fill(null);
 let lvFairways = Array(18).fill(null), lvGIRs = Array(18).fill(null);
 let lvRoundActive = false, _pendingNextHole = null, _countdownTimer = null;
+let _lvPredictedScore = null;
+
+// ══ SCORE PREDICTION ══
+function calcPredictedScore(){
+  if(!rounds.length) return 90;
+  const recent = rounds.slice(0, Math.min(5, rounds.length));
+  return Math.round(recent.reduce((a,r) => a + r.score, 0) / recent.length);
+}
+function calcBeatProbability(currentScore, thru, predicted){
+  if(thru === 0) return 50;
+  if(thru >= 18) return currentScore < predicted ? 99 : currentScore === predicted ? 50 : 1;
+  const avgPerHole = predicted / 18;
+  const remaining = 18 - thru;
+  const expectedRemaining = remaining * avgPerHole;
+  const margin = (predicted - currentScore) - expectedRemaining;
+  const scale = Math.max(0.4, Math.sqrt(remaining / 18) * 1.8);
+  return Math.max(1, Math.min(99, Math.round(100 / (1 + Math.exp(-margin / scale)))));
+}
 
 // ══ FIRESTORE ══
 
@@ -1938,6 +1974,8 @@ function persistLiveRound(){
   };
   try { localStorage.setItem('b80_live_round', JSON.stringify(payload)); } catch(e){}
   // Push to bin for guests (fire-and-forget)
+  if(!_lvPredictedScore) _lvPredictedScore = calcPredictedScore();
+  const prob = thru > 0 ? calcBeatProbability(cScore, thru, _lvPredictedScore) : 50;
   const liveRound = {
     active:true,
     course: activeCourse ? activeCourse.name : 'Ocean Resorts GC',
@@ -1947,6 +1985,8 @@ function persistLiveRound(){
     totalScore: cScore,
     totalVsPar: thru > 0 ? diff : null,
     thru,
+    predictedScore: _lvPredictedScore,
+    beatProbability: prob,
     updatedAt: Date.now()
   };
   pushLiveRoundToBin(liveRound);
@@ -2065,6 +2105,19 @@ function renderGuestLive(liveRound){
       return `<div onclick="showHoleTip(this)" data-hole="${i+1}" data-par="${tipPar}" data-score="${s!=null?s:'—'}" data-putts="${putt}" data-fir="${fir}" data-gir="${gir}" style="width:26px;height:26px;border-radius:50%;background:${bg};border:1.5px solid ${border};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${color};cursor:pointer;flex-shrink:0;position:relative">${s!=null?s:''}</div>`;
     }).join('');
   }
+  // Prediction + probability
+  const predRow = document.getElementById('glcPredRow');
+  if(predRow && liveRound.predictedScore){
+    predRow.style.display='block';
+    set('glcPred', liveRound.predictedScore);
+    set('glcOUTarget', liveRound.predictedScore);
+    const prob = liveRound.beatProbability || 50;
+    const bar = document.getElementById('glcProbBar');
+    const txt = document.getElementById('glcProbTxt');
+    if(bar){ bar.style.width=prob+'%'; bar.style.background=prob>=50?'#22c55e':'#ef4444'; }
+    if(txt){ txt.textContent=prob+'%'; txt.style.color=prob>=50?'#22c55e':'#ef4444'; }
+    renderOUCounts();
+  }
 }
 
 function showHoleTip(el){
@@ -2182,6 +2235,17 @@ function renderSplashLive(liveRound){
     const vp = liveRound.totalVsPar;
     vpEl.textContent = vp == null ? '—' : vp===0?'E':(vp>0?'+':'')+vp;
     vpEl.style.color = vp==null?'#fff':vp<0?'#86efac':vp>0?'#fca5a5':'#fff';
+  }
+  const predRow = document.getElementById('splashLivePredRow');
+  if(predRow && liveRound.predictedScore){
+    predRow.style.display='block';
+    set('splashLivePred', liveRound.predictedScore);
+    set('splashLivePred2', liveRound.predictedScore);
+    const prob = liveRound.beatProbability || 50;
+    const bar = document.getElementById('splashLiveProbBar');
+    const txt = document.getElementById('splashLiveProbTxt');
+    if(bar){ bar.style.width=prob+'%'; bar.style.background=prob>=50?'#22c55e':'#ef4444'; }
+    if(txt){ txt.textContent=prob+'%'; txt.style.color=prob>=50?'#22c55e':'#ef4444'; }
   }
 }
 function _fetchSplashLive(){
@@ -2714,7 +2778,7 @@ function checkResumeHint(){
 function startRound(){
   if(!activeCourse){alert('Select a course first.');return;}
   lvScores=Array(18).fill(null); lvPutts=Array(18).fill(null); lvFairways=Array(18).fill(null); lvGIRs=Array(18).fill(null);
-  lvHole=0; HOLES=activeCourse.holes; lvRoundActive=true; persistLiveRound(); showLiveView();
+  lvHole=0; HOLES=activeCourse.holes; lvRoundActive=true; _lvPredictedScore=calcPredictedScore(); persistLiveRound(); showLiveView();
 }
 function resumeRound(){for(let i=17;i>=0;i--){if(lvScores[i]!==null){lvHole=Math.min(i+1,17);break;}} lvRoundActive=true; persistLiveRound(); showLiveView();}
 function showLiveView(){document.getElementById('sc-start').style.display='none'; document.getElementById('sc-live').style.display='block'; history.pushState({sec:'scorecard',scView:'live',hole:lvHole},'','#scorecard-hole'+(lvHole+1)); renderLiveHole();}
@@ -2859,7 +2923,7 @@ function finishRound(){
   clearLiveRoundLocal(); clearLiveRoundFromBin();
   // Reset scorecard
   lvScores=Array(18).fill(null); lvPutts=Array(18).fill(null); lvFairways=Array(18).fill(null); lvGIRs=Array(18).fill(null);
-  lvRoundActive=false;
+  lvRoundActive=false; _lvPredictedScore=null;
   document.getElementById('sc-live').style.display='none';
   document.getElementById('sc-start').style.display='block';
   history.pushState({sec:'scorecard',scView:'start',hole:0},'','#scorecard');
@@ -2868,7 +2932,7 @@ function finishRound(){
   showPostRoundAdvice(round);
 }
 
-function abandonRound(){if(!confirm('Abandon this round?'))return; lvScores=Array(18).fill(null); lvPutts=Array(18).fill(null); lvFairways=Array(18).fill(null); lvGIRs=Array(18).fill(null); lvRoundActive=false; clearLiveRoundLocal(); clearLiveRoundFromBin(); document.getElementById('sc-live').style.display='none'; document.getElementById('sc-start').style.display='block'; history.pushState({sec:'scorecard',scView:'start',hole:0},'','#scorecard'); checkResumeHint();}
+function abandonRound(){if(!confirm('Abandon this round?'))return; lvScores=Array(18).fill(null); lvPutts=Array(18).fill(null); lvFairways=Array(18).fill(null); lvGIRs=Array(18).fill(null); lvRoundActive=false; _lvPredictedScore=null; clearLiveRoundLocal(); clearLiveRoundFromBin(); document.getElementById('sc-live').style.display='none'; document.getElementById('sc-start').style.display='block'; history.pushState({sec:'scorecard',scView:'start',hole:0},'','#scorecard'); checkResumeHint();}
 
 // ══ POST-ROUND ADVICE ══
 async function showPostRoundAdvice(round){
@@ -3233,6 +3297,7 @@ function renderGuestView(){
   setEl('guestTotalPledged',  maxTotal > 0 ? '$' + maxTotal : pledges.length ? '🎤' : '$0');
   setEl('guestTotalPledgers', pledges.length);
   updatePledgeRibbon();
+  renderOUCounts();
 }
 function spinWheel(nameArg){
   const r=ROASTS[Math.floor(Math.random()*ROASTS.length)];currentRoast=r;
@@ -3264,6 +3329,24 @@ function castBet(vote,nameArg){
   guestMessages.push({id:Date.now(),from:name,text,type:'bet',bet:vote,tone:vote==='yes'?'support':'doubt',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),read:false,votes:{up:0,down:0}});
   saveToBin();renderGuestView();updateBadges();
   sendEmailNotification(name,'\ud83c\udfb2 New Bet',text);
+}
+function castOverUnder(vote){
+  const name=(document.getElementById('guestName')?.value||'').trim()||'Anonymous';
+  const pred=document.getElementById('glcOUTarget')?.textContent||'?';
+  const emoji=vote==='under'?'\ud83d\udcc9':'\ud83d\udcc8';
+  const text=`${name} picks ${vote.toUpperCase()} ${pred} ${emoji}`;
+  guestMessages.push({id:Date.now(),from:name,text,type:'overunder',ouVote:vote,predicted:Number(pred),tone:vote==='under'?'support':'doubt',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),read:false,votes:{up:0,down:0}});
+  saveToBin();renderOUCounts();updateBadges();
+  sendEmailNotification(name,emoji+' Over/Under',text);
+}
+function renderOUCounts(){
+  const ou=guestMessages.filter(m=>m.type==='overunder');
+  const under=ou.filter(m=>m.ouVote==='under').length;
+  const over=ou.filter(m=>m.ouVote==='over').length;
+  const uc=document.getElementById('glcUnderCount');
+  const oc=document.getElementById('glcOverCount');
+  if(uc) uc.textContent=under>0?'('+under+')':'';
+  if(oc) oc.textContent=over>0?'('+over+')':'';
 }
 function submitGuestMessage(){
   const from=(document.getElementById('guestName')?.value||'').trim();

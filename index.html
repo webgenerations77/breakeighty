@@ -410,7 +410,7 @@ body.guest-mode .main{padding-top:8px}
 <!-- Firebase -->
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signInAnonymously, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
   import { getFirestore, collection, getDocs, getDoc, setDoc, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
   const firebaseConfig = {
@@ -427,6 +427,7 @@ body.guest-mode .main{padding-top:8px}
   window._fbDb = getFirestore(app);
   window._fbGoogleProvider = new GoogleAuthProvider();
   window._fbSignInWithPopup = signInWithPopup;
+  window._fbSignInWithRedirect = signInWithRedirect;
   window._fbSignInAnonymously = signInAnonymously;
   window._fbOnAuthStateChanged = onAuthStateChanged;
   window._fbSignOut = signOut;
@@ -444,24 +445,25 @@ body.guest-mode .main{padding-top:8px}
     if (typeof window.startSplashLivePolling === 'function') {
       window.startSplashLivePolling();
     } else {
-      console.warn('startSplashLivePolling not defined yet, retrying...');
       setTimeout(() => { try { window.startSplashLivePolling(); } catch(e2){} }, 500);
     }
   } catch(e) { console.error('Splash live init error:', e); }
 
+  const drewTrimmed = DREW_EMAIL.trim();
+  const steveTrimmed = STEVE_EMAIL.trim();
+
   onAuthStateChanged(window._fbAuth, (user) => {
     if (user) {
       if (!user.isAnonymous) {
-        if (user.email === DREW_EMAIL) {
+        if (user.email === drewTrimmed) {
           window._authReady('drew', user);
-        } else if (user.email === STEVE_EMAIL) {
+        } else if (user.email === steveTrimmed) {
           window._authReady('steve', user);
         } else {
           signOut(window._fbAuth);
-          alert('This Google account is not authorized. Please use the correct account.');
+          window._showSplashError('This Google account is not authorized.');
         }
       } else {
-        // Don't auto-login anonymous guests — require explicit click
         if (!window._guestLoginRequested) {
           signOut(window._fbAuth);
           return;
@@ -534,6 +536,8 @@ body.guest-mode .main{padding-top:8px}
       </div>
     </div>
   </div>
+
+  <div id="splashAuthError" style="display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:8px 14px;border-radius:10px;font-size:12px;text-align:center;margin-bottom:10px;width:100%;max-width:360px"></div>
 
   <!-- Guest first, then Player + Coach -->
   <button class="login-btn-guest" onclick="loginAsGuest()">
@@ -2260,20 +2264,25 @@ function _fetchSplashLive(){
 }
 function startSplashLivePolling(){
   stopSplashLivePolling();
+  const db = window._fbDb;
+  if(!db){
+    _splashLivePoll = setTimeout(() => { _splashLivePoll = null; startSplashLivePolling(); }, 1000);
+    return;
+  }
   try {
-    const db = window._fbDb;
     const { doc, onSnapshot } = window._fb;
-    if(!db){ console.warn('Splash live: no db'); return; }
     _splashLiveUnsub = onSnapshot(doc(db, 'liveRound', 'current'), (snap) => {
       renderSplashLive(snap.exists() ? snap.data() : null);
     }, (err) => { console.error('Splash live listener error:', err); });
   } catch(e){ console.error('startSplashLivePolling error:', e); }
   _fetchSplashLive();
+  setTimeout(_fetchSplashLive, 2000);
+  setTimeout(_fetchSplashLive, 5000);
   _splashLivePoll = setInterval(_fetchSplashLive, 15000);
 }
 function stopSplashLivePolling(){
   if(_splashLiveUnsub){ _splashLiveUnsub(); _splashLiveUnsub=null; }
-  if(_splashLivePoll){ clearInterval(_splashLivePoll); _splashLivePoll=null; }
+  if(_splashLivePoll){ clearInterval(_splashLivePoll); clearTimeout(_splashLivePoll); _splashLivePoll=null; }
 }
 
 async function loadFromFirestore() {
@@ -2513,11 +2522,20 @@ window._authReady = function(role, user) {
   }
 };
 
+window._showSplashError = function(msg) {
+  const el = document.getElementById('splashAuthError');
+  if (el) { el.textContent = msg; el.style.display = 'block'; setTimeout(() => { el.style.display = 'none'; }, 6000); }
+};
+
 function loginWithGoogle(hint) {
   window._fbSignInWithPopup(window._fbAuth, window._fbGoogleProvider)
     .catch(err => {
-      console.error('Google sign-in failed:', err);
-      alert('Sign-in failed. Please try again.');
+      console.error('Google sign-in popup failed:', err);
+      if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+        window._fbSignInWithRedirect(window._fbAuth, window._fbGoogleProvider);
+      } else {
+        window._showSplashError('Sign-in failed. Please try again.');
+      }
     });
 }
 
@@ -2584,7 +2602,7 @@ function login(user){
     });
   }
 }
-function showSplash(){currentUser=null; stopGuestLivePolling(); stopCoachLivePolling(); document.body.classList.remove('guest-mode','coach-mode'); updateSplashStats(); document.getElementById('splash').style.display='flex'; const signOutBtn=document.getElementById('signOutBtn'); if(signOutBtn)signOutBtn.style.display='none'; startSplashLivePolling();}
+function showSplash(){currentUser=null; stopGuestLivePolling(); stopCoachLivePolling(); document.body.classList.remove('guest-mode','coach-mode'); try{updateSplashStats();}catch(e){} document.getElementById('splash').style.display='flex'; const signOutBtn=document.getElementById('signOutBtn'); if(signOutBtn)signOutBtn.style.display='none'; startSplashLivePolling();}
 
 // ══ BADGE SYSTEM ══
 function updateBadges(){

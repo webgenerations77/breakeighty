@@ -449,6 +449,15 @@ body.guest-mode .main{padding-top:8px}
     }
   } catch(e) { console.error('Splash live init error:', e); }
 
+  // Load rounds for splash stats immediately (don't wait for auth)
+  try {
+    if (typeof window.loadSplashRounds === 'function') {
+      window.loadSplashRounds();
+    } else {
+      setTimeout(() => { try { window.loadSplashRounds(); } catch(e2){} }, 500);
+    }
+  } catch(e) { console.error('Splash rounds init error:', e); }
+
   const drewTrimmed = DREW_EMAIL.trim();
   const steveTrimmed = STEVE_EMAIL.trim();
 
@@ -2454,6 +2463,15 @@ function getWeeklyQuote(){
 }
 
 // ══ SPLASH STATS ══
+async function loadSplashRounds(){
+  try {
+    const db = window._fbDb;
+    const { collection, getDocs, query, orderBy } = window._fb;
+    const snap = await getDocs(query(collection(db, 'rounds'), orderBy('date', 'desc')));
+    rounds = snap.docs.map(d => ({ _docId: d.id, ...d.data() }));
+    updateSplashStats();
+  } catch(e) { console.warn('Splash rounds load:', e.message); }
+}
 function updateSplashStats(){
   startCountdownClock();
   const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
